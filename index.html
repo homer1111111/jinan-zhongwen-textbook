@@ -179,6 +179,43 @@ body.zy-mode .gcard .py{font-size:12px}
 .count{font-size:12px;color:var(--ink-soft);font-family:var(--mono);margin-bottom:10px}
 
 /* ---------- detail sheet ---------- */
+.start{
+  position:fixed;inset:0;z-index:90;background:var(--paper);
+  display:none;overflow:auto;padding:34px 16px calc(40px + env(safe-area-inset-bottom));
+}
+.start.open{display:block}
+.start-in{max-width:760px;margin:0 auto}
+.start-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.start h1{
+  font-family:var(--kai);font-size:clamp(22px,6vw,30px);font-weight:700;
+  margin:0;letter-spacing:.01em;
+}
+.start .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-soft);margin:6px 0 2px}
+.start .ask{font-family:var(--kai);font-size:17px;margin:26px 0 12px}
+.start .ask span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);margin-left:8px}
+.bookgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.bookcard{
+  position:relative;text-align:left;padding:15px 15px 13px;border-radius:12px;
+  background:var(--card);border:1px solid var(--line);
+}
+.bookcard:active{transform:translateY(1px)}
+.bookcard .num{
+  font-family:var(--kai);font-size:26px;font-weight:700;line-height:1.1;
+  display:flex;align-items:baseline;gap:8px;
+}
+.bookcard .num em{font-family:var(--mono);font-size:10px;font-style:normal;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.bookcard .first{font-family:var(--kai);font-size:14px;color:var(--ink-soft);margin-top:7px}
+.bookcard .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin-top:5px;letter-spacing:.03em}
+.bookcard.cur{border-color:var(--seal);background:#fff}
+.bookcard.cur::after{content:"";position:absolute;top:12px;right:12px;
+  width:8px;height:8px;border-radius:50%;background:var(--seal)}
+.homebtn{
+  font-family:var(--kai);font-size:12px;padding:3px 10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-soft);margin-right:8px;
+}
 .sheet{
   position:fixed;inset:0;z-index:60;display:none;
   background:rgba(23,33,28,.5);align-items:flex-end;justify-content:center;
@@ -264,11 +301,11 @@ body.zy-mode .mtile.py{font-size:19px;letter-spacing:.04em}
     <span class="hd-sub">Grades 1&#8211;6</span>
     <span class="hd-spacer"></span>
     <div class="script-toggle" role="group" aria-label="字體">
-      <button id="btnTrad" class="on" onclick="setScript('t')" title="繁體 Traditional">繁<span class="en">Trad</span></button>
-      <button id="btnSimp" onclick="setScript('s')" title="简体 Simplified">简<span class="en">Simp</span></button>
+      <button data-script="t" onclick="setScript('t')" title="繁體 Traditional">繁<span class="en">Trad</span></button>
+      <button data-script="s" class="on" onclick="setScript('s')" title="简体 Simplified">简<span class="en">Simp</span></button>
     </div>
   </div>
-  <div class="hd-books wrap"><span class="pill-label">冊 Book</span><div class="script-toggle" role="group" aria-label="冊別" id="bookPick"></div></div>
+  <div class="hd-books wrap"><button class="homebtn" onclick="openStart()" title="重新選冊 Change book">選冊</button><div class="script-toggle" role="group" aria-label="冊別" id="bookPick"></div></div>
   <div class="lessons wrap" id="lessons" data-noloc></div>
 </header>
 
@@ -388,6 +425,23 @@ body.zy-mode .mtile.py{font-size:19px;letter-spacing:.04em}
   </section>
 
 </main>
+
+<div class="start" id="startScreen">
+  <div class="start-in">
+    <div class="start-head">
+      <div>
+        <h1 id="startTitle" data-noloc>小一到小六 學習寶典</h1>
+        <p class="sub">暨南大學《中文》 · Grades 1&#8211;6</p>
+      </div>
+      <div class="script-toggle" role="group" aria-label="字體">
+        <button data-script="t" onclick="setScript('t')" title="繁體 Traditional">繁<span class="en">Trad</span></button>
+        <button data-script="s" class="on" onclick="setScript('s')" title="简体 Simplified">简<span class="en">Simp</span></button>
+      </div>
+    </div>
+    <p class="ask">要從哪一冊開始？<span>Which book?</span></p>
+    <div class="bookgrid" id="bookGrid" data-noloc></div>
+  </div>
+</div>
 
 <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()">
   <div class="sheet-in">
@@ -518,9 +572,10 @@ const LESSON_TEXTS = { 1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{} };
 const TOTAL_LESSONS = 12;
 
 /* ---------- 狀態 ---------- */
-let book = 4;             // 3 or 4
+let book = 1;             // 1..6
+let needStart = false;
 let cur = 0;              // lesson index
-let script = 't';         // 't' 繁 | 's' 简
+let script = 's';         // 's' 简 | 't' 繁
 let tab = 'read';
 let filter = 'chars';
 let known = {};           // key -> true
@@ -553,6 +608,21 @@ async function fetchVal(k, dflt){
   try{ if(window.storage){ const r = await window.storage.get(k); if(r&&r.value) return JSON.parse(r.value); } }
   catch(e){}
   return (k in mem) ? mem[k] : dflt;
+}
+
+let speechRate = 0.55;
+/* iOS Safari 在 rate 低於 0.5 時常常完全不發聲，必須設下限 */
+const UA = (navigator.userAgent || '');
+const IS_IOS = /iPad|iPhone|iPod/.test(UA) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const IS_ANDROID = /Android/.test(UA);
+/* iOS 低於 0.5 常完全不發聲；Android 各家 TTS 引擎在極低速下也容易吃掉整句 */
+const RATE_FLOOR = IS_IOS ? 0.5 : (IS_ANDROID ? 0.4 : 0.25);
+const PLATFORM = IS_IOS ? 'iOS' : (IS_ANDROID ? 'Android' : '桌機 Desktop');
+/* 單字獨立唸出來特別短促，再放慢一點 */
+function rateFor(text){
+  const r = (text && text.length === 1) ? speechRate * 0.82 : speechRate;
+  return Math.max(RATE_FLOOR, r);
 }
 
 /* ---------- 語音 ---------- */
@@ -604,7 +674,27 @@ function speak(text, rate, onEnd){
     u.lang = v ? v.lang : (script==='t' ? 'zh-TW' : 'zh-CN');
     u.rate = rate || 0.85;
     u.pitch = 1;
-    u.onstart = ()=>{ unlocked = true; updateDiag(); };
+    let started = false;
+    u.onstart = ()=>{ started = true; updateDiag(); };
+    setTimeout(()=>{
+      if(started || speechSynthesis.speaking) return;
+      if(!retried){
+        /* 有些引擎在慢速下會整句吞掉，用標準速度再試一次 */
+        retried = true;
+        try{
+          const u2 = new SpeechSynthesisUtterance(text);
+          const vv = pickVoice();
+          if(vv) u2.voice = vv;
+          u2.lang = vv ? vv.lang : (script === 't' ? 'zh-TW' : 'zh-CN');
+          u2.rate = 1;
+          u2.onstart = ()=>updateDiag('慢速播不出來，已改用標準語速。Slow rate failed; using normal speed.');
+          u2.onend = onEnd || null;
+          speechSynthesis.speak(u2);
+        }catch(e){}
+        return;
+      }
+      updateDiag(voiceHelp());
+    }, 1400);
     u.onend = onEnd || null;
     u.onerror = (e)=>{
       const err = (e && e.error) ? e.error : 'unknown';
@@ -647,6 +737,12 @@ function stopSpeak(){
 
 /* ---------- 診斷 ---------- */
 var diagBusy = false;
+function voiceHelp(){
+  if(IS_IOS) return '送出後沒有發聲。請檢查 iPhone 側邊的靜音開關與媒體音量。No audio — check the silent switch and volume.';
+  if(IS_ANDROID) return '送出後沒有發聲。請到「設定 → 協助工具 → 文字轉語音輸出」安裝中文語音資料，並確認媒體音量。'
+                      + ' No audio — install Chinese TTS data under Settings → Accessibility → Text-to-speech.';
+  return '送出後沒有發聲，請確認系統音量與語音資料。No audio — check system volume and voice data.';
+}
 function updateDiag(msg){
   const el = document.getElementById('diag');
   if(!el || diagBusy) return;
@@ -661,10 +757,16 @@ function paintDiag(el, msg){
   const zh = zhVoices();
   const v = pickVoice();
   el.innerHTML =
-    '語音引擎 正常　·　可用語音 <b>' + voices.length + '</b> 個　·　中文語音 <b>' + zh.length + '</b> 個<br>' +
+    PLATFORM + '　·　可用語音 <b>' + voices.length + '</b> 個　·　中文語音 <b>' + zh.length + '</b> 個' +
+    '　·　語速 <b>' + (typeof speechRate === 'number' ? speechRate.toFixed(2) : '—') + '</b>' + (IS_IOS ? '（iOS 下限 ' + RATE_FLOOR + '）' : '') + '<br>' +
     (v ? '目前使用：<b>' + esc(v.name) + '</b>（' + esc(v.lang) + '）'
        : '<b style="color:var(--seal)">找不到中文語音</b> — 請到手機「設定 → 輔助使用 → 朗讀內容 → 語音」下載中文語音。') +
-    (msg ? '<br><span style="color:var(--seal)">' + esc(msg) + '</span>' : '');
+    (msg ? '<br><span style="color:var(--seal)">' + esc(msg) + '</span>' : '') +
+    '<span class="en-note">' + (IS_IOS
+      ? '沒聲音？先確認 iPhone 側邊的靜音開關已關閉、音量調大。No sound? Check the silent switch and volume.'
+      : IS_ANDROID
+        ? '沒聲音？設定 → 協助工具 → 文字轉語音輸出 → 安裝中文語音。No sound? Install Chinese TTS voice data.'
+        : '沒聲音？確認系統音量與瀏覽器分頁未靜音。No sound? Check system volume and tab mute.') + '</span>';
 }
 
 /* ---------- 繁簡：整個介面（不只課文）跟著開關走 ---------- */
@@ -865,11 +967,6 @@ function rubyHTML(text){
   }
   return html;
 }
-let speechRate = 0.55;
-/* 單字獨立唸出來特別短促，再放慢一點 */
-function rateFor(text){
-  return (text && text.length === 1) ? Math.max(0.3, speechRate * 0.82) : speechRate;
-}
 function syncRateUI(){
   const v = speechRate.toFixed(2).replace(/0$/,'');
   ['rate','rate2'].forEach(id=>{ const el = document.getElementById(id); if(el) el.value = speechRate; });
@@ -935,6 +1032,40 @@ function paintTitle(){
 
 const BOOK_LIST = [1, 2, 3, 4, 5, 6];
 const BOOK_CN = { 1:'一', 2:'二', 3:'三', 4:'四', 5:'五', 6:'六' };
+function renderStart(){
+  const el = document.getElementById('startTitle');
+  if(el) el.textContent = APP_TITLE[script] || APP_TITLE.t;
+  const box = document.getElementById('bookGrid');
+  if(!box) return;
+  box.innerHTML = '';
+  BOOK_LIST.forEach(n=>{
+    const L0 = BOOKS[n];
+    const chars = L0.reduce((a,l)=>a+l.chars.length, 0);
+    const words = L0.reduce((a,l)=>a+l.words.length, 0);
+    const b = document.createElement('button');
+    b.className = 'bookcard' + (n === book ? ' cur' : '');
+    b.innerHTML =
+      '<div class="num">第' + BOOK_CN[n] + '冊 <em>Book ' + n + '</em></div>' +
+      '<div class="first">' + esc(fld([L0[0].s, L0[0].t])) + ' …</div>' +
+      '<div class="meta">' + L0.length + ' 課 · ' + chars + ' 生字' +
+        (words ? ' · ' + words + ' 詞語' : '') + '</div>';
+    b.onclick = ()=>chooseBook(n);
+    box.appendChild(b);
+  });
+}
+function openStart(){
+  stopSpeak();
+  renderStart();
+  document.getElementById('startScreen').classList.add('open');
+  localize();
+}
+async function chooseBook(n){
+  document.getElementById('startScreen').classList.remove('open');
+  if(n === book){ await store('book', n); return; }
+  await setBook(n);
+  await store('book', n);
+}
+
 function renderBookPick(){
   const box = document.getElementById('bookPick');
   if(!box){ showErr('找不到 #bookPick 元素'); return; }
@@ -999,10 +1130,12 @@ function setScript(v){
   script = v;
   notation = notationBy[v] || (v === 't' ? 'zhuyin' : 'pinyin');
   applyNotation();
-  document.getElementById('btnTrad').classList.toggle('on', v==='t');
-  document.getElementById('btnSimp').classList.toggle('on', v==='s');
+  document.querySelectorAll('[data-script]').forEach(b=>b.classList.toggle('on', b.dataset.script === v));
   document.documentElement.lang = v==='t' ? 'zh-Hant' : 'zh-Hans';
-  runSteps([paintTitle, renderBanner, renderLessons, renderRead, renderVocab, renderGameMenu, localize]);
+  const startOpen = document.getElementById('startScreen').classList.contains('open');
+  runSteps([paintTitle, renderBanner, renderLessons, renderRead, renderVocab, renderGameMenu]);
+  if(startOpen) runSteps([renderStart]);
+  runSteps([localize]);
   store('script', v);
 }
 function setTab(t){
@@ -1449,7 +1582,7 @@ function gameChoice(root, mode){
 
     if(listen){
       document.getElementById('rep').onclick = ()=>speak(ans[0], rateFor(ans[0]));
-      setTimeout(()=>speak(ans[0], rateFor(ans[0])), 300);
+      speak(ans[0], rateFor(ans[0]));
     }
 
     const ob = document.getElementById('opts');
@@ -1508,10 +1641,11 @@ async function loadLessonState(){
   if(el) el.value = saved || builtin || '';
 }
 async function boot(){
-  book = await fetchVal('book', 4);
-  if(!BOOKS[book]) book = 4;
+  const savedBook = await fetchVal('book', null);
+  book = (savedBook && BOOKS[savedBook]) ? savedBook : 1;
+  needStart = !savedBook;
   renderBookPick();
-  script = await fetchVal('script','t');
+  script = await fetchVal('script','s');
   bestScores = await fetchVal('best', {}) || {};
   gameScope = await fetchVal('scope', 'chars');
   const nb = await fetchVal('notationBy', null);
@@ -1539,6 +1673,7 @@ async function boot(){
 
 }
 boot().then(()=>{
+  if(needStart) openStart();
   const nL = document.getElementById('lessons').children.length;
   const nB = document.getElementById('bookPick').children.length;
   if(nL === 0 || nB === 0){
