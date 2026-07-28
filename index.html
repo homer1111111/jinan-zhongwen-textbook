@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>《中文》第一～六冊 — 跟讀 · 生字 · 遊戲</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-web@1.522.0/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@1.501.0/style.css">
+<script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.2/dist/index.js" defer
+        onerror="window.__noPinyin=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js" defer
+        onerror="window.__noStroke=1"></script>
+<style>
+:root{
+  --paper:#EEF0E8;
+  --paper-2:#E4E8DC;
+  --card:#F7F8F2;
+  --ink:#17211C;
+  --ink-soft:#5A675E;
+  --grid:#A9BCA5;
+  --seal:#B5342B;
+  --indigo:#35576E;
+  --line:#CFD6C6;
+
+  --kai:"LXGW WenKai TC","LXGW WenKai","Kaiti TC","Kaiti SC",STKaiti,"Noto Serif TC","Songti TC",KaiTi,BiauKai,"DFKai-SB",serif;
+  --ui:"PingFang TC","Hiragino Sans TC","Noto Sans TC","Microsoft JhengHei UI","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --zy:"LXGW WenKai TC","PingFang TC","Heiti TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--ui);
+  font-size:16px;
+  line-height:1.6;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2.5px solid var(--indigo);outline-offset:2px;border-radius:4px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:40;
+  background:var(--paper-2);
+  border-bottom:1px solid var(--line);
+}
+.hd-row{display:flex;align-items:baseline;gap:10px;padding:12px 16px 6px}
+.hd-title{white-space:nowrap}
+.hd-books{padding:0 16px 8px;display:flex;align-items:center}
+.hd-books .script-toggle{display:inline-flex}
+.hd-books button{min-width:36px}
+.row{row-gap:8px}
+.hd-title{font-family:var(--kai);font-size:clamp(16px,4.4vw,22px);font-weight:700;letter-spacing:.01em}
+.hd-sub{white-space:nowrap;font-size:11px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase;font-family:var(--mono)}
+.hd-spacer{flex:1}
+.script-toggle{
+  display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card);
+}
+.script-toggle button{padding:4px 11px;font-size:13px;font-family:var(--kai);color:var(--ink-soft)}
+.script-toggle button.on{background:var(--ink);color:var(--paper)}
+
+.lessons{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
+.lessons::-webkit-scrollbar{display:none}
+.lchip{
+  flex:0 0 auto;padding:5px 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);
+  font-size:13px;white-space:nowrap;color:var(--ink-soft);
+}
+.lchip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-right:5px}
+.lchip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.lchip:disabled{opacity:.38;cursor:not-allowed}
+
+/* ---------- lesson banner ---------- */
+.banner{padding:18px 16px 14px}
+.banner h1{margin:0;font-family:var(--kai);font-size:31px;font-weight:700;letter-spacing:.02em}
+.banner .en{margin:4px 0 0;font-size:13px;color:var(--ink-soft);font-style:italic}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:0;padding:0 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.tab{
+  padding:10px 0;margin-right:26px;font-family:var(--kai);font-size:17px;
+  color:var(--ink-soft);border-bottom:2.5px solid transparent;margin-bottom:-1px;
+}
+.tab.on{color:var(--ink);border-bottom-color:var(--seal)}
+.tab{line-height:1.15;text-align:left}
+.tab .en{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+  color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
+.script-toggle button .en{display:block;font-family:var(--mono);font-size:8px;
+  letter-spacing:.04em;opacity:.75;margin-top:-1px}
+.pill-label{font-size:10px;font-family:var(--mono);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-soft);margin-right:7px}
+.en-note{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+  margin-top:3px;line-height:1.5;letter-spacing:.01em}
+.gpick .en{display:block;font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);
+  text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+main{padding:16px 16px 60px;max-width:760px;margin:0 auto}
+.wrap{max-width:760px;margin-left:auto;margin-right:auto}
+header{overflow-x:hidden}
+.hd-row{flex-wrap:wrap}
+.hd-spacer{min-width:12px}
+.script-toggle{flex:0 0 auto}
+
+/* ---------- generic ---------- */
+.hint{font-size:13px;color:var(--ink-soft);line-height:1.7}
+.diagbox{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:16px}
+.btn{
+  padding:9px 16px;border-radius:8px;background:var(--ink);color:var(--paper);
+  font-size:14px;letter-spacing:.03em;
+}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.seal{background:var(--seal);color:#fff}
+.btn:active{transform:translateY(1px)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.note{
+  border-left:3px solid var(--grid);padding:9px 0 9px 12px;margin:14px 0;
+  font-size:13px;color:var(--ink-soft);line-height:1.7;
+}
+
+/* ---------- 跟讀 ---------- */
+textarea{
+  width:100%;min-height:130px;padding:12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);color:var(--ink);font-family:var(--kai);font-size:17px;line-height:2;resize:vertical;
+}
+.speedbar{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:13px;color:var(--ink-soft)}
+.speedbar input[type=range]{flex:1;accent-color:var(--seal)}
+.sent{
+  display:flex;gap:11px;align-items:flex-start;
+  padding:13px 14px;margin-bottom:8px;border-radius:10px;
+  background:var(--card);border:1px solid var(--line);
+  font-family:var(--kai);font-size:20px;line-height:1.95;text-align:left;width:100%;
+}
+.sent .idx{font-family:var(--mono);font-size:11px;color:var(--ink-soft);padding-top:6px;flex:0 0 auto}
+.sent.now{background:#fff;border-color:var(--seal);box-shadow:0 0 0 2px rgba(181,52,43,.13)}
+.cell.now{background:rgba(181,52,43,.16);border-radius:5px}
+.poemcard{border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;margin-bottom:14px;background:rgba(255,255,255,.45)}
+.poem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;font-family:var(--kai);font-size:16px;color:var(--ink)}
+.poem-head .who{font-size:13px;color:var(--ink-soft)}
+.poem{font-family:var(--kai);font-size:20px;line-height:2.2;letter-spacing:.02em}
+/* 每個字一欄：拼音在上、漢字在下，兩者各自置中；欄與欄之間留兩個空格的距離 */
+.cell{display:inline-block;vertical-align:top;text-align:center;margin:0 .5em}
+.cell.punc{margin:0}
+.cell .py{
+  display:block;font-family:var(--mono);font-size:1em;font-weight:500;
+  color:var(--indigo);line-height:1.3;letter-spacing:0;white-space:nowrap;
+}
+.cell.zy .py{font-family:var(--zy);font-size:.88em;letter-spacing:.02em}
+body.zy-mode .gcard .py,
+body.zy-mode .d-py,
+body.zy-mode .mtile.py,
+body.zy-mode .opt:not(.hz){font-family:var(--zy);letter-spacing:.02em}
+body.zy-mode .gcard .py{font-size:12px}
+.cell .hz{display:block;font-family:var(--kai);line-height:1.35}
+.sent.ruby{line-height:1.2;padding-top:12px;padding-bottom:10px}
+#poemBlock,#readOut{font-size:var(--sent-size,20px)}
+#poemBlock .sent,#readOut .sent{font-size:inherit}
+.poem-head{font-family:var(--kai);font-size:15px;color:var(--ink-soft);margin:20px 0 6px}
+
+/* ---------- 生字 ---------- */
+.filters{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.fchip{padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--ink-soft)}
+.fchip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:9px}
+.gcard{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:11px 6px 8px;text-align:center;
+}
+.gcard .hz{font-family:var(--kai);font-size:30px;line-height:1.25;display:block}
+.gcard.wide .hz{font-size:23px}
+.gcard .py{font-family:var(--mono);font-size:11px;color:var(--indigo);margin-top:3px;display:block;word-break:break-all}
+.gcard.known{border-color:var(--seal);background:#fff}
+.gcard.known::after{
+  content:"熟";position:absolute;top:5px;right:5px;
+  width:19px;height:19px;line-height:19px;font-family:var(--kai);font-size:11px;
+  color:#fff;background:var(--seal);border-radius:3px;
+}
+.count{font-size:12px;color:var(--ink-soft);font-family:var(--mono);margin-bottom:10px}
+
+/* ---------- detail sheet ---------- */
+.sheet{
+  position:fixed;inset:0;z-index:60;display:none;
+  background:rgba(23,33,28,.5);align-items:flex-end;justify-content:center;
+}
+.sheet.open{display:flex}
+.sheet-in{
+  background:var(--paper);width:100%;max-width:520px;border-radius:16px 16px 0 0;
+  padding:20px 20px calc(24px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto;
+}
+.tian{
+  width:150px;height:150px;margin:6px auto 14px;position:relative;
+  background:#fff;border:1.5px solid var(--grid);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+}
+.tian::before,.tian::after{
+  content:"";position:absolute;background:transparent;border-color:var(--grid);
+}
+.tian::before{left:50%;top:0;bottom:0;border-left:1px dashed var(--grid)}
+.tian::after{top:50%;left:0;right:0;border-top:1px dashed var(--grid)}
+.tian .big{font-family:var(--kai);font-size:96px;line-height:1;position:relative;z-index:2}
+.tian .big.multi{font-size:44px;letter-spacing:.04em}
+#strokeBox{position:relative;z-index:2}
+.d-py{font-family:var(--mono);font-size:19px;color:var(--indigo);text-align:center;letter-spacing:.04em}
+.d-mean{text-align:center;font-size:15px;color:var(--ink-soft);margin-top:5px}
+.d-alt{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:8px;font-family:var(--kai)}
+.d-actions{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+
+/* ---------- 遊戲 ---------- */
+.gpick{display:grid;gap:9px;margin-bottom:8px}
+.gpick button{
+  text-align:left;padding:15px 16px;background:var(--card);border:1px solid var(--line);border-radius:11px;
+}
+.gpick .t{font-family:var(--kai);font-size:18px}
+.gpick .d{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.scorebar{display:flex;gap:16px;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
+.scorebar b{color:var(--seal);font-size:17px}
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mtile{
+  padding:15px 8px;border-radius:10px;background:var(--card);border:1px solid var(--line);
+  text-align:center;min-height:60px;display:flex;align-items:center;justify-content:center;
+}
+.mtile.hz{font-family:var(--kai);font-size:26px}
+.mtile.py{font-family:var(--mono);font-size:14px;color:var(--indigo)}
+body.zy-mode .mtile.py{font-size:19px;letter-spacing:.04em}
+.mtile.sel{border-color:var(--indigo);box-shadow:0 0 0 2px rgba(53,87,110,.18)}
+.mtile.gone{opacity:.18;pointer-events:none}
+.mtile.bad{border-color:var(--seal);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.qbig{
+  font-family:var(--kai);font-size:76px;text-align:center;margin:20px 0 6px;line-height:1.1;
+}
+.qbig.small{font-size:42px}
+.opts{display:grid;gap:9px;margin-top:16px}
+.opt{padding:14px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-family:var(--mono);font-size:16px;text-align:center}
+.opt.hz{font-family:var(--kai);font-size:26px}
+.opt.right{background:#fff;border-color:var(--seal);color:var(--seal)}
+.opt.wrong{opacity:.4}
+.stamp{
+  position:fixed;top:44%;left:50%;transform:translate(-50%,-50%) rotate(-14deg) scale(.5);
+  width:104px;height:104px;border:5px solid var(--seal);border-radius:8px;color:var(--seal);
+  font-family:var(--kai);font-size:36px;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;z-index:80;background:rgba(255,255,255,.82);letter-spacing:.05em;
+}
+.stamp.go{animation:stampIn .65s ease-out}
+@keyframes stampIn{
+  0%{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(1.8)}
+  22%{opacity:1;transform:translate(-50%,-50%) rotate(-14deg) scale(1)}
+  75%{opacity:1}
+  100%{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="errBar" style="display:none;position:sticky;top:0;z-index:99;background:#B5342B;color:#fff;
+     font-family:ui-monospace,Menlo,monospace;font-size:12px;padding:8px 12px;line-height:1.5"></div>
+
+<header>
+  <div class="hd-row wrap">
+    <span class="hd-title" id="appTitle" data-noloc>小一到小六 學習寶典</span>
+    <span class="hd-sub">Grades 1&#8211;6</span>
+    <span class="hd-spacer"></span>
+    <div class="script-toggle" role="group" aria-label="字體">
+      <button id="btnTrad" class="on" onclick="setScript('t')" title="繁體 Traditional">繁<span class="en">Trad</span></button>
+      <button id="btnSimp" onclick="setScript('s')" title="简体 Simplified">简<span class="en">Simp</span></button>
+    </div>
+  </div>
+  <div class="hd-books wrap"><span class="pill-label">冊 Book</span><div class="script-toggle" role="group" aria-label="冊別" id="bookPick"></div></div>
+  <div class="lessons wrap" id="lessons" data-noloc></div>
+</header>
+
+<div class="banner wrap">
+  <h1 id="lTitle" data-noloc>給爺爺的信</h1>
+  <p class="en" id="lEn" data-noloc>A Letter to Grandfather</p>
+</div>
+
+<div class="tabs wrap">
+  <button class="tab on" data-tab="read" onclick="setTab('read')">跟讀<span class="en">Read Along</span></button>
+  <button class="tab" data-tab="vocab" onclick="setTab('vocab')">生字<span class="en">Characters</span></button>
+  <button class="tab" data-tab="game" onclick="setTab('game')">遊戲<span class="en">Games</span></button>
+</div>
+
+<main>
+  <!-- ============ 跟讀 ============ -->
+  <section id="tab-read">
+    <div class="diagbox">
+      <div class="row" style="justify-content:space-between">
+        <strong style="font-size:13px">聲音檢查 <span style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-transform:uppercase">Sound Check</span></strong>
+        <button class="btn seal" style="padding:6px 14px;font-size:13px" onclick="testSound()">測試發音 · Test</button>
+      </div>
+      <div id="diag" class="hint" style="margin-top:6px;font-size:12px"></div>
+    </div>
+    <p class="hint" id="readIntro"></p>
+    <div class="row" style="margin-bottom:14px">
+      <button class="btn ghost" id="pyBtn" onclick="togglePinyin()">注音 Zhuyin</button>
+      <button class="btn ghost" onclick="stepSize(-1)" aria-label="縮小字級">A&#8722;</button>
+      <button class="btn ghost" onclick="stepSize(1)" aria-label="放大字級">A+</button>
+      <button class="btn ghost" onclick="stopSpeak()">停止 Stop</button>
+    </div>
+
+    <textarea id="srcText" placeholder="把課文貼到這裡，一次一課。會依換行和標點斷句，拼音行與英文行自動略過。&#10;&#10;Paste one lesson&#39;s text here. It is split into cards by line breaks and punctuation; pinyin lines and English lines are skipped automatically."></textarea>
+    <div class="count" id="textStat" style="margin-top:8px"></div>
+    <div class="row" style="margin-top:6px">
+      <button class="btn" onclick="buildSentences()">產生跟讀卡 Build</button>
+      <button class="btn ghost" id="demoBtn" onclick="loadDemo()">載入示範</button>
+      <button class="btn ghost" onclick="clearText()">清空 Clear</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn ghost" onclick="openBulk()">一次匯入全部課文 Bulk</button>
+      <button class="btn ghost" onclick="exportAll()">匯出成程式碼 Export</button>
+    </div>
+
+    <div id="bulkBox" style="display:none;margin-top:14px">
+      <div class="note" style="margin-top:0">
+        把目前這一冊的 12 課一起貼進來，每課前面加一行 <b>#課號</b> 當分隔。
+        <span class="en-note">Paste all 12 lessons of this book at once. Put <b>#</b> plus the lesson number on its own line before each lesson.</span>
+        <span style="font-family:var(--mono);font-size:12px;display:block;margin-top:8px">#1<br>（第一課課文 lesson 1 text）<br><br>#2<br>（第二課課文 lesson 2 text）</span>
+      </div>
+      <textarea id="bulkText" style="min-height:180px" placeholder="#1&#10;（第一課課文 lesson 1 text）&#10;&#10;#2&#10;（第二課課文 lesson 2 text）"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" onclick="runBulk()">匯入 Import</button>
+        <button class="btn ghost" onclick="document.getElementById('bulkBox').style.display='none'">取消 Cancel</button>
+      </div>
+      <div id="bulkMsg" class="hint" style="margin-top:8px"></div>
+    </div>
+
+    <div id="poemBlock" data-noloc></div>
+    <div id="readOut" data-noloc style="margin-top:18px"></div>
+
+    <div class="speedbar">
+      <span>語速 Speed</span>
+      <input type="range" id="rate" min="0.3" max="1.2" step="0.05" value="0.55" oninput="onRateInput(this.value)">
+      <span id="rateLbl" style="font-family:var(--mono)">0.55×</span>
+    </div>
+
+    <div id="playBar" style="display:none">
+      <div class="row" style="margin-bottom:8px">
+        <button class="btn" id="playBtn" onclick="playIn(document.getElementById('readOut'), document.getElementById('playBtn'))">▶ 播放課文 Play text</button>
+        <button class="btn ghost" onclick="stopSpeak()">停止 Stop</button>
+      </div>
+      <div class="row">
+        <span style="font-size:13px;color:var(--ink-soft)">自動播放單位 Play by</span>
+        <div class="filters" style="margin:0">
+          <button class="fchip on" id="rmSent" onclick="setReadMode('sentence')">整句 Line</button>
+          <button class="fchip" id="rmChar" onclick="setReadMode('char')">逐字 Character</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 生字 ============ -->
+  <section id="tab-vocab" style="display:none">
+    <div class="speedbar" style="margin-top:0">
+      <span>語速 Speed</span>
+      <input type="range" id="rate2" min="0.3" max="1.2" step="0.05" value="0.55" oninput="onRateInput(this.value)">
+      <span id="rateLbl2" style="font-family:var(--mono)">0.55×</span>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="count" id="vCount"></div>
+    <div class="grid" id="vGrid" data-noloc></div>
+  </section>
+
+  <!-- ============ 遊戲 ============ -->
+  <section id="tab-game" style="display:none">
+    <div id="gameMenu">
+      <p class="hint" style="margin-top:0">出題範圍 <span style="font-family:var(--mono);font-size:10px;text-transform:uppercase">Question pool</span></p>
+      <div class="filters" id="scopePick"></div>
+      <div class="gpick" id="gameList">
+        <button data-need="3" onclick="startGame('match')">
+          <div class="t" id="gMatchT">配對消消 · 字配拼音<span class="en">Match · character to pinyin</span></div>
+          <div class="d" data-d="最多六組，配對消除，計時計分">最多六組，配對消除，計時計分</div>
+        </button>
+        <button data-need="4" onclick="startGame('listen')">
+          <div class="t">聽音選字<span class="en">Listen and choose</span></div>
+          <div class="d" data-d="聽發音，從四個選項挑出正確的答案">聽發音，從四個選項挑出正確的答案</div>
+        </button>
+        <button data-need="4" onclick="startGame('pinyin')">
+          <div class="t" id="gQuizT">拼音快答<span class="en">Pinyin quickfire</span></div>
+          <div class="d" data-d="看字選拼音，連對加分，答錯歸零">看字選拼音，連對加分，答錯歸零</div>
+        </button>
+      </div>
+      <div class="note" id="bestNote"></div>
+    </div>
+    <div id="gameArea" style="display:none"></div>
+  </section>
+
+</main>
+
+<div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet-in">
+    <div class="tian"><div class="big" id="dBig" data-noloc></div><div id="strokeBox"></div></div>
+    <div class="d-py" id="dPy" data-noloc></div>
+    <div class="d-mean" id="dMean"></div>
+    <div class="d-alt" id="dAlt" data-noloc></div>
+    <div class="d-actions">
+      <button class="btn" onclick="speakCurrent()">🔊 發音 Say</button>
+      <button class="btn ghost" id="dStroke" onclick="playStroke()">筆順 Strokes</button>
+      <button class="btn ghost" id="dKnow" onclick="toggleKnown()">標記已學會</button>
+      <button class="btn ghost" onclick="closeSheet()">關閉 Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="stamp" id="stamp">好</div>
+
+<script>
+/* =====================================================================
+   資料：《中文》第四冊（暨南大學華文學院編）
+   內建字表／詞語表；課文正文為出版社版權內容，不內建，由使用者貼上。
+   第七課古詩為公有領域，全文內建。
+   ===================================================================== */
+
+const BOOKS = {
+  1: [
+    {"n":1,"s":"识字（一）","t":"識字（一）","en":"Learning Characters 1","chars":[["一","一","yī","one"],["二","二","èr","two"],["三","三","sān","three"],["四","四","sì","four"],["五","五","wǔ","five"],["六","六","liù","six"],["七","七","qī","seven"],["八","八","bā","eight"],["九","九","jiǔ","nine"],["十","十","shí","ten"],["百","百","bǎi","hundred"]],"words":[],"names":[],"poems":null},
+    {"n":2,"s":"识字（二）","t":"識字（二）","en":"Learning Characters 2","chars":[["大","大","dà","big"],["小","小","xiǎo","small"],["多","多","duō","many"],["少","少","shǎo","few"],["人","人","rén","person"],["口","口","kǒu","mouth"],["耳","耳","ěr","ear"],["目","目","mù","eye"],["手","手","shǒu","hand"],["足","足","zú","foot"],["头","頭","tóu","head"]],"words":[],"names":[],"poems":null},
+    {"n":3,"s":"识字（三）","t":"識字（三）","en":"Learning Characters 3","chars":[["日","日","rì","sun; day"],["月","月","yuè","moon; month"],["山","山","shān","mountain"],["水","水","shuǐ","water"],["土","土","tǔ","earth; soil"],["木","木","mù","tree; wood"],["火","火","huǒ","fire"],["禾","禾","hé","standing grain"],["石","石","shí","stone"],["田","田","tián","field"]],"words":[],"names":[],"poems":null},
+    {"n":4,"s":"识字（四）","t":"識字（四）","en":"Learning Characters 4","chars":[["上","上","shàng","up; above"],["中","中","zhōng","middle"],["下","下","xià","down; below"],["左","左","zuǒ","left"],["右","右","yòu","right"],["坐","坐","zuò","to sit"],["立","立","lì","to stand"],["走","走","zǒu","to walk"],["来","來","lái","to come"],["去","去","qù","to go"],["出","出","chū","to go out"],["入","入","rù","to enter"]],"words":[],"names":[],"poems":null},
+    {"n":5,"s":"识字（五）","t":"識字（五）","en":"Learning Characters 5","chars":[["春","春","chūn","spring"],["夏","夏","xià","summer"],["秋","秋","qiū","autumn"],["冬","冬","dōng","winter"],["天","天","tiān","sky; day"],["地","地","dì","ground; earth"],["风","風","fēng","wind"],["雨","雨","yǔ","rain"],["雪","雪","xuě","snow"],["云","雲","yún","cloud"],["电","電","diàn","electricity"]],"words":[],"names":[],"poems":null},
+    {"n":6,"s":"识字（六）","t":"識字（六）","en":"Learning Characters 6","chars":[["马","馬","mǎ","horse"],["牛","牛","niú","ox; cow"],["羊","羊","yáng","sheep"],["鸟","鳥","niǎo","bird"],["鱼","魚","yú","fish"],["虫","蟲","chóng","insect"],["草","草","cǎo","grass"],["车","車","chē","vehicle"],["红","紅","hóng","red"],["蓝","藍","lán","blue"],["白","白","bái","white"],["黑","黑","hēi","black"],["黄","黃","huáng","yellow"],["绿","綠","lǜ","green"]],"words":[],"names":[],"poems":null},
+    {"n":7,"s":"小学生","t":"小學生","en":"A Primary School Pupil","chars":[["学","學","xué","to study"],["生","生","shēng","student; to be born"],["老","老","lǎo","old"],["师","師","shī","teacher"],["同","同","tóng","same"],["是","是","shì","to be"],["我","我","wǒ","I; me"],["文","文","wén","writing; language"],["爱","愛","ài","to love"]],"words":[],"names":[],"poems":null},
+    {"n":8,"s":"我去学校","t":"我去學校","en":"I Go to School","chars":[["校","校","xiào","school"],["你","你","nǐ","you"],["们","們","men","(plural suffix)"],["见","見","jiàn","to see"],["开","開","kāi","to open"],["说","說","shuō","to speak"],["高","高","gāo","tall; high"],["兴","興","xìng","mood; interest"],["早","早","zǎo","early"],["真","真","zhēn","really"],["了","了","le","(particle)"]],"words":[],"names":[],"poems":null},
+    {"n":9,"s":"我的家","t":"我的家","en":"My Family","chars":[["家","家","jiā","home; family"],["的","的","de","(possessive)"],["和","和","hé","and"],["妈","媽","mā","mother"],["奶","奶","nǎi","grandmother"],["爷","爺","yé","grandfather"],["有","有","yǒu","to have"],["这","這","zhè","this"]],"words":[],"names":[],"poems":null},
+    {"n":10,"s":"花园","t":"花園","en":"The Garden","chars":[["花","花","huā","flower"],["园","園","yuán","garden"],["季","季","jì","season"],["年","年","nián","year"],["前","前","qián","front; before"],["门","門","mén","door"],["看","看","kàn","to look"],["个","個","gè","(measure word)"],["儿","兒","ér","child"],["他","他","tā","he; him"]],"words":[],"names":[],"poems":null},
+    {"n":11,"s":"认方向","t":"認方向","en":"Learning Directions","chars":[["东","東","dōng","east"],["南","南","nán","south"],["西","西","xī","west"],["北","北","běi","north"],["方","方","fāng","direction; square"],["向","向","xiàng","towards"],["认","認","rèn","to recognize"],["面","面","miàn","face; side"],["太","太","tài","too; very"],["阳","陽","yáng","sun; yang"]],"words":[],"names":[],"poems":null},
+    {"n":12,"s":"新年到","t":"新年到","en":"New Year Is Here","chars":[["新","新","xīn","new"],["到","到","dào","to arrive"],["祝","祝","zhù","to wish"],["热","熱","rè","hot"],["闹","鬧","nào","noisy; lively"],["衣","衣","yī","clothes"],["戴","戴","dài","to wear (hat etc.)"],["帽","帽","mào","hat"],["身","身","shēn","body"],["体","體","tǐ","body"],["习","習","xí","to practise"]],"words":[],"names":[],"poems":null}
+  ],
+  2: [
+    {"n":1,"s":"在中文学校","t":"在中文學校","en":"At the Chinese School","chars":[["在","在","zài","at; in"],["字","字","zì","character"],["汉","漢","hàn","Han; Chinese"],["语","語","yǔ","language"],["读","讀","dú","to read"],["写","寫","xiě","to write"],["画","畫","huà","to draw; painting"],["歌","歌","gē","song"],["教","教","jiāo","to teach"],["喜","喜","xǐ","to like; joy"],["欢","歡","huān","joyful"]],"words":[],"names":[],"poems":null},
+    {"n":2,"s":"教室里","t":"教室裡","en":"In the Classroom","chars":[["教","教","jiào","teaching"],["室","室","shì","room"],["里","裡","lǐ","inside"],["本","本","běn","book; MW"],["笔","筆","bǐ","pen; brush"],["书","書","shū","book"],["讲","講","jiǎng","to speak; to explain"],["那","那","nà","that"],["吗","嗎","ma","(question particle)"],["不","不","bù","not"],["她","她","tā","she; her"],["子","子","zi","(noun suffix)"]],"words":[],"names":[],"poems":null},
+    {"n":3,"s":"放学了","t":"放學了","en":"School Is Over","chars":[["放","放","fàng","to let go; to put"],["今","今","jīn","today; now"],["午","午","wǔ","noon"],["星","星","xīng","star"],["期","期","qī","period; week"],["听","聽","tīng","to listen"],["问","問","wèn","to ask"],["告","告","gào","to tell"],["诉","訴","sù","to tell"],["谁","誰","shéi","who"],["朋","朋","péng","friend"],["友","友","yǒu","friend"],["心","心","xīn","heart"]],"words":[],"names":[],"poems":null},
+    {"n":4,"s":"讲礼貌","t":"講禮貌","en":"Being Polite","chars":[["请","請","qǐng","please"],["谢","謝","xiè","to thank"],["对","對","duì","correct; towards"],["起","起","qǐ","to rise"],["关","關","guān","to close; concern"],["系","係","xì","relation"],["记","記","jì","to remember"],["孩","孩","hái","child"],["没","沒","méi","not have"],["用","用","yòng","to use"],["再","再","zài","again"],["做","做","zuò","to do"]],"words":[],"names":[],"poems":null},
+    {"n":5,"s":"买东西","t":"買東西","en":"Going Shopping","chars":[["买","買","mǎi","to buy"],["卡","卡","kǎ","card"],["果","果","guǒ","fruit"],["蛋","蛋","dàn","egg"],["包","包","bāo","bag; bun"],["给","給","gěi","to give"],["张","張","zhāng","sheet; MW"],["岁","歲","suì","year of age"],["哥","哥","gē","elder brother"],["姐","姐","jiě","elder sister"],["唱","唱","chàng","to sing"],["玩","玩","wán","to play"],["具","具","jù","tool; utensil"],["昨","昨","zuó","yesterday"]],"words":[],"names":[],"poems":null},
+    {"n":6,"s":"我会做的事","t":"我會做的事","en":"Things I Can Do","chars":[["会","會","huì","can; to meet"],["事","事","shì","matter; thing"],["洗","洗","xǐ","to wash"],["拾","拾","shí","to pick up"],["收","收","shōu","to receive; to put away"],["房","房","fáng","room; house"],["间","間","jiān","room; between"],["还","還","hái","still; also"],["可","可","kě","can; may"],["别","別","bié","don't; other"],["饿","餓","è","hungry"]],"words":[],"names":[],"poems":null},
+    {"n":7,"s":"人有两件宝","t":"人有兩件寶","en":"People Have Two Treasures","chars":[["两","兩","liǎng","two"],["件","件","jiàn","item; MW"],["宝","寶","bǎo","treasure"],["双","雙","shuāng","pair"],["脑","腦","nǎo","brain"],["思","思","sī","to think"],["工","工","gōng","work"],["作","作","zuò","to work"],["考","考","kǎo","to test; to ponder"],["得","得","dé","to get"],["又","又","yòu","again; also"],["万","萬","wàn","ten thousand"]],"words":[],"names":[],"poems":null},
+    {"n":8,"s":"月亮会不会跟人走","t":"月亮會不會跟人走","en":"Does the Moon Follow Us","chars":[["亮","亮","liàng","bright"],["跟","跟","gēn","to follow; with"],["都","都","dōu","all"],["很","很","hěn","very"],["觉","覺","jué","to feel"],["么","麼","me","(suffix)"],["什","什","shén","what"],["为","為","wèi","for; because"],["哪","哪","nǎ","which"],["明","明","míng","bright; next"],["也","也","yě","also"],["远","遠","yuǎn","far"],["地","地","de","(adverbial particle)"]],"words":[],"names":[],"poems":null},
+    {"n":9,"s":"为什么","t":"為什麼","en":"Why","chars":[["飞","飛","fēi","to fly"],["动","動","dòng","to move"],["河","河","hé","river"],["湖","湖","hú","lake"],["流","流","liú","to flow"],["光","光","guāng","light"],["时","時","shí","time"],["想","想","xiǎng","to think"],["夜","夜","yè","night"],["游","游","yóu","to swim; to travel"],["长","長","zhǎng","to grow"]],"words":[],"names":[],"poems":null},
+    {"n":10,"s":"春雨","t":"春雨","en":"Spring Rain","chars":[["苗","苗","miáo","sprout"],["芽","芽","yá","bud; sprout"],["树","樹","shù","tree"],["瓜","瓜","guā","melon"],["种","種","zhǒng","seed; kind"],["发","發","fā","to send out; to sprout"],["要","要","yào","to want"],["吧","吧","ba","(final particle)"]],"words":[],"names":[],"poems":null},
+    {"n":11,"s":"江河","t":"江河","en":"Rivers","chars":[["江","江","jiāng","large river"],["长","長","cháng","long"],["条","條","tiáo","strip; MW"],["国","國","guó","country"],["华","華","huá","China; splendid"],["古","古","gǔ","ancient"],["从","從","cóng","from"],["母","母","mǔ","mother"],["亲","親","qīn","dear; parent"],["名","名","míng","name"],["叫","叫","jiào","to call"],["它","它","tā","it"],["着","著","zhe","(aspect particle)"],["最","最","zuì","most"]],"words":[],"names":[],"poems":null},
+    {"n":12,"s":"放假了","t":"放假了","en":"The Holidays Have Begun","chars":[["假","假","jià","holiday"],["快","快","kuài","fast; happy"],["乐","樂","lè","happy"],["旅","旅","lǚ","travel"],["海","海","hǎi","sea"],["洋","洋","yáng","ocean"],["泳","泳","yǒng","to swim"],["活","活","huó","to live; lively"],["物","物","wù","thing"],["务","務","wù","affair; duty"],["公","公","gōng","public"],["点","點","diǎn","dot; o'clock"],["帮","幫","bāng","to help"],["以","以","yǐ","with; by"]],"words":[],"names":[],"poems":null}
+  ],
+  3: [
+    {"n":1,"s":"红绿灯","t":"紅綠燈","en":"Traffic Lights","chars":[["灯","燈","dēng","lamp; light"],["街","街","jiē","street"],["道","道","dào","road; way"],["宽","寬","kuān","wide"],["交","交","jiāo","to hand over; to cross"],["通","通","tōng","to go through"],["忙","忙","máng","busy"],["往","往","wǎng","towards"],["弟","弟","dì","younger brother"],["妹","妹","mèi","younger sister"],["拉","拉","lā","to pull"],["停","停","tíng","to stop"]],"words":[["街道","街道","jiēdào","street"],["交通","交通","jiāotōng","traffic"],["真是","真是","zhēnshì","really is"],["弟弟","弟弟","dìdi","younger brother"],["妹妹","妹妹","mèimei","younger sister"],["一起","一起","yìqǐ","together"],["看见","看見","kànjiàn","to see"]],"names":[],"poems":null},
+    {"n":2,"s":"去书店","t":"去書店","en":"Going to the Bookstore","chars":[["店","店","diàn","shop; store"],["童","童","tóng","child"],["话","話","huà","speech; talk"],["故","故","gù","old; reason"],["报","報","bào","report; newspaper"],["课","課","kè","lesson; class"],["拿","拿","ná","to take; to hold"],["现","現","xiàn","now; present"],["等","等","děng","to wait"],["吃","吃","chī","to eat"],["饭","飯","fàn","cooked rice; meal"],["呢","呢","ne","(final particle)"],["付","付","fù","to pay"],["钱","錢","qián","money"]],"words":[["书店","書店","shūdiàn","bookstore"],["儿童","兒童","értóng","children"],["故事","故事","gùshi","story"],["画报","畫報","huàbào","pictorial magazine"],["课本","課本","kèběn","textbook"],["起来","起來","qǐlái","to start (doing)"],["现在","現在","xiànzài","now"]],"names":[["安徒生","安徒生","Ān Túshēng","Hans Christian Andersen"]],"poems":null},
+    {"n":3,"s":"在医院里","t":"在醫院裡","en":"In the Hospital","chars":[["医","醫","yī","medicine; doctor"],["院","院","yuàn","courtyard; institution"],["感","感","gǎn","to feel"],["冒","冒","mào","to emit; to risk"],["烧","燒","shāo","to burn; fever"],["带","帶","dài","to bring; belt"],["病","病","bìng","illness"],["护","護","hù","to protect"],["士","士","shì","scholar; person"],["量","量","liáng","to measure"],["温","溫","wēn","warm; temperature"],["针","針","zhēn","needle"],["药","藥","yào","medicine"],["就","就","jiù","then; at once"]],"words":[["医院","醫院","yīyuàn","hospital"],["感冒","感冒","gǎnmào","to catch a cold"],["发烧","發燒","fāshāo","to run a fever"],["护士","護士","hùshi","nurse"],["一点儿","一點兒","yìdiǎnr","a little"],["放心","放心","fàngxīn","to feel at ease"],["打针","打針","dǎzhēn","to give an injection"]],"names":[],"poems":null},
+    {"n":4,"s":"猜一猜","t":"猜一猜","en":"Make a Guess","chars":[["猜","猜","cāi","to guess"],["鼻","鼻","bí","nose"],["眼","眼","yǎn","eye"],["睛","睛","jīng","eyeball"],["只","隻","zhī","MW for animals"],["嘴","嘴","zuǐ","mouth"],["边","邊","biān","side; edge"],["传","傳","chuán","to pass on"],["粉","粉","fěn","powder"],["采","採","cǎi","to gather; to pick"],["蜜","蜜","mì","honey"],["朵","朵","duǒ","MW for flowers & clouds"],["劳","勞","láo","labour"],["动","動","dòng","to move"]],"words":[["鼻子","鼻子","bízi","nose"],["眼睛","眼睛","yǎnjing","eyes"],["耳朵","耳朵","ěrduo","ears"],["一边…一边…","一邊…一邊…","yìbiān…yìbiān…","while … at the same time …"],["劳动","勞動","láodòng","to work; labour"]],"names":[],"poems":null},
+    {"n":5,"s":"我是谁","t":"我是誰","en":"Who Am I","chars":[["知","知","zhī","to know"],["变","變","biàn","to change"],["成","成","chéng","to become"],["汽","汽","qì","steam; vapour"],["飘","飄","piāo","to float; to drift"],["冷","冷","lěng","cold"],["珠","珠","zhū","bead; pearl"],["掉","掉","diào","to fall; to drop"],["候","候","hòu","time; to wait"],["睡","睡","shuì","to sleep"],["觉","覺","jiào","sleep (睡覺)"],["跑","跑","pǎo","to run"],["跳","跳","tiào","to jump"]],"words":[["知道","知道","zhīdào","to know"],["出来","出來","chūlái","to come out"],["人们","人們","rénmen","people"],["下来","下來","xiàlái","to come down"],["有时候","有時候","yǒushíhou","sometimes"],["睡觉","睡覺","shuìjiào","to sleep"]],"names":[],"poems":null},
+    {"n":6,"s":"雪","t":"雪","en":"Snow","chars":[["满","滿","mǎn","full"],["猫","貓","māo","cat"],["糖","糖","táng","sugar; sweets"],["狗","狗","gǒu","dog"],["盐","鹽","yán","salt"],["争","爭","zhēng","to argue; to compete"],["自","自","zì","self"],["己","己","jǐ","oneself"],["兔","兔","tù","rabbit"],["过","過","guò","to pass; to cross"],["尝","嘗","cháng","to taste"],["甜","甜","tián","sweet"],["咸","鹹","xián","salty"],["凉","涼","liáng","cool"]],"words":[["打开","打開","dǎkāi","to open"],["听见","聽見","tīngjiàn","to hear"],["马上","馬上","mǎshàng","at once"],["他们","他們","tāmen","they"],["自己","自己","zìjǐ","oneself"],["过来","過來","guòlái","to come over"]],"names":[],"poems":null},
+    {"n":7,"s":"古诗二首","t":"古詩二首","en":"Two Ancient Poems","chars":[["诗","詩","shī","poem"],["首","首","shǒu","MW for poems; head"],["静","靜","jìng","quiet; still"],["床","床","chuáng","bed"],["疑","疑","yí","to doubt; to suspect"],["举","舉","jǔ","to raise"],["望","望","wàng","to gaze at"],["低","低","dī","low; to lower"],["乡","鄉","xiāng","hometown; village"],["楼","樓","lóu","storey; building"],["千","千","qiān","thousand"],["更","更","gèng","even more"],["层","層","céng","storey; layer"]],"words":[["故乡","故鄉","gùxiāng","hometown"]],"names":[["李白","李白","Lǐ Bái","Li Bai (poet)"],["王之涣","王之渙","Wáng Zhīhuàn","Wang Zhihuan (poet)"],["鹳雀楼","鸛雀樓","Guànquè Lóu","Heron Lodge"]],"poems":[{"s":"静夜思","t":"靜夜思","author":"［唐］李白","lines":[["床前明月光，","床前明月光，"],["疑是地上霜。","疑是地上霜。"],["举头望明月，","舉頭望明月，"],["低头思故乡。","低頭思故鄉。"]]},{"s":"登鹳雀楼","t":"登鸛雀樓","author":"［唐］王之渙","lines":[["白日依山尽，","白日依山盡，"],["黄河入海流。","黃河入海流。"],["欲穷千里目，","欲窮千里目，"],["更上一层楼。","更上一層樓。"]]}]},
+    {"n":8,"s":"壶盖为什么会动","t":"壺蓋為什麼會動","en":"Why Does the Kettle Lid Move","chars":[["壶","壺","hú","kettle; pot"],["盖","蓋","gài","lid; to cover"],["英","英","yīng","hero; England"],["科","科","kē","branch of study"],["奇","奇","qí","strange"],["怪","怪","guài","odd; to blame"],["气","氣","qì","air; gas"],["冲","衝","chōng","to rush; to dash"],["让","讓","ràng","to let; to allow"],["常","常","cháng","often"],["试","試","shì","to try"],["验","驗","yàn","to test"],["机","機","jī","machine"],["位","位","wèi","MW for people (polite)"]],"words":[["科学家","科學家","kēxuéjiā","scientist"],["时候","時候","shíhou","time; moment"],["奇怪","奇怪","qíguài","strange"],["还是","還是","háishì","still; or"],["常常","常常","chángcháng","often"],["试验","試驗","shìyàn","experiment"],["后来","後來","hòulái","later"],["发明","發明","fāmíng","to invent"]],"names":[["瓦特","瓦特","Wǎtè","James Watt"],["英国","英國","Yīngguó","England"]],"poems":null},
+    {"n":9,"s":"蔡伦造纸","t":"蔡倫造紙","en":"Cai Lun Invented Paper","chars":[["造","造","zào","to make; to build"],["纸","紙","zhǐ","paper"],["代","代","dài","generation; era"],["把","把","bǎ","(preposition); handle"],["竹","竹","zhú","bamboo"],["片","片","piàn","slice; piece"],["便","便","biàn","convenient"],["元","元","yuán","first; yuan"],["决","決","jué","to decide"],["皮","皮","pí","skin; bark"],["破","破","pò","broken; to break"],["布","布","bù","cloth"],["打","打","dǎ","to hit; to make"],["干","乾","gān","dry"],["之","之","zhī","of (classical)"]],"words":[["古代","古代","gǔdài","ancient times"],["方便","方便","fāngbiàn","convenient"],["公元","公元","gōngyuán","AD (era)"],["决心","決心","juéxīn","determination"]],"names":[["蔡伦","蔡倫","Cài Lún","Cai Lun"]],"poems":null},
+    {"n":10,"s":"龟兔赛跑","t":"龜兔賽跑","en":"A Race between the Hare and the Tortoise","chars":[["龟","龜","guī","tortoise"],["赛","賽","sài","to compete; race"],["乌","烏","wū","black; crow"],["步","步","bù","step"],["爬","爬","pá","to crawl; to climb"],["回","回","huí","to return"],["得","得","dé","to get"],["意","意","yì","meaning; intention"],["慢","慢","màn","slow"],["追","追","zhuī","to chase"],["仍","仍","réng","still"],["然","然","rán","so; thus"],["第","第","dì","(ordinal prefix)"]],"words":[["出去","出去","chūqù","to go out"],["仍然","仍然","réngrán","still"],["可以","可以","kěyǐ","can; may"],["这样","這樣","zhèyàng","in this way"],["身边","身邊","shēnbiān","at one's side"],["过去","過去","guòqù","to pass by"]],"names":[],"poems":null},
+    {"n":11,"s":"小猫钓鱼","t":"小貓釣魚","en":"The Kitten Goes Fishing","chars":[["钓","釣","diào","to fish (with a rod)"],["捉","捉","zhuō","to catch"],["结","結","jié","to tie; result"],["已","已","yǐ","already"],["经","經","jīng","to pass through"],["几","幾","jǐ","how many; several"],["怎","怎","zěn","how"],["能","能","néng","can; able"],["专","專","zhuān","concentrated; special"],["笑","笑","xiào","to laugh; to smile"]],"words":[["一会儿","一會兒","yíhuìr","a moment"],["结果","結果","jiéguǒ","result"],["已经","已經","yǐjīng","already"],["生气","生氣","shēngqì","to get angry"],["怎么","怎麼","zěnme","how"],["三心二意","三心二意","sānxīn-èryì","to be of two minds"],["专心","專心","zhuānxīn","to concentrate"]],"names":[],"poems":null},
+    {"n":12,"s":"狼来了","t":"狼來了","en":"Wolves Are Coming","chars":[["狼","狼","láng","wolf"],["干","幹","gàn","to do; to work"],["弄","弄","nòng","to play with; to make"],["声","聲","shēng","sound; voice"],["喊","喊","hǎn","to shout"],["刻","刻","kè","quarter hour; to carve"],["根","根","gēn","root"],["撒","撒","sā","to let out; to tell (a lie)"],["谎","謊","huǎng","lie"],["被","被","bèi","by (passive)"],["欺","欺","qī","to deceive"],["骗","騙","piàn","to cheat"],["理","理","lǐ","reason; to pay attention to"]],"words":[["从前","從前","cóngqián","once upon a time"],["干活儿","幹活兒","gànhuór","to work"],["别人","別人","biéren","other people"],["故意","故意","gùyì","on purpose"],["立刻","立刻","lìkè","immediately"],["根本","根本","gēnběn","at all; basically"],["欺骗","欺騙","qīpiàn","to deceive"]],"names":[],"poems":null}
+  ],
+  4: [
+    {"n":1,"s":"给爷爷的信","t":"給爺爺的信","en":"A Letter to Grandfather","chars":[["信","信","xìn","letter; trust"],["封","封","fēng","to seal; MW for letters"],["城","城","chéng","city; city wall"],["邮","郵","yóu","post; mail"],["票","票","piào","ticket; stamp"],["京","京","jīng","capital city"],["安","安","ān","peaceful; safe"],["广","廣","guǎng","wide; broad"],["场","場","chǎng","field; open square"],["全","全","quán","whole; entire"],["平","平","píng","flat; level"],["提","提","tí","to lift; to raise"],["取","取","qǔ","to take; to fetch"],["进","進","jìn","to enter; to advance"],["孙","孫","sūn","grandson"]],"words":[["亲爱","親愛","qīn'ài","dear; beloved"],["信封","信封","xìnfēng","envelope"],["邮票","郵票","yóupiào","postage stamp"],["首都","首都","shǒudū","capital city"],["那里","那裡","nàlǐ","there"],["广场","廣場","guǎngchǎng","public square"],["那时","那時","nàshí","at that time"],["水平","水平","shuǐpíng","level; standard"],["提高","提高","tígāo","to improve; to raise"],["今后","今後","jīnhòu","from now on"],["争取","爭取","zhēngqǔ","to strive for"],["进步","進步","jìnbù","progress"]],"names":[["长城","長城","Chángchéng","the Great Wall"],["北京","北京","Běijīng","Beijing"],["故宫","故宮","Gùgōng","the Forbidden City"],["颐和园","頤和園","Yíhéyuán","the Summer Palace"],["天安门","天安門","Tiān'ānmén","Tiananmen"]],"poems":null},
+    {"n":2,"s":"颐和园","t":"頤和園","en":"The Summer Palace","chars":[["美","美","měi","beautiful"],["丽","麗","lì","beautiful"],["完","完","wán","to finish"],["登","登","dēng","to climb"],["景","景","jǐng","scenery"],["色","色","sè","colour"],["岸","岸","àn","shore; bank"],["岛","島","dǎo","island"],["沿","沿","yán","along"],["座","座","zuò","MW for bridges & buildings"],["桥","橋","qiáo","bridge"],["柱","柱","zhù","pillar"],["狮","獅","shī","lion"],["分","分","fēn","to divide; minute"],["啊","啊","a","(final particle)"]],"words":[["西北","西北","xīběi","northwest"],["美丽","美麗","měilì","beautiful"],["名字","名字","míngzi","name"],["中心","中心","zhōngxīn","centre"],["从…到…","從…到…","cóng…dào…","from … to …"],["生动","生動","shēngdòng","lifelike; vivid"],["十分","十分","shífēn","very"],["可爱","可愛","kě'ài","lovely"]],"names":[["万寿山","萬壽山","Wànshòu Shān","Longevity Hill"],["昆明湖","昆明湖","Kūnmíng Hú","Kunming Lake"]],"poems":null},
+    {"n":3,"s":"凡尔赛宫","t":"凡爾賽宮","en":"The Palace of Versailles","chars":[["宫","宮","gōng","palace"],["林","林","lín","woods; forest"],["王","王","wáng","king"],["厅","廳","tīng","hall"],["些","些","xiē","some"],["趣","趣","qù","interest"],["镜","鏡","jìng","mirror"],["窗","窗","chuāng","window"],["映","映","yìng","to reflect"],["如","如","rú","like; as"],["样","樣","yàng","appearance; kind"],["香","香","xiāng","fragrant"],["影","影","yǐng","shadow"],["迷","迷","mí","to enchant"]],"words":[["以前","以前","yǐqián","before; formerly"],["国家","國家","guójiā","country"],["这些","這些","zhèxiē","these"],["文物","文物","wénwù","cultural relics"],["有趣","有趣","yǒuqù","interesting"],["一样","一樣","yíyàng","the same"],["里面","裡面","lǐmiàn","inside"]],"names":[["凡尔赛宫","凡爾賽宮","Fán'ěrsài Gōng","Palace of Versailles"],["法国","法國","Fǎguó","France"],["巴黎","巴黎","Bālí","Paris"]],"poems":null},
+    {"n":4,"s":"晒太阳","t":"曬太陽","en":"Enjoy the Sunshine","chars":[["晒","曬","shài","to sun; to bask"],["照","照","zhào","to shine on"],["处","處","chù","place; benefit"],["寻","尋","xún","to seek"],["熟","熟","shú","ripe; cooked"],["服","服","fú","clothes"],["暖","暖","nuǎn","warm"],["才","才","cái","only then"],["健","健","jiàn","healthy; strong"],["康","康","kāng","well; healthy"]],"words":[["好处","好處","hǎochu","benefit"],["衣服","衣服","yīfu","clothes"],["被子","被子","bèizi","quilt"],["健康","健康","jiànkāng","health; healthy"]],"names":[],"poems":null},
+    {"n":5,"s":"小马过河","t":"小馬過河","en":"The Little Horse Crosses the River","chars":[["喝","喝","hē","to drink"],["伯","伯","bó","father's elder brother"],["深","深","shēn","deep"],["浅","淺","qiǎn","shallow"],["正","正","zhèng","just; upright"],["突","突","tū","sudden"],["该","該","gāi","should; ought to"],["办","辦","bàn","to handle; to do"],["定","定","dìng","to fix; surely"],["原","原","yuán","original"],["既","既","jì","since; both"],["像","像","xiàng","to resemble"]],"words":[["伯伯","伯伯","bóbo","uncle"],["突然","突然","tūrán","suddenly"],["只好","只好","zhǐhǎo","to have no choice but"],["那么","那麼","nàme","so; like that"],["一定","一定","yídìng","certainly"],["最好","最好","zuìhǎo","had better"],["小心","小心","xiǎoxīn","careful"],["原来","原來","yuánlái","as it turns out"],["既…也…","既…也…","jì…yě…","both … and …"],["那样","那樣","nàyàng","that way"]],"names":[],"poems":null},
+    {"n":6,"s":"猴子捞月亮","t":"猴子撈月亮","en":"Monkeys Try to Scoop up the Moon","chars":[["捞","撈","lāo","to scoop up"],["晚","晚","wǎn","evening; late"],["群","群","qún","group; flock"],["啦","啦","la","(final particle)"],["于","於","yú","at; in"],["直","直","zhí","straight"],["接","接","jiē","to join; to catch"],["挂","掛","guà","to hang"],["伸","伸","shēn","to stretch out"],["刚","剛","gāng","just now"],["碰","碰","pèng","to touch; to bump"],["抬","擡","tái","to lift"]],"words":[["晚上","晚上","wǎnshang","evening"],["上来","上來","shànglái","to come up"],["于是","於是","yúshì","thereupon"],["一直","一直","yìzhí","straight; all along"],["下面","下面","xiàmiàn","below"]],"names":[],"poems":null},
+    {"n":7,"s":"古诗二首","t":"古詩二首","en":"Two Ancient Poems","chars":[["晓","曉","xiǎo","dawn; to know"],["眠","眠","mián","to sleep"],["闻","聞","wén","to hear"],["啼","啼","tí","(of birds) to cry"],["落","落","luò","to fall"],["农","農","nóng","farming"],["当","當","dāng","at (noon)"],["汗","汗","hàn","sweat"],["滴","滴","dī","to drip; a drop"],["盘","盤","pán","plate; dish"],["餐","餐","cān","meal"],["粒","粒","lì","grain"],["皆","皆","jiē","all"],["辛","辛","xīn","toilsome"],["苦","苦","kǔ","bitter; hard"]],"words":[["辛苦","辛苦","xīnkǔ","hard work; toil"]],"names":[["孟浩然","孟浩然","Mèng Hàorán","Meng Haoran (poet)"],["李绅","李紳","Lǐ Shēn","Li Shen (poet)"]],"poems":[{"s":"春晓","t":"春曉","author":"［唐］孟浩然","lines":[["春眠不觉晓，","春眠不覺曉，"],["处处闻啼鸟。","處處聞啼鳥。"],["夜来风雨声，","夜來風雨聲，"],["花落知多少。","花落知多少。"]]},{"s":"悯农","t":"憫農","author":"［唐］李紳","lines":[["锄禾日当午，","鋤禾日當午，"],["汗滴禾下土。","汗滴禾下土。"],["谁知盘中餐，","誰知盤中餐，"],["粒粒皆辛苦。","粒粒皆辛苦。"]]}]},
+    {"n":8,"s":"司马光","t":"司馬光","en":"Sima Guang","chars":[["聪","聰","cōng","clever"],["戏","戲","xì","play; drama"],["缸","缸","gāng","vat; jar"],["装","裝","zhuāng","to fill; to load"],["吓","嚇","xià","to frighten"],["哭","哭","kū","to cry"],["惊","驚","jīng","startled"],["慌","慌","huāng","flustered"],["法","法","fǎ","method; law"],["块","塊","kuài","piece; lump"],["使","使","shǐ","to use"],["劲","勁","jìn","strength"],["砸","砸","zá","to smash"],["救","救","jiù","to rescue"]],"words":[["聪明","聰明","cōngming","clever"],["有的","有的","yǒude","some"],["游戏","遊戲","yóuxì","game"],["别的","別的","biéde","other"],["只有","只有","zhǐyǒu","only"],["办法","辦法","bànfǎ","way; method"],["石头","石頭","shítou","stone"]],"names":[["司马光","司馬光","Sīmǎ Guāng","Sima Guang"]],"poems":null},
+    {"n":9,"s":"数星星的孩子","t":"數星星的孩子","en":"The Boy Who Counted Stars","chars":[["数","數","shǔ","to count"],["空","空","kōng","sky; empty"],["靠","靠","kào","to lean on"],["仰","仰","yǎng","to look up"],["颗","顆","kē","MW for small round things"],["久","久","jiǔ","long (time)"],["清","清","qīng","clear"],["连","連","lián","to link; in a row"],["勺","勺","sháo","spoon; ladle"],["离","離","lí","away from"],["努","努","nǔ","to exert"],["力","力","lì","strength"],["著","著","zhù","notable"]],"words":[["夜晚","夜晚","yèwǎn","night"],["明亮","明亮","míngliàng","bright"],["星星","星星","xīngxing","star"],["勺子","勺子","sháozi","spoon"],["努力","努力","nǔlì","to work hard"],["著名","著名","zhùmíng","famous"]],"names":[["北斗星","北斗星","Běidǒuxīng","the Big Dipper"],["北极星","北極星","Běijíxīng","the North Star"],["张衡","張衡","Zhāng Héng","Zhang Heng"]],"poems":null},
+    {"n":10,"s":"问答","t":"問答","en":"Ask and Answer","chars":[["答","答","dá","to answer"],["弯","彎","wān","curved; to bend"],["船","船","chuán","boat"],["尖","尖","jiān","pointed; tip"],["握","握","wò","to hold; to grasp"],["毛","毛","máo","hair; fur"],["箭","箭","jiàn","arrow"],["圆","圓","yuán","round"],["串","串","chuàn","a bunch; to string"],["苹","蘋","píng","apple (蘋果)"],["葡","葡","pú","grape (葡萄)"],["萄","萄","táo","grape (葡萄)"]],"words":[["什么","什麼","shénme","what"],["毛笔","毛筆","máobǐ","writing brush"],["火箭","火箭","huǒjiàn","rocket"],["苹果","蘋果","píngguǒ","apple"],["葡萄","葡萄","pútao","grape"]],"names":[],"poems":null},
+    {"n":11,"s":"大自然的语言","t":"大自然的語言","en":"The Language of Nature","chars":[["言","言","yán","speech; words"],["丰","豐","fēng","abundant"],["富","富","fù","rich"],["晴","晴","qíng","fine; clear (weather)"],["搬","搬","bān","to move"],["伞","傘","sǎn","umbrella"],["冰","冰","bīng","ice"],["化","化","huà","to melt; to change"],["叶","葉","yè","leaf"],["妙","妙","miào","wonderful"],["细","細","xì","fine; careful"],["观","觀","guān","to observe"],["察","察","chá","to examine"],["懂","懂","dǒng","to understand"]],"words":[["自然","自然","zìrán","nature"],["语言","語言","yǔyán","language"],["明天","明天","míngtiān","tomorrow"],["正在","正在","zhèngzài","in the middle of"],["雨伞","雨傘","yǔsǎn","umbrella"],["春天","春天","chūntiān","spring"],["多么","多麼","duōme","how (…!)"],["丰富","豐富","fēngfù","rich; abundant"],["细心","細心","xìxīn","attentive"],["观察","觀察","guānchá","to observe"]],"names":[],"poems":null},
+    {"n":12,"s":"月亮上有什么","t":"月亮上有什麼","en":"What's There on the Moon","chars":[["宇","宇","yǔ","universe"],["航","航","háng","to navigate"],["员","員","yuán","member; person"],["次","次","cì","time (occasion)"],["球","球","qiú","ball; globe"],["实","實","shí","real; solid"],["类","類","lèi","kind; type"],["梦","夢","mèng","dream"],["号","號","hào","number; date"],["达","達","dá","to reach"],["泥","泥","ní","mud; soil"],["非","非","fēi","not; non-"],["世","世","shì","world; age"],["界","界","jiè","boundary"]],"words":[["月球","月球","yuèqiú","the moon"],["实现","實現","shíxiàn","to come true"],["人类","人類","rénlèi","humankind"],["地球","地球","dìqiú","the earth"],["到处","到處","dàochù","everywhere"],["阳光","陽光","yángguāng","sunshine"],["声音","聲音","shēngyīn","sound"],["非常","非常","fēicháng","very"],["安静","安靜","ānjìng","quiet"],["世界","世界","shìjiè","world"],["小时","小時","xiǎoshí","hour"],["安全","安全","ānquán","safe"]],"names":[["美国","美國","Měiguó","the United States"]],"poems":null}
+  ],
+  5: [
+    {"n":1,"s":"买文具","t":"買文具","en":"Buying Stationery","chars":[["超","超","chāo","to exceed"],["市","市","shì","market; city"],["各","各","gè","each"],["颜","顏","yán","colour; face"],["练","練","liàn","to practise"],["许","許","xǔ","to allow; many"],["漂","漂","piào","pretty (漂亮)"],["尺","尺","chǐ","ruler"],["刀","刀","dāo","knife"],["支","支","zhī","MW for pens"],["行","行","háng","line; row"],["商","商","shāng","commerce"],["鞋","鞋","xié","shoes"],["品","品","pǐn","article; product"],["制","製","zhì","to make"]],"words":[["前天","前天","qiántiān","the day before yesterday"],["各种","各種","gèzhǒng","all kinds"],["颜色","顏色","yánsè","colour"],["练习","練習","liànxí","to practise"],["漂亮","漂亮","piàoliang","pretty"],["圆珠笔","圓珠筆","yuánzhūbǐ","ballpoint pen"],["离开","離開","líkāi","to leave"],["书包","書包","shūbāo","schoolbag"],["这个","這個","zhège","this one"],["要是","要是","yàoshi","if"],["英文","英文","Yīngwén","English"],["商店","商店","shāngdiàn","shop"],["许多","許多","xǔduō","many"],["衣服","衣服","yīfu","clothes"],["日用品","日用品","rìyòngpǐn","daily necessities"],["制造","製造","zhìzào","to manufacture"]],"names":[],"poems":null},
+    {"n":2,"s":"上餐馆","t":"上餐館","en":"Going to a Restaurant","chars":[["馆","館","guǎn","hall; restaurant"],["空","空","kòng","vacant"],["菜","菜","cài","dish; vegetable"],["肉","肉","ròu","meat"],["鲜","鮮","xiān","fresh"],["青","青","qīng","green; blue"],["味","味","wèi","taste"],["茶","茶","chá","tea"],["汤","湯","tāng","soup"],["鸡","雞","jī","chicken"],["炒","炒","chǎo","to stir-fry"],["极","極","jí","extremely"],["饱","飽","bǎo","full (from eating)"],["顿","頓","dùn","MW for meals"]],"words":[["餐馆","餐館","cānguǎn","restaurant"],["好吃","好吃","hǎochī","tasty"],["接着","接著","jiēzhe","next; then"],["鸡蛋","雞蛋","jīdàn","egg"],["味道","味道","wèidào","flavour"],["极了","極了","jíle","extremely"],["美元","美元","měiyuán","US dollar"]],"names":[],"poems":null},
+    {"n":3,"s":"加油站","t":"加油站","en":"The Gas Station","chars":[["加","加","jiā","to add"],["油","油","yóu","oil"],["站","站","zhàn","station; to stand"],["阔","闊","kuò","wide"],["速","速","sù","speed"],["路","路","lù","road"],["刷","刷","shuā","to brush"],["挡","擋","dǎng","to block"],["净","淨","jìng","clean"],["表","錶","biǎo","gauge; watch"],["数","數","shù","number"],["旁","旁","páng","side"],["谈","談","tán","to talk"],["指","指","zhǐ","to point"],["辆","輛","liàng","MW for vehicles"]],"words":[["汽车","汽車","qìchē","car"],["高速","高速","gāosù","high speed"],["公路","公路","gōnglù","highway"],["然后","然後","ránhòu","afterwards"],["干净","乾淨","gānjìng","clean"],["数字","數字","shùzì","number; digit"],["这时","這時","zhèshí","at this moment"],["旁边","旁邊","pángbiān","beside"],["先生","先生","xiānsheng","gentleman; Mr"]],"names":[],"poems":null},
+    {"n":4,"s":"狼和小羊","t":"狼和小羊","en":"The Wolf and the Lamb","chars":[["总","總","zǒng","always; general"],["得","得","děi","must"],["找","找","zhǎo","to look for"],["借","借","jiè","to borrow"],["行","行","xíng","all right"],["脏","髒","zāng","dirty"],["害","害","hài","to harm"],["轻","輕","qīng","light; soft"],["您","您","nín","you (polite)"],["算","算","suàn","to count; to reckon"],["坏","壞","huài","bad"],["近","近","jìn","near"],["反","反","fǎn","opposite"],["扑","撲","pū","to pounce"]],"words":[["那儿","那兒","nàr","there"],["于是","於是","yúshì","thereupon"],["吃惊","吃驚","chījīng","to be startled"],["这儿","這兒","zhèr","here"],["听说","聽說","tīngshuō","to hear of"],["去年","去年","qùnián","last year"],["大声","大聲","dàshēng","loudly"],["反正","反正","fǎnzhèng","anyway"]],"names":[],"poems":null},
+    {"n":5,"s":"狐狸和葡萄","t":"狐狸和葡萄","en":"The Fox and the Grapes","chars":[["渴","渴","kě","thirsty"],["架","架","jià","frame; trellis"],["哈","哈","hā","ha (laughter)"],["运","運","yùn","luck; to transport"],["错","錯","cuò","wrong"],["准","準","zhǔn","accurate"],["摘","摘","zhāi","to pick"],["够","夠","gòu","enough; to reach"],["着","著","zháo","to touch; to reach"],["始","始","shǐ","to begin"],["终","終","zhōng","end"],["累","累","lèi","tired"],["垂","垂","chuí","to hang down"],["丧","喪","sàng","to lose; dejected"],["酸","酸","suān","sour"]],"words":[["天气","天氣","tiānqì","weather"],["如果","如果","rúguǒ","if"],["哈哈","哈哈","hāhā","ha-ha"],["从来","從來","cónglái","always; ever"],["用力","用力","yònglì","to exert strength"],["始终","始終","shǐzhōng","all along"],["最后","最後","zuìhòu","finally"],["力气","力氣","lìqi","strength"],["没有","沒有","méiyǒu","to not have"]],"names":[],"poems":null},
+    {"n":6,"s":"成语故事","t":"成語故事","en":"Idiom Stories","chars":[["守","守","shǒu","to guard; to wait"],["待","待","dài","to await"],["棵","棵","kē","MW for trees"],["休","休","xiū","to rest"],["息","息","xī","to rest; breath"],["撞","撞","zhuàng","to bump into"],["死","死","sǐ","to die"],["每","每","měi","every"],["此","此","cǐ","this"],["求","求","qiú","to seek"],["剑","劍","jiàn","sword"],["赶","趕","gǎn","to hurry"],["急","急","jí","urgent"]],"words":[["以前","以前","yǐqián","before"],["农民","農民","nóngmín","farmer"],["休息","休息","xiūxi","to rest"],["从此","從此","cóngcǐ","from then on"],["下去","下去","xiàqù","to go on"],["中间","中間","zhōngjiān","middle"],["着急","著急","zháojí","anxious"],["感到","感到","gǎndào","to feel"],["赶快","趕快","gǎnkuài","at once"]],"names":[],"poems":null},
+    {"n":7,"s":"古诗二首","t":"古詩二首","en":"Two Ancient Poems","chars":[["慈","慈","cí","kind; loving"],["线","線","xiàn","thread"],["临","臨","lín","to be about to"],["密","密","mì","dense; close"],["缝","縫","féng","to sew"],["恐","恐","kǒng","to fear"],["迟","遲","chí","late"],["归","歸","guī","to return"],["寸","寸","cùn","inch"],["绝","絕","jué","to cut off; utterly"],["灭","滅","miè","to extinguish"],["翁","翁","wēng","old man"],["独","獨","dú","alone"],["寒","寒","hán","cold"]],"words":[],"names":[["孟郊","孟郊","Mèng Jiāo","Meng Jiao (poet)"],["柳宗元","柳宗元","Liǔ Zōngyuán","Liu Zongyuan (poet)"]],"poems":[{"s":"游子吟","t":"遊子吟","author":"［唐］孟郊","lines":[["慈母手中线，","慈母手中線，"],["游子身上衣。","遊子身上衣。"],["临行密密缝，","臨行密密縫，"],["意恐迟迟归。","意恐遲遲歸。"],["谁言寸草心，","誰言寸草心，"],["报得三春晖。","報得三春暉。"]]},{"s":"江雪","t":"江雪","author":"［唐］柳宗元","lines":[["千山鸟飞绝，","千山鳥飛絕，"],["万径人踪灭。","萬徑人蹤滅。"],["孤舟蓑笠翁，","孤舟蓑笠翁，"],["独钓寒江雪。","獨釣寒江雪。"]]}]},
+    {"n":8,"s":"唐人街","t":"唐人街","en":"Chinatown","chars":[["历","歷","lì","history; to experience"],["史","史","shǐ","history"],["繁","繁","fán","numerous; flourishing"],["荣","榮","róng","glory; prosperous"],["强","強","qiáng","strong"],["侨","僑","qiáo","overseas national"],["集","集","jí","to gather"],["功","功","gōng","merit; achievement"],["卖","賣","mài","to sell"],["越","越","yuè","the more"],["节","節","jié","festival; joint"],["贴","貼","tiē","to paste"],["舞","舞","wǔ","to dance"]],"words":[["历史","歷史","lìshǐ","history"],["海外","海外","hǎiwài","overseas"],["华侨","華僑","huáqiáo","overseas Chinese"],["华人","華人","huárén","ethnic Chinese"],["集中","集中","jízhōng","to concentrate"],["当年","當年","dāngnián","in those years"],["当时","當時","dāngshí","at that time"],["买卖","買賣","mǎimai","business; trade"],["成立","成立","chénglì","to establish"],["春节","春節","Chūnjié","Spring Festival"]],"names":[["旧金山","舊金山","Jiùjīnshān","San Francisco"]],"poems":null},
+    {"n":9,"s":"“神舟”飞天","t":"「神舟」飛天","en":"Shenzhou Flies into Space","chars":[["载","載","zài","to carry"],["卫","衛","wèi","to guard"],["射","射","shè","to launch; to shoot"],["升","升","shēng","to rise"],["雷","雷","léi","thunder"],["客","客","kè","guest"],["旗","旗","qí","flag"],["民","民","mín","people"],["币","幣","bì","currency"],["纪","紀","jì","record; era"],["念","念","niàn","to think of"],["程","程","chéng","journey; procedure"],["雄","雄","xióng","heroic; male"],["顺","順","shùn","smooth"],["利","利","lì","favourable; sharp"]],"words":[["卫星","衛星","wèixīng","satellite"],["成功","成功","chénggōng","success"],["另外","另外","lìngwài","besides"],["纪念","紀念","jìniàn","to commemorate"],["工程","工程","gōngchéng","engineering project"],["来自","來自","láizì","to come from"],["英雄","英雄","yīngxióng","hero"],["顺利","順利","shùnlì","smoothly"],["地面","地面","dìmiàn","ground"],["终于","終於","zhōngyú","at last"],["光荣","光榮","guāngróng","honour"]],"names":[["神舟五号","神舟五號","Shénzhōu Wǔhào","Shenzhou 5"],["酒泉","酒泉","Jiǔquán","Jiuquan"],["杨利伟","楊利偉","Yáng Lìwěi","Yang Liwei"],["奥运会","奧運會","Àoyùnhuì","Olympic Games"],["联合国","聯合國","Liánhéguó","United Nations"],["台湾","台灣","Táiwān","Taiwan"],["费俊龙","費俊龍","Fèi Jùnlóng","Fei Junlong"],["聂海胜","聶海勝","Niè Hǎishèng","Nie Haisheng"]],"poems":null},
+    {"n":10,"s":"曹冲称象","t":"曹沖稱象","en":"Cao Chong Weighs the Elephant","chars":[["称","稱","chēng","to weigh; to call"],["象","象","xiàng","elephant"],["官","官","guān","official"],["墙","牆","qiáng","wall"],["腿","腿","tuǐ","leg"],["重","重","zhòng","heavy"],["秤","秤","chèng","steelyard; scales"],["杀","殺","shā","to kill"],["切","切","qiē","to cut"],["摇","搖","yáo","to shake"],["主","主","zhǔ","main; host"],["沉","沉","chén","to sink"],["赞","讚","zàn","to praise"]],"words":[["南方","南方","nánfāng","the south"],["儿子","兒子","érzi","son"],["哪儿","哪兒","nǎr","where"],["就是","就是","jiùshì","even if; exactly"],["主意","主意","zhǔyi","idea"],["刚才","剛才","gāngcái","just now"],["称赞","稱讚","chēngzàn","to praise"]],"names":[["曹操","曹操","Cáo Cāo","Cao Cao"],["曹冲","曹沖","Cáo Chōng","Cao Chong"]],"poems":null},
+    {"n":11,"s":"普林斯顿的老人","t":"普林斯頓的老人","en":"The Old Man of Princeton","chars":[["晨","晨","chén","morning"],["椅","椅","yǐ","chair"],["解","解","jiě","to explain; to solve"],["题","題","tí","problem; topic"],["相","相","xiāng","mutually"],["遇","遇","yù","to meet"],["情","情","qíng","feeling; situation"],["为","為","wéi","to be; as"],["讨","討","tǎo","to discuss"],["论","論","lùn","to discuss"],["度","度","dù","to pass; degree"],["愉","愉","yú","pleased"],["简","簡","jiǎn","simple"],["单","單","dān","single"]],"words":[["大学","大學","dàxué","university"],["老人","老人","lǎorén","elderly person"],["数学","數學","shùxué","mathematics"],["经过","經過","jīngguò","to pass by"],["时间","時間","shíjiān","time"],["一…就…","一…就…","yī…jiù…","as soon as"],["以为","以為","yǐwéi","to assume"],["讨论","討論","tǎolùn","to discuss"],["问题","問題","wèntí","question"],["度过","度過","dùguò","to spend (time)"],["多少","多少","duōshao","how many"],["愉快","愉快","yúkuài","happy"],["解答","解答","jiědá","to answer"],["简单","簡單","jiǎndān","simple"]],"names":[["普林斯顿","普林斯頓","Pǔlínsīdùn","Princeton"],["爱因斯坦","愛因斯坦","Àiyīnsītǎn","Einstein"]],"poems":null},
+    {"n":12,"s":"李时珍","t":"李時珍","en":"Li Shizhen","chars":[["父","父","fù","father"],["穷","窮","qióng","poor"],["因","因","yīn","because"],["所","所","suǒ","place; so"],["但","但","dàn","but"],["改","改","gǎi","to change"],["留","留","liú","to remain; to keep"],["暗","暗","àn","dark; secretly"],["合","合","hé","to join; to suit"],["适","適","shì","suitable"],["误","誤","wù","error"],["检","檢","jiǎn","to inspect"],["性","性","xìng","nature; property"],["部","部","bù","part; MW for books"],["伟","偉","wěi","great"],["译","譯","yì","to translate"]],"words":[["父亲","父親","fùqīn","father"],["看病","看病","kànbìng","to see a doctor"],["因为","因為","yīnwèi","because"],["看不起","看不起","kànbuqǐ","to look down on"],["同意","同意","tóngyì","to agree"],["改变","改變","gǎibiàn","to change"],["合适","合適","héshì","suitable"],["病人","病人","bìngrén","patient"],["感谢","感謝","gǎnxiè","to thank"],["发现","發現","fāxiàn","to discover"],["错误","錯誤","cuòwù","mistake"],["上去","上去","shàngqù","to go up"],["亲自","親自","qīnzì","personally"],["刻苦","刻苦","kèkǔ","hardworking"],["伟大","偉大","wěidà","great"],["文字","文字","wénzì","written language"]],"names":[["李时珍","李時珍","Lǐ Shízhēn","Li Shizhen"],["本草纲目","本草綱目","Běncǎo Gāngmù","Compendium of Materia Medica"]],"poems":null}
+  ],
+  6: [
+    {"n": 1, "s": "在公园里", "t": "在公園裡", "en": "In the Park", "chars": [["附", "附", "fù", "attached; near"], ["显", "顯", "xiǎn", "to appear; obvious"], ["格", "格", "gé", "pattern; grid"], ["宁", "寧", "níng", "peaceful"], ["艺", "藝", "yì", "art"], ["术", "術", "shù", "skill; art"], ["复", "複", "fù", "to duplicate"], ["壮", "壯", "zhuàng", "strong"], ["男", "男", "nán", "male"], ["堂", "堂", "táng", "hall"], ["钟", "鐘", "zhōng", "bell; clock"], ["庄", "莊", "zhuāng", "solemn; village"], ["严", "嚴", "yán", "strict; solemn"], ["随", "隨", "suí", "to follow"]], "words": [["星期天", "星期天", "xīngqītiān", "Sunday"], ["附近", "附近", "fùjìn", "nearby"], ["显得", "顯得", "xiǎnde", "to appear"], ["格外", "格外", "géwài", "especially"], ["地方", "地方", "dìfang", "place"], ["艺术", "藝術", "yìshù", "art"], ["开始", "開始", "kāishǐ", "to begin"], ["教堂", "教堂", "jiàotáng", "church"], ["更加", "更加", "gèngjiā", "even more"]], "names": [["希腊", "希臘", "Xīlà", "Greece"], ["米开朗基罗", "米開朗基羅", "Mǐkāilǎngjīluó", "Michelangelo"], ["罗丹", "羅丹", "Luódān", "Auguste Rodin"]], "poems": null},
+    {"n": 2, "s": "去邮局", "t": "去郵局", "en": "Going to the Post Office", "chars": [["局", "局", "jú", "office; bureau"], ["寄", "寄", "jì", "to post; to send"], ["好", "好", "hào", "to be fond of"], ["翻", "翻", "fān", "to turn over"], ["识", "識", "shí", "to know; knowledge"], ["了", "瞭", "liǎo", "to understand"], ["欣", "欣", "xīn", "glad"], ["赏", "賞", "shǎng", "to appreciate"], ["育", "育", "yù", "to nurture; education"], ["增", "增", "zēng", "to increase"], ["姑", "姑", "gū", "aunt"], ["套", "套", "tào", "set; MW"], ["庆", "慶", "qìng", "to celebrate"], ["难", "難", "nán", "difficult"], ["贵", "貴", "guì", "expensive; precious"]], "words": [["邮局", "郵局", "yóujú", "post office"], ["认识", "認識", "rènshi", "to know; to recognize"], ["知识", "知識", "zhīshi", "knowledge"], ["了解", "瞭解", "liǎojiě", "to understand"], ["欣赏", "欣賞", "xīnshǎng", "to appreciate"], ["增长", "增長", "zēngzhǎng", "to increase"], ["姑姑", "姑姑", "gūgu", "paternal aunt"], ["庆祝", "慶祝", "qìngzhù", "to celebrate"], ["宝贵", "寶貴", "bǎoguì", "precious"]], "names": [["香港", "香港", "Xiānggǎng", "Hong Kong"]], "poems": null},
+    {"n": 3, "s": "海洋世界", "t": "海洋世界", "en": "The Ocean World", "chars": [["吸", "吸", "xī", "to breathe in; to attract"], ["引", "引", "yǐn", "to draw; to attract"], ["神", "神", "shén", "spirit; magical"], ["玻", "玻", "bō", "glass (玻璃)"], ["璃", "璃", "lí", "glass (玻璃)"], ["担", "擔", "dān", "to bear; to worry"], ["演", "演", "yǎn", "to perform"], ["尾", "尾", "wěi", "tail"], ["巴", "巴", "bā", "tail; to cling to"], ["拍", "拍", "pāi", "to pat; to clap"], ["令", "令", "lìng", "to cause; order"], ["态", "態", "tài", "manner; state"], ["肚", "肚", "dù", "belly"], ["背", "背", "bèi", "back"], ["与", "與", "yǔ", "and; with"]], "words": [["吸引", "吸引", "xīyǐn", "to attract"], ["玻璃", "玻璃", "bōli", "glass"], ["担心", "擔心", "dānxīn", "to worry"], ["表演", "表演", "biǎoyǎn", "to perform"], ["节目", "節目", "jiémù", "programme"], ["尾巴", "尾巴", "wěiba", "tail"], ["生活", "生活", "shēnghuó", "life; to live"]], "names": [], "poems": null},
+    {"n": 4, "s": "埋在地里的金子", "t": "埋在地裡的金子", "en": "The Buried Gold", "chars": [["埋", "埋", "mái", "to bury"], ["金", "金", "jīn", "gold"], ["虽", "雖", "suī", "although"], ["无", "無", "wú", "without"], ["养", "養", "yǎng", "to raise; to support"], ["送", "送", "sòng", "to give; to see off"], ["肯", "肯", "kěn", "willing"], ["夫", "夫", "fū", "man; husband"], ["挖", "挖", "wā", "to dig"], ["遍", "遍", "biàn", "time; all over"], ["产", "產", "chǎn", "to produce"], ["比", "比", "bǐ", "to compare"], ["粮", "糧", "liáng", "grain"], ["食", "食", "shí", "food"], ["换", "換", "huàn", "to exchange"], ["勤", "勤", "qín", "diligent"]], "words": [["虽然", "雖然", "suīrán", "although"], ["养活", "養活", "yǎnghuo", "to support; to feed"], ["天气", "天氣", "tiānqì", "weather"], ["晚上", "晚上", "wǎnshang", "evening"], ["面前", "面前", "miànqián", "in front of"], ["以后", "以後", "yǐhòu", "afterwards"], ["只要", "只要", "zhǐyào", "so long as"], ["工夫", "工夫", "gōngfu", "effort; time"], ["认为", "認為", "rènwéi", "to consider"], ["秋天", "秋天", "qiūtiān", "autumn"], ["产量", "產量", "chǎnliàng", "output"], ["粮食", "糧食", "liángshi", "grain; food"]], "names": [], "poems": null},
+    {"n": 5, "s": "巨人的花园", "t": "巨人的花園", "en": "The Giant's Garden", "chars": [["巨", "巨", "jù", "huge"], ["周", "周", "zhōu", "circumference; week"], ["围", "圍", "wéi", "to surround"], ["牌", "牌", "pái", "sign; card"], ["禁", "禁", "jìn", "to forbid"], ["止", "止", "zhǐ", "to stop"], ["内", "內", "nèi", "inside"], ["角", "角", "jiǎo", "corner; angle"], ["洞", "洞", "dòng", "hole"], ["钻", "鑽", "zuān", "to bore through"], ["私", "私", "sī", "private; selfish"], ["愿", "願", "yuàn", "willing"], ["必", "必", "bì", "must"], ["须", "須", "xū", "must"], ["拆", "拆", "chāi", "to pull down"]], "words": [["牌子", "牌子", "páizi", "sign; brand"], ["禁止", "禁止", "jìnzhǐ", "to forbid"], ["外面", "外面", "wàimiàn", "outside"], ["明白", "明白", "míngbai", "to understand"], ["愿意", "願意", "yuànyì", "willing"], ["必须", "必須", "bìxū", "must"], ["动手", "動手", "dòngshǒu", "to get to work"]], "names": [], "poems": null},
+    {"n": 6, "s": "成语故事", "t": "成語故事", "en": "Idiom Stories", "chars": [["补", "補", "bǔ", "to mend"], ["屋", "屋", "wū", "house; room"], ["及", "及", "jí", "to reach; and"], ["修", "修", "xiū", "to repair"], ["邻", "鄰", "lín", "neighbour"], ["居", "居", "jū", "to reside"], ["劝", "勸", "quàn", "to advise"], ["丢", "丟", "diū", "to lose"], ["未", "未", "wèi", "not yet"], ["拔", "拔", "bá", "to pull up"], ["助", "助", "zhù", "to help"], ["盼", "盼", "pàn", "to long for"], ["秧", "秧", "yāng", "seedling"], ["忽", "忽", "hū", "suddenly"]], "words": [["屋子", "屋子", "wūzi", "room"], ["及时", "及時", "jíshí", "in time"], ["邻居", "鄰居", "línjū", "neighbour"], ["道理", "道理", "dàolǐ", "reason; sense"], ["盼望", "盼望", "pànwàng", "to long for"], ["因此", "因此", "yīncǐ", "therefore"], ["忽然", "忽然", "hūrán", "suddenly"], ["得意", "得意", "déyì", "pleased with oneself"]], "names": [], "poems": null},
+    {"n": 7, "s": "日月潭", "t": "日月潭", "en": "Sun Moon Lake", "chars": [["半", "半", "bàn", "half"], ["倒", "倒", "dào", "inverted; to pour"], ["毒", "毒", "dú", "poison"], ["龙", "龍", "lóng", "dragon"], ["怕", "怕", "pà", "to fear"], ["妻", "妻", "qī", "wife"], ["女", "女", "nǚ", "female"], ["志", "志", "zhì", "will; ambition"], ["除", "除", "chú", "to remove"], ["剪", "剪", "jiǎn", "scissors; to cut"], ["克", "克", "kè", "to overcome"], ["困", "困", "kùn", "difficulty"], ["胜", "勝", "shèng", "victory"], ["吐", "吐", "tǔ", "to spit out"], ["俩", "倆", "liǎ", "the two of them"]], "words": [["周围", "周圍", "zhōuwéi", "surroundings"], ["动人", "動人", "dòngrén", "moving"], ["可怕", "可怕", "kěpà", "frightening"], ["肚子", "肚子", "dùzi", "belly"], ["黑暗", "黑暗", "hēi'àn", "darkness"], ["青年", "青年", "qīngnián", "young person"], ["克服", "克服", "kèfú", "to overcome"], ["困难", "困難", "kùnnan", "difficulty"], ["胜利", "勝利", "shènglì", "victory"], ["风景", "風景", "fēngjǐng", "scenery"]], "names": [["日月潭", "日月潭", "Rìyuètán", "Sun Moon Lake"], ["阿里山", "阿里山", "Ālǐshān", "Mount Ali"]], "poems": null},
+    {"n": 8, "s": "望远镜", "t": "望遠鏡", "en": "The Telescope", "chars": [["透", "透", "tòu", "to penetrate"], ["消", "消", "xiāo", "to vanish; news"], ["躺", "躺", "tǎng", "to lie down"], ["整", "整", "zhěng", "whole; tidy"], ["另", "另", "lìng", "another"], ["楚", "楚", "chǔ", "clear"], ["而", "而", "ér", "and; yet"], ["且", "且", "qiě", "moreover"], ["倍", "倍", "bèi", "times; fold"], ["似", "似", "sì", "to seem"], ["乎", "乎", "hū", "(particle)"], ["继", "繼", "jì", "to continue"], ["续", "續", "xù", "to continue"], ["研", "研", "yán", "to research"], ["究", "究", "jiū", "to investigate"], ["军", "軍", "jūn", "army"], ["览", "覽", "lǎn", "to view"]], "words": [["眼镜", "眼鏡", "yǎnjìng", "glasses"], ["门口", "門口", "ménkǒu", "doorway"], ["消息", "消息", "xiāoxi", "news"], ["物理", "物理", "wùlǐ", "physics"], ["清楚", "清楚", "qīngchu", "clear"], ["而且", "而且", "érqiě", "moreover"], ["似乎", "似乎", "sìhū", "it seems"], ["继续", "繼續", "jìxù", "to continue"], ["研究", "研究", "yánjiū", "research"], ["军事", "軍事", "jūnshì", "military affairs"], ["体育", "體育", "tǐyù", "physical education"], ["比赛", "比賽", "bǐsài", "match"], ["文艺", "文藝", "wényì", "literature and art"], ["演出", "演出", "yǎnchū", "performance"], ["游览", "遊覽", "yóulǎn", "to tour"]], "names": [["荷兰", "荷蘭", "Hélán", "Holland"], ["莱茵河", "萊茵河", "Láiyīnhé", "the Rhine"], ["意大利", "意大利", "Yìdàlì", "Italy"], ["伽利略", "伽利略", "Jiālìlüè", "Galileo"]], "poems": null},
+    {"n": 9, "s": "古诗二首", "t": "古詩二首", "en": "Two Ancient Poems", "chars": [["帝", "帝", "dì", "emperor"], ["朝", "朝", "zhāo", "morning"], ["彩", "彩", "cǎi", "colour"], ["还", "還", "huán", "to return"], ["重", "重", "chóng", "layer; again"], ["炉", "爐", "lú", "stove; furnace"], ["紫", "紫", "zǐ", "purple"], ["烟", "煙", "yān", "smoke"], ["遥", "遙", "yáo", "distant"], ["银", "銀", "yín", "silver"]], "words": [], "names": [["庐山", "廬山", "Lúshān", "Mount Lu"]], "poems": [{"s": "早发白帝城", "t": "早發白帝城", "author": "［唐］李白", "lines": [["朝辞白帝彩云间，", "朝辭白帝彩雲間，"], ["千里江陵一日还。", "千里江陵一日還。"], ["两岸猿声啼不住，", "兩岸猿聲啼不住，"], ["轻舟已过万重山。", "輕舟已過萬重山。"]]}, {"s": "望庐山瀑布", "t": "望廬山瀑布", "author": "［唐］李白", "lines": [["日照香炉生紫烟，", "日照香爐生紫煙，"], ["遥看瀑布挂前川。", "遙看瀑布掛前川。"], ["飞流直下三千尺，", "飛流直下三千尺，"], ["疑是银河落九天。", "疑是銀河落九天。"]]}]},
+    {"n": 10, "s": "屈原", "t": "屈原", "en": "Qu Yuan", "chars": [["篇", "篇", "piān", "MW for articles"], ["精", "精", "jīng", "essence; refined"], ["祖", "祖", "zǔ", "ancestor"], ["政", "政", "zhèng", "politics"], ["治", "治", "zhì", "to govern"], ["却", "卻", "què", "but; yet"], ["亡", "亡", "wáng", "to perish"], ["初", "初", "chū", "beginning"], ["投", "投", "tóu", "to throw; to cast"], ["悲", "悲", "bēi", "sorrow"], ["痛", "痛", "tòng", "pain"], ["划", "划", "huá", "to row (a boat)"], ["伤", "傷", "shāng", "to injure"], ["米", "米", "mǐ", "rice"], ["喂", "餵", "wèi", "to feed"], ["端", "端", "duān", "end; upright"]], "words": [["精神", "精神", "jīngshén", "spirit"], ["热爱", "熱愛", "rè'ài", "to love ardently"], ["祖国", "祖國", "zǔguó", "motherland"], ["政治", "政治", "zhèngzhì", "politics"], ["主张", "主張", "zhǔzhāng", "view; to advocate"], ["反对", "反對", "fǎnduì", "to oppose"], ["悲痛", "悲痛", "bēitòng", "grief"], ["寻找", "尋找", "xúnzhǎo", "to search for"]], "names": [["屈原", "屈原", "Qū Yuán", "Qu Yuan"]], "poems": null},
+    {"n": 11, "s": "白衣天使", "t": "白衣天使", "en": "An Angel in White", "chars": [["庭", "庭", "tíng", "courtyard; family"], ["少", "少", "shào", "young"], ["乐", "樂", "yuè", "music"], ["受", "受", "shòu", "to receive"], ["业", "業", "yè", "occupation; study"], ["毕", "畢", "bì", "to finish"], ["战", "戰", "zhàn", "war"], ["领", "領", "lǐng", "to lead"], ["忘", "忘", "wàng", "to forget"], ["尊", "尊", "zūn", "to respect"], ["敬", "敬", "jìng", "to respect"], ["束", "束", "shù", "bundle; to end"], ["贡", "貢", "gòng", "tribute"], ["献", "獻", "xiàn", "to offer"], ["批", "批", "pī", "batch"]], "words": [["家庭", "家庭", "jiātíng", "family"], ["少年", "少年", "shàonián", "youth"], ["时代", "時代", "shídài", "era"], ["音乐", "音樂", "yīnyuè", "music"], ["美术", "美術", "měishù", "fine art"], ["产生", "產生", "chǎnshēng", "to arise"], ["愿望", "願望", "yuànwàng", "wish"], ["痛苦", "痛苦", "tòngkǔ", "suffering"], ["专业", "專業", "zhuānyè", "speciality"], ["毕业", "畢業", "bìyè", "to graduate"], ["战争", "戰爭", "zhànzhēng", "war"], ["战士", "戰士", "zhànshì", "soldier"], ["服务", "服務", "fúwù", "to serve"], ["食物", "食物", "shíwù", "food"], ["尊敬", "尊敬", "zūnjìng", "to respect"], ["结束", "結束", "jiéshù", "to end"], ["突出", "突出", "tūchū", "outstanding"], ["贡献", "貢獻", "gòngxiàn", "contribution"]], "names": [["南丁格尔", "南丁格爾", "Nándīnggé'ěr", "Florence Nightingale"], ["德国", "德國", "Déguó", "Germany"], ["法国", "法國", "Fǎguó", "France"], ["伦敦", "倫敦", "Lúndūn", "London"]], "poems": null},
+    {"n": 12, "s": "聂耳", "t": "聶耳", "en": "Nie Er", "chars": [["曲", "曲", "qǔ", "tune; song"], ["特", "特", "tè", "special"], ["灵", "靈", "líng", "quick; sharp"], ["琴", "琴", "qín", "stringed instrument"], ["疼", "疼", "téng", "to ache; to love dearly"], ["创", "創", "chuàng", "to create"], ["侵", "侵", "qīn", "to invade"], ["省", "省", "shěng", "province"], ["愤", "憤", "fèn", "indignant"], ["义", "義", "yì", "righteousness"], ["勇", "勇", "yǒng", "brave"], ["鼓", "鼓", "gǔ", "drum; to rouse"], ["抗", "抗", "kàng", "to resist"], ["略", "略", "lüè", "to plunder; brief"], ["者", "者", "zhě", "one who"], ["共", "共", "gòng", "together; common"]], "words": [["特别", "特別", "tèbié", "especially"], ["忘记", "忘記", "wàngjì", "to forget"], ["上午", "上午", "shàngwǔ", "morning"], ["白天", "白天", "báitiān", "daytime"], ["创作", "創作", "chuàngzuò", "to create"], ["人民", "人民", "rénmín", "the people"], ["反抗", "反抗", "fǎnkàng", "to resist"], ["侵略", "侵略", "qīnlüè", "aggression"]], "names": [["聂耳", "聶耳", "Niè Ěr", "Nie Er"], ["日本", "日本", "Rìběn", "Japan"], ["东北三省", "東北三省", "Dōngběi Sānshěng", "the Three Northeastern Provinces"], ["田汉", "田漢", "Tián Hàn", "Tian Han"]], "poems": null}
+  ]
+};
+
+/* ============================================================
+   課文正文請貼在這裡（每課一次，貼完就永久內建，不必再貼）
+   用法：把 // 拿掉，把課文放進反引號中間。
+   例：  1: `親愛的爺爺：您好！今天，我收到了您的來信。……`,
+   注意：這是教材出版社的版權內容，僅供自己與家人學習使用，
+        不要把填好課文的版本公開發佈到網路上。
+   ============================================================ */
+/* ============================================================
+   課文正文請貼在這裡（每冊每課一次，貼完就永久內建）
+   例：  4: { 1: `親愛的爺爺：您好！……` },
+   這是教材出版社的版權內容，僅供自己與家人學習使用，
+   不要把填好課文的版本公開發佈到網路上。
+   ============================================================ */
+const LESSON_TEXTS = { 1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{} };
+
+const TOTAL_LESSONS = 12;
+
+/* ---------- 狀態 ---------- */
+let book = 4;             // 3 or 4
+let cur = 0;              // lesson index
+let script = 't';         // 't' 繁 | 's' 简
+let tab = 'read';
+let filter = 'chars';
+let known = {};           // key -> true
+let playing = false, playIdx = 0;
+let readMode = 'sentence';
+let detail = null;
+let bestScores = {};
+
+/* ---------- 錯誤顯示：任何失敗都寫到畫面上，方便回報 ---------- */
+function showErr(msg){
+  const el = document.getElementById('errBar');
+  if(!el) return;
+  el.style.display = 'block';
+  el.textContent = '⚠ ' + msg;
+}
+window.addEventListener('error', e=>{
+  showErr((e.message || 'Script error') + (e.filename ? '' : '（跨網域腳本，多半是 CDN 被擋）'));
+});
+window.addEventListener('unhandledrejection', e=>{
+  showErr('Promise: ' + ((e.reason && e.reason.message) || e.reason));
+});
+
+/* ---------- 儲存（artifact storage，失敗則記憶體） ---------- */
+const mem = {};
+async function store(k, v){
+  try{ if(window.storage){ await window.storage.set(k, JSON.stringify(v)); return; } }catch(e){}
+  mem[k] = v;
+}
+async function fetchVal(k, dflt){
+  try{ if(window.storage){ const r = await window.storage.get(k); if(r&&r.value) return JSON.parse(r.value); } }
+  catch(e){}
+  return (k in mem) ? mem[k] : dflt;
+}
+
+/* ---------- 語音 ---------- */
+let voices = [];
+let unlocked = false;
+function loadVoices(){
+  if(!window.speechSynthesis) return;
+  const v = speechSynthesis.getVoices();
+  if(v && v.length) voices = v;
+  updateDiag();
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+  setTimeout(loadVoices, 300);
+  setTimeout(loadVoices, 1200);
+}
+function zhVoices(){
+  return voices.filter(v => v.lang && v.lang.replace('_','-').toLowerCase().startsWith('zh'));
+}
+function pickVoice(){
+  /* 不可呼叫 loadVoices()：它會觸發 updateDiag()，而 updateDiag() 又會呼叫本函式。
+     Chrome 首次 getVoices() 回空陣列，那樣會無限遞迴。這裡直接補抓即可。 */
+  if(!voices.length && window.speechSynthesis){
+    try{
+      const v = speechSynthesis.getVoices();
+      if(v && v.length) voices = v;
+    }catch(e){}
+  }
+  const want = script==='t' ? ['zh-tw','zh-hk','zh-cn'] : ['zh-cn','zh-tw','zh-hk'];
+  const zh = zhVoices();
+  for(const w of want){
+    const v = zh.find(v => v.lang.replace('_','-').toLowerCase().startsWith(w));
+    if(v) return v;
+  }
+  return zh[0] || null;
+}
+
+/* iOS 不需要預熱：真正的語音本身就會解鎖引擎。
+   關鍵是 cancel() 之後不能立刻 speak()，否則 iOS 會直接丟棄並回報 canceled。 */
+function speak(text, rate, onEnd){
+  if(!window.speechSynthesis){ updateDiag('此瀏覽器不支援語音合成'); if(onEnd)onEnd(); return; }
+  let retried = false;
+
+  const build = ()=>{
+    const u = new SpeechSynthesisUtterance(text);
+    const v = pickVoice();
+    if(v) u.voice = v;
+    u.lang = v ? v.lang : (script==='t' ? 'zh-TW' : 'zh-CN');
+    u.rate = rate || 0.85;
+    u.pitch = 1;
+    u.onstart = ()=>{ unlocked = true; updateDiag(); };
+    u.onend = onEnd || null;
+    u.onerror = (e)=>{
+      const err = (e && e.error) ? e.error : 'unknown';
+      /* canceled / interrupted 是使用者連點造成的正常中斷，重試一次即可 */
+      if((err === 'canceled' || err === 'interrupted') && !retried){
+        retried = true;
+        setTimeout(fire, 200);
+        return;
+      }
+      if(err !== 'canceled' && err !== 'interrupted') updateDiag('播放錯誤：' + err);
+      if(onEnd) onEnd();
+    };
+    return u;
+  };
+
+  const fire = ()=>{
+    try{
+      speechSynthesis.speak(build());
+      setTimeout(()=>{ try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} }, 250);
+    }catch(err){ updateDiag('無法播放：' + err.message); if(onEnd) onEnd(); }
+  };
+
+  if(speechSynthesis.speaking || speechSynthesis.pending){
+    /* 真的需要打斷時才 cancel，並且留一點時間讓 iOS 把佇列清乾淨 */
+    speechSynthesis.cancel();
+    setTimeout(fire, 140);
+  }else{
+    /* 閒置時同步呼叫，保住 iOS 要求的使用者手勢 */
+    fire();
+  }
+}
+
+function stopSpeak(){
+  if(window.speechSynthesis) speechSynthesis.cancel();
+  playing = false; playIdx = 0;
+  const b = document.getElementById('playBtn'); if(b) b.textContent = '\u25b6 播放課文';
+  if(playBtnEl){ playBtnEl.textContent = '\u25b6 播放'; playBtnEl = null; }
+  document.querySelectorAll('.sent.now,.cell.now').forEach(e=>e.classList.remove('now'));
+}
+
+/* ---------- 診斷 ---------- */
+var diagBusy = false;
+function updateDiag(msg){
+  const el = document.getElementById('diag');
+  if(!el || diagBusy) return;
+  diagBusy = true;
+  try{ paintDiag(el, msg); } finally { diagBusy = false; }
+}
+function paintDiag(el, msg){
+  if(!window.speechSynthesis){
+    el.innerHTML = '<b style="color:var(--seal)">此瀏覽器沒有語音合成功能。</b>';
+    return;
+  }
+  const zh = zhVoices();
+  const v = pickVoice();
+  el.innerHTML =
+    '語音引擎 正常　·　可用語音 <b>' + voices.length + '</b> 個　·　中文語音 <b>' + zh.length + '</b> 個<br>' +
+    (v ? '目前使用：<b>' + esc(v.name) + '</b>（' + esc(v.lang) + '）'
+       : '<b style="color:var(--seal)">找不到中文語音</b> — 請到手機「設定 → 輔助使用 → 朗讀內容 → 語音」下載中文語音。') +
+    (msg ? '<br><span style="color:var(--seal)">' + esc(msg) + '</span>' : '');
+}
+
+/* ---------- 繁簡：整個介面（不只課文）跟著開關走 ---------- */
+const T2S = {'倫':'伦','簡':'简','補':'补','魚':'鱼','歲':'岁','衛':'卫','鐘':'钟','價':'价','區':'区','嚴':'严','險':'险','丟':'丢','並':'并','乾':'干','佇':'伫','佈':'布','來':'来','個':'个','們':'们','傳':'传','僅':'仅','儘':'尽','儲':'储','兒':'儿','內':'内','冊':'册','別':'别','則':'则','動':'动','勢':'势','匯':'汇','啟':'启','單':'单','國':'国','圍':'围','圖':'图','報':'报','場':'场','壺':'壶','孫':'孙','學':'学','寫':'写','專':'专','對':'对','屆':'届','層':'层','屬':'属','島':'岛','師':'师','帶':'带','幹':'干','幾':'几','廣':'广','後':'后','從':'从','愛':'爱','態':'态','憶':'忆','應':'应','戲':'戏','換':'换','撈':'捞','敗':'败','斷':'断','於':'于','時':'时','暫':'暂','曉':'晓','書':'书','會':'会','東':'东','棄':'弃','樂':'乐','樓':'楼','標':'标','樣':'样','橋':'桥','機':'机','檔':'档','檢':'检','權':'权','歸':'归','決':'决','沒':'没','淨':'净','測':'测','瀏':'浏','為':'为','無':'无','熱':'热','燈':'灯','燒':'烧','爺':'爷','狀':'状','獅':'狮','獨':'独','現':'现','環':'环','產':'产','畫':'画','當':'当','發':'发','確':'确','碼':'码','種':'种','筆':'笔','節':'节','範':'范','紀':'纪','紙':'纸','級':'级','組':'组','結':'结','給':'给','綠':'绿','網':'网','線':'线','編':'编','練':'练','縣':'县','總':'总','續':'续','習':'习','聞':'闻','聲':'声','聽':'听','與':'与','舊':'旧','華':'华','萬':'万','蓋':'盖','藝':'艺','藥':'药','處':'处','號':'号','裡':'里','製':'制','複':'复','親':'亲','覺':'觉','覽':'览','觀':'观','計':'计','訊':'讯','記':'记','設':'设','診':'诊','詞':'词','試':'试','詩':'诗','話':'话','認':'认','語':'语','誤':'误','說':'说','課':'课','請':'请','謊':'谎','識':'识','譯':'译','護':'护','讀':'读','變':'变','讓':'让','貓':'猫','貼':'贴','資':'资','賽':'赛','車':'车','載':'载','輔':'辅','這':'这','連':'连','進':'进','遊':'游','過':'过','選':'选','還':'还','邊':'边','郵':'邮','鄉':'乡','醫':'医','針':'针','釣':'钓','錄':'录','錢':'钱','錯':'错','鍵':'键','鎖':'锁','鏡':'镜','長':'长','閉':'闭','開':'开','閒':'闲','間':'间','關':'关','隨':'随','離':'离','難':'难','電':'电','響':'响','頁':'页','項':'项','順':'顺','預':'预','領':'领','頭':'头','顆':'颗','題':'题','顯':'显','風':'风','飯':'饭','餘':'余','馬':'马','騙':'骗','驗':'验','體':'体','鳥':'鸟','麗':'丽','麼':'么','點':'点','齊':'齐','齒':'齿','龍':'龙','龜':'龟'};
+/* 逐字轉換救不了的台／陸用語差異，先做詞彙替換再轉字 */
+const PHRASES = [
+  ['程式碼','代码'], ['程式','程序'], ['匯入','导入'], ['匯出','导出'],
+  ['剪貼簿','剪贴板'], ['選單','菜单'], ['檔案','文件'], ['網路','网络'],
+  ['設定','设置'], ['資料','数据'], ['輔助使用','辅助功能'], ['按鈕','按钮'],
+  ['點擊','点击'], ['搜尋','搜索'], ['支援','支持'], ['網頁','网页'], ['簡體','简体'], ['繁體','繁体']
+];
+function tx(str){
+  let x = str;
+  for(const [a,b] of PHRASES){ if(x.indexOf(a) >= 0) x = x.split(a).join(b); }
+  let o = '';
+  for(const c of x) o += (T2S[c] || c);
+  return o;
+}
+
+let localizing = false;
+const SKIP_TAGS = { SCRIPT:1, STYLE:1, TEXTAREA:1, INPUT:1 };
+function localize(){
+  if(!document.body || localizing) return;
+  localizing = true;
+  try{
+    if(!document.createTreeWalker) return;
+    const w = document.createTreeWalker(document.body, (typeof NodeFilter!=='undefined' ? NodeFilter.SHOW_TEXT : 4), null);
+    let n;
+    while((n = w.nextNode())){
+      const par = n.parentNode;
+      if(!par || SKIP_TAGS[par.nodeName]) continue;
+      /* 課文、生字、詩句、遊戲題目都是內容，維持原樣 */
+      if(par.closest && par.closest('[data-noloc]')) continue;
+      if(n.__zh === undefined) n.__zh = n.nodeValue;
+      const want = (script === 's') ? tx(n.__zh) : n.__zh;
+      if(n.nodeValue !== want) n.nodeValue = want;
+    }
+    document.querySelectorAll('[placeholder],[title]').forEach(el=>{
+      ['placeholder','title'].forEach(a=>{
+        if(!el.hasAttribute(a)) return;
+        const k = '__zh_' + a;
+        if(el[k] === undefined) el[k] = el.getAttribute(a);
+        el.setAttribute(a, script === 's' ? tx(el[k]) : el[k]);
+      });
+    });
+  }catch(err){ console.error('localize failed:', err); }
+  localizing = false;
+}
+/* 遊戲畫面等是動態產生的，用 observer 接住，不必逐一補呼叫 */
+function watchDom(){
+  if(!window.MutationObserver) return;
+  new MutationObserver(()=>{ if(!localizing) localize(); })
+    .observe(document.body, { childList:true, subtree:true, characterData:true });
+}
+
+/* ---------- 注音符號：拼音 → ㄅㄆㄇㄈ ---------- */
+const TONE_MAP = {
+  'ā':['a',1],'á':['a',2],'ǎ':['a',3],'à':['a',4],
+  'ō':['o',1],'ó':['o',2],'ǒ':['o',3],'ò':['o',4],
+  'ē':['e',1],'é':['e',2],'ě':['e',3],'è':['e',4],
+  'ī':['i',1],'í':['i',2],'ǐ':['i',3],'ì':['i',4],
+  'ū':['u',1],'ú':['u',2],'ǔ':['u',3],'ù':['u',4],
+  'ǖ':['ü',1],'ǘ':['ü',2],'ǚ':['ü',3],'ǜ':['ü',4],
+  'ń':['n',2],'ň':['n',3],'ǹ':['n',4],'ḿ':['m',2]
+};
+const WHOLE = {
+  zhi:'ㄓ',chi:'ㄔ',shi:'ㄕ',ri:'ㄖ',zi:'ㄗ',ci:'ㄘ',si:'ㄙ',er:'ㄦ',
+  yi:'ㄧ',ya:'ㄧㄚ',ye:'ㄧㄝ',yao:'ㄧㄠ',you:'ㄧㄡ',yan:'ㄧㄢ',yin:'ㄧㄣ',
+  yang:'ㄧㄤ',ying:'ㄧㄥ',yong:'ㄩㄥ',yu:'ㄩ',yue:'ㄩㄝ',yuan:'ㄩㄢ',yun:'ㄩㄣ',
+  wu:'ㄨ',wa:'ㄨㄚ',wo:'ㄨㄛ',wai:'ㄨㄞ',wei:'ㄨㄟ',wan:'ㄨㄢ',wen:'ㄨㄣ',
+  wang:'ㄨㄤ',weng:'ㄨㄥ',
+  a:'ㄚ',o:'ㄛ',e:'ㄜ',ê:'ㄝ',ai:'ㄞ',ei:'ㄟ',ao:'ㄠ',ou:'ㄡ',
+  an:'ㄢ',en:'ㄣ',ang:'ㄤ',eng:'ㄥ',n:'ㄋ',m:'ㄇ',hm:'ㄏㄇ',ng:'ㄫ'
+};
+const INITIALS = [['zh','ㄓ'],['ch','ㄔ'],['sh','ㄕ'],
+  ['b','ㄅ'],['p','ㄆ'],['m','ㄇ'],['f','ㄈ'],['d','ㄉ'],['t','ㄊ'],['n','ㄋ'],['l','ㄌ'],
+  ['g','ㄍ'],['k','ㄎ'],['h','ㄏ'],['j','ㄐ'],['q','ㄑ'],['x','ㄒ'],['r','ㄖ'],
+  ['z','ㄗ'],['c','ㄘ'],['s','ㄙ']];
+const FINALS = {
+  a:'ㄚ',o:'ㄛ',e:'ㄜ',ê:'ㄝ',ai:'ㄞ',ei:'ㄟ',ao:'ㄠ',ou:'ㄡ',
+  an:'ㄢ',en:'ㄣ',ang:'ㄤ',eng:'ㄥ',ong:'ㄨㄥ',er:'ㄦ',
+  i:'ㄧ',ia:'ㄧㄚ',ie:'ㄧㄝ',iao:'ㄧㄠ',iu:'ㄧㄡ',iou:'ㄧㄡ',ian:'ㄧㄢ',in:'ㄧㄣ',
+  iang:'ㄧㄤ',ing:'ㄧㄥ',iong:'ㄩㄥ',
+  u:'ㄨ',ua:'ㄨㄚ',uo:'ㄨㄛ',uai:'ㄨㄞ',ui:'ㄨㄟ',uei:'ㄨㄟ',uan:'ㄨㄢ',
+  un:'ㄨㄣ',uen:'ㄨㄣ',uang:'ㄨㄤ',ueng:'ㄨㄥ',
+  'ü':'ㄩ','üe':'ㄩㄝ','üan':'ㄩㄢ','ün':'ㄩㄣ'
+};
+const TONE_MARK = { 1:'', 2:'ˊ', 3:'ˇ', 4:'ˋ', 5:'˙' };
+
+function toZhuyin(py){
+  if(!py) return '';
+  let tone = 0, base = '';
+  for(const ch of py.toLowerCase()){
+    const t = TONE_MAP[ch];
+    if(t){ base += t[0]; tone = t[1]; }
+    else base += ch;
+  }
+  if(!tone) tone = 5;                    // 沒有聲調符號 = 輕聲
+  base = base.replace(/v/g,'ü').replace(/[^a-zü\u00ea]/g,'');
+  if(!base) return '';
+
+  let core = WHOLE[base];
+  if(!core){
+    let ini = '', rest = base;
+    for(const [k,v] of INITIALS){
+      if(base.startsWith(k)){ ini = v; rest = base.slice(k.length); break; }
+    }
+    // j/q/x/y 後的 u 實為 ü
+    if(/^[jqxy]/.test(base) && rest.startsWith('u')) rest = 'ü' + rest.slice(1);
+    const fin = FINALS[rest];
+    if(!fin) return '';
+    core = ini + fin;
+  }
+  return tone === 5 ? TONE_MARK[5] + core : core + TONE_MARK[tone];
+}
+/* ---------- 標音 ---------- */
+let notation = 'zhuyin';                 /* zhuyin | pinyin | off */
+let notationBy = { t:'zhuyin', s:'pinyin' };   /* 繁簡各記一份 */
+let pinyinOn = true;                     /* = notation !== 'off' */
+
+/* 離線備援：從已內建的生字表湊出單字讀音 */
+const PY_FALLBACK = (function(){
+  const m = {};
+  [3,4].forEach(bk => BOOKS[bk].forEach(l => l.chars.forEach(e=>{
+    if(e[0].length === 1 && !m[e[0]]) m[e[0]] = e[2];
+    if(e[1].length === 1 && !m[e[1]]) m[e[1]] = e[2];
+  })));
+  return m;
+})();
+
+function pyEngine(){
+  return (!window.__noPinyin && window.pinyinPro && window.pinyinPro.pinyin) ? window.pinyinPro.pinyin : null;
+}
+/* 回傳與 text 等長的陣列，非漢字位置留空 */
+function pyFor(text){
+  const out = new Array(text.length).fill('');
+  const eng = pyEngine();
+  if(eng){
+    try{
+      const res = eng(text, { type:'all' });
+      if(Array.isArray(res) && res.length){
+        let idx = 0, hit = 0;
+        for(const it of res){
+          const o = (it && (it.origin || it.char)) || '';
+          const py = (it && it.pinyin) || '';
+          if(!o) continue;
+          const at = text.indexOf(o, idx);
+          if(at < 0) continue;
+          if(py && /[\u4e00-\u9fff]/.test(o)){ out[at] = py; hit++; }
+          idx = at + o.length;
+        }
+        if(hit) return out;
+      }
+    }catch(e){}
+    /* 退一步：逐字查，失去多音字判讀但總比沒有好 */
+    try{
+      for(let i=0;i<text.length;i++){
+        if(!/[\u4e00-\u9fff]/.test(text[i])) continue;
+        out[i] = eng(text[i]) || '';
+      }
+      return out;
+    }catch(e){}
+  }
+  for(let i=0;i<text.length;i++) out[i] = PY_FALLBACK[text[i]] || '';
+  return out;
+}
+function annotOf(py){
+  if(!py) return '';
+  return notation === 'zhuyin' ? (toZhuyin(py) || py) : py;
+}
+/* 詞條（生字卡、詳解、遊戲）用：一定會回傳可讀內容，不受「不標音」影響 */
+function annotFor(e){
+  const py = e[2];
+  if(notation !== 'zhuyin') return py;
+  const txt = e[0];
+  if(txt.length === 1) return toZhuyin(py) || py;
+  const hz = [...txt].filter(c => /[\u4e00-\u9fff]/.test(c));
+  if(!hz.length) return py;
+  const got = pyFor(txt).filter(Boolean).map(x => toZhuyin(x)).filter(Boolean);
+  return got.length === hz.length ? got.join(' ') : (toZhuyin(py) || py);
+}
+function rubyHTML(text){
+  if(notation === 'off'){
+    let out = '';
+    for(const ch of text) out += '<span class="cell punc"><span class="py"></span><span class="hz">' + esc(ch) + '</span></span>';
+    return out;
+  }
+  const py = pyFor(text).map(annotOf);
+  let html = '';
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    const p  = py[i];
+    const hasPy = /[\u4e00-\u9fff]/.test(ch) && p;
+    html += '<span class="cell' + (hasPy ? '' : ' punc') + (notation === 'zhuyin' ? ' zy' : '') + '">'
+          +   '<span class="py">' + (hasPy ? esc(p) : '') + '</span>'
+          +   '<span class="hz">' + esc(ch) + '</span>'
+          + '</span>';
+  }
+  return html;
+}
+let speechRate = 0.55;
+/* 單字獨立唸出來特別短促，再放慢一點 */
+function rateFor(text){
+  return (text && text.length === 1) ? Math.max(0.3, speechRate * 0.82) : speechRate;
+}
+function syncRateUI(){
+  const v = speechRate.toFixed(2).replace(/0$/,'');
+  ['rate','rate2'].forEach(id=>{ const el = document.getElementById(id); if(el) el.value = speechRate; });
+  ['rateLbl','rateLbl2'].forEach(id=>{ const el = document.getElementById(id); if(el) el.textContent = v + '×'; });
+}
+async function onRateInput(v){
+  speechRate = parseFloat(v) || 0.55;
+  syncRateUI();
+  await store('rate', speechRate);
+}
+
+const SIZES = [18, 20, 23, 27, 32];
+let sizeIdx = 1;
+function applySize(){
+  const px = SIZES[sizeIdx] + 'px';
+  ['poemBlock','readOut'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.setProperty('--sent-size', px);
+  });
+}
+async function stepSize(d){
+  sizeIdx = Math.max(0, Math.min(SIZES.length - 1, sizeIdx + d));
+  applySize();
+  await store('size', sizeIdx);
+}
+const NOTATIONS = ['zhuyin', 'pinyin', 'off'];
+const NOTATION_LABEL = { zhuyin:'注音 Zhuyin', pinyin:'拼音 Pinyin', off:'不標音 None' };
+function paintNotationBtn(){
+  const b = document.getElementById('pyBtn');
+  if(b) b.textContent = NOTATION_LABEL[notation];
+}
+function applyNotation(){
+  pinyinOn = notation !== 'off';
+  paintNotationBtn();
+  document.body.classList.toggle('zy-mode', notation === 'zhuyin');
+}
+async function togglePinyin(){
+  notation = NOTATIONS[(NOTATIONS.indexOf(notation) + 1) % NOTATIONS.length];
+  notationBy[script] = notation;
+  applyNotation();
+  await store('notationBy', notationBy);
+  runSteps([renderRead, renderVocab, renderGameMenu, localize]);
+}
+
+/* ---------- 小工具 ---------- */
+const L = () => BOOKS[book][cur];
+const K = (p) => p + ':' + book + ':' + cur;
+const fld = e => script==='t' ? e[1] : e[0];
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function stamp(txt){
+  const el = document.getElementById('stamp');
+  el.textContent = txt; el.classList.remove('go');
+  void el.offsetWidth; el.classList.add('go');
+}
+
+/* =====================  介面  ===================== */
+const APP_TITLE = { t:'小一到小六 學習寶典', s:'中文课本 学习资料' };
+function paintTitle(){
+  const el = document.getElementById('appTitle');
+  if(el) el.textContent = APP_TITLE[script] || APP_TITLE.t;
+  document.title = (APP_TITLE[script] || APP_TITLE.t) + ' · 中文';
+}
+
+const BOOK_LIST = [1, 2, 3, 4, 5, 6];
+const BOOK_CN = { 1:'一', 2:'二', 3:'三', 4:'四', 5:'五', 6:'六' };
+function renderBookPick(){
+  const box = document.getElementById('bookPick');
+  if(!box){ showErr('找不到 #bookPick 元素'); return; }
+  box.innerHTML = '';
+  BOOK_LIST.forEach(n=>{
+    const b = document.createElement('button');
+    b.className = (n === book) ? 'on' : '';
+    b.textContent = BOOK_CN[n];
+    b.title = '第' + BOOK_CN[n] + '冊';
+    b.onclick = ()=>setBook(n);
+    box.appendChild(b);
+  });
+  paintTitle();
+}
+function renderLessons(){
+  const box = document.getElementById('lessons');
+  if(!box){ showErr('找不到 #lessons 元素'); return; }
+  box.innerHTML = '';
+  for(let i=0;i<TOTAL_LESSONS;i++){
+    const ready = i < BOOKS[book].length;
+    const b = document.createElement('button');
+    b.className = 'lchip' + (i===cur ? ' on' : '');
+    b.disabled = !ready;
+    b.innerHTML = '<span class="n">'+(i+1)+'</span>'+esc(ready ? fld([BOOKS[book][i].s, BOOKS[book][i].t]) : '');
+    if(ready) b.onclick = ()=>selectLesson(i);
+    else b.title = '尚未加入';
+    box.appendChild(b);
+  }
+}
+async function setBook(n){
+  if(book === n) return;
+  stopSpeak();
+  book = n; cur = 0;
+  await store('book', n);
+  renderBookPick();
+  await loadLessonState();
+  await refreshAll();
+}
+async function selectLesson(i){
+  stopSpeak();
+  cur = i;
+  await loadLessonState();
+  await refreshAll();
+}
+function runSteps(steps){
+  for(const fn of steps){
+    try{ fn(); }
+    catch(err){
+      console.error(fn.name + ' failed:', err);
+      showErr(fn.name + '() 失敗：' + (err && err.message ? err.message : err));
+    }
+  }
+}
+async function refreshAll(){
+  runSteps([renderBookPick, renderLessons, renderBanner, renderRead, renderVocab, renderGameMenu, localize]);
+}
+function renderBanner(){
+  document.getElementById('lTitle').textContent = fld([L().s, L().t]);
+  document.getElementById('lEn').textContent = L().en;
+}
+function setScript(v){
+  script = v;
+  notation = notationBy[v] || (v === 't' ? 'zhuyin' : 'pinyin');
+  applyNotation();
+  document.getElementById('btnTrad').classList.toggle('on', v==='t');
+  document.getElementById('btnSimp').classList.toggle('on', v==='s');
+  document.documentElement.lang = v==='t' ? 'zh-Hant' : 'zh-Hans';
+  runSteps([paintTitle, renderBanner, renderLessons, renderRead, renderVocab, renderGameMenu, localize]);
+  store('script', v);
+}
+function setTab(t){
+  tab = t; stopSpeak();
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===t));
+  ['read','vocab','game'].forEach(k=>{
+    document.getElementById('tab-'+k).style.display = (k===t) ? '' : 'none';
+  });
+}
+
+/* =====================  跟讀  ===================== */
+function renderRead(){
+  const poems = (L().poems && L().poems.length) ? L().poems : null;
+  document.getElementById('readIntro').innerHTML = poems
+    ? '本課古詩已內建。點單字讀該字，點整行讀整句。<span class="en-note">Poems are built in. Tap a character to hear it, tap a line for the whole line.</span>'
+    : '課文正文屬教材版權內容，未內建。把本課課文貼到下面，按「產生跟讀卡」即可逐句朗讀。<span class="en-note">Paste this lesson\'s text below, then build the cards. Saved per book and per lesson.</span>';
+
+  const db = document.getElementById('demoBtn');
+  const dp = demoPoem();
+  if(db){
+    db.style.display = dp ? '' : 'none';
+    if(dp) db.textContent = '載入示範（' + fld([dp.s, dp.t]) + '）';
+  }
+
+  const pb = document.getElementById('poemBlock');
+  pb.innerHTML = '';
+  (poems || []).forEach(pm=>{
+    const card = document.createElement('div');
+    card.className = 'poemcard';
+    const head = document.createElement('div');
+    head.className = 'poem-head';
+    head.innerHTML = '<span>' + esc(fld([pm.s, pm.t])) +
+                     ' <span class="who">' + esc(pm.author) + '</span></span>';
+    const btn = document.createElement('button');
+    btn.className = 'btn ghost';
+    btn.style.cssText = 'padding:5px 13px;font-size:13px;flex:0 0 auto';
+    btn.textContent = '\u25b6 播放';
+    btn.onclick = ()=>playIn(card, btn);
+    head.appendChild(btn);
+    card.appendChild(head);
+    pm.lines.forEach((ln,i)=> card.appendChild(sentRow(fld([ln[0], ln[1]]), i)));
+    pb.appendChild(card);
+  });
+  buildSentences(true);
+}
+
+let sentences = [];
+function splitText(raw){
+  const out = [];
+  raw.split(/\r?\n+/).forEach(line=>{
+    const t = line.replace(/[ \t\u3000]+/g, '').trim();
+    if(!t) return;
+    if(!/[\u4e00-\u9fff]/.test(t)) return;   /* 拼音行、英文行略過 */
+    let buf = '';
+    for(const ch of t){
+      buf += ch;
+      if('。！？；!?;…'.indexOf(ch) >= 0){ out.push(buf); buf = ''; }
+    }
+    if(buf) out.push(buf);
+  });
+  return out;
+}
+function buildSentences(quiet){
+  const raw = document.getElementById('srcText').value;
+  sentences = raw.trim() ? splitText(raw) : [];
+  const out = document.getElementById('readOut');
+  out.innerHTML = '';
+  sentences.forEach((txt,i)=> out.appendChild(sentRow(txt, i)));
+  const poems = (L().poems && L().poems.length) ? 1 : 0;
+  document.getElementById('playBar').style.display = (sentences.length || poems) ? '' : 'none';
+  document.getElementById('playBtn').style.display = sentences.length ? '' : 'none';
+  if(quiet !== true) store(K('text'), raw);
+  textStat();
+  applySize();
+}
+function textStat(){
+  const el = document.getElementById('textStat');
+  if(!el) return;
+  const raw = document.getElementById('srcText').value.trim();
+  const n = (raw.match(/[\u4e00-\u9fff]/g) || []).length;
+  el.textContent = raw ? ('本課已存 Saved　' + n + ' 字 chars　·　' + splitText(raw).length + ' 句 lines')
+                       : '本課尚未輸入課文　No text for this lesson yet';
+}
+function demoPoem(){
+  const w = BOOKS[book].find(l => l.poems && l.poems.length);
+  return w ? w.poems[0] : null;
+}
+function loadDemo(){
+  const p = demoPoem();
+  if(!p) return;
+  document.getElementById('srcText').value = p.lines.map(ln => fld([ln[0], ln[1]])).join('\n');
+  buildSentences();
+}
+function clearText(){
+  document.getElementById('srcText').value = '';
+  buildSentences();
+}
+function openBulk(){
+  const b = document.getElementById('bulkBox');
+  b.style.display = (b.style.display === 'none') ? '' : 'none';
+}
+async function runBulk(){
+  const raw = document.getElementById('bulkText').value;
+  const msg = document.getElementById('bulkMsg');
+  if(!raw.trim()){ msg.textContent = '還沒有內容。Nothing pasted yet.'; return; }
+  const parts = raw.split(/^[\s]*[#＃]\s*(\d{1,2})[^\n]*$/m);
+  const got = [];
+  for(let i=1; i<parts.length; i+=2){
+    const n = parseInt(parts[i], 10);
+    const body = (parts[i+1] || '').trim();
+    if(n>=1 && n<=TOTAL_LESSONS && body){ await store('text:'+book+':'+(n-1), body); got.push(n); }
+  }
+  if(!got.length){
+    msg.innerHTML = '<span style="color:var(--seal)">找不到 #課號 分隔行。每課前面要單獨一行寫 #1、#2 …' +
+      '<span class="en-note">No #number separator found. Put #1, #2 … on its own line before each lesson.</span></span>';
+    return;
+  }
+  msg.innerHTML = '已匯入第 <b>' + got.join('、') + '</b> 課，共 ' + got.length + ' 課。' +
+    '<span class="en-note">Imported ' + got.length + ' lesson(s) into book ' + book + '.</span>';
+  await loadLessonState();
+  buildSentences(true);
+}
+async function exportAll(){
+  const out = [];
+  for(let i=0;i<TOTAL_LESSONS;i++){
+    const t = await fetchVal('text:'+book+':'+i, '');
+    if(t && t.trim()) out.push('    ' + (i+1) + ': `' + t.trim().replace(/`/g,'\\`') + '`,');
+  }
+  if(!out.length){ alert('目前還沒有任何課文可以匯出。\nNothing to export yet.'); return; }
+  const code = '  ' + book + ': {\n' + out.join('\n') + '\n  },';
+  const ta = document.createElement('textarea');
+  ta.value = code; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+  alert('已複製第 ' + book + ' 冊 ' + out.length + ' 課的程式碼。\n貼進檔案上方 LESSON_TEXTS 裡對應的那一段。\n\n' +
+        'Copied code for ' + out.length + ' lesson(s) of book ' + book + '.\nPaste it into the matching block of LESSON_TEXTS at the top of the file.');
+}
+
+/* 一行 = 一個 row；行內每個字是一個可點的欄 */
+function sentRow(text, i){
+  const row = document.createElement('div');
+  row.className = 'sent' + (pinyinOn ? ' ruby' : '');
+  row.setAttribute('role','button');
+  row.tabIndex = 0;
+  row.dataset.line = text;
+  row.innerHTML = '<span class="idx">' + (i+1) + '</span><span>' + rubyHTML(text) + '</span>';
+  row.addEventListener('click', ev=>{
+    const cell = ev.target.closest ? ev.target.closest('.cell') : null;
+    stopSpeak();
+    if(cell && !cell.classList.contains('punc')){
+      const ch = cell.querySelector('.hz').textContent;
+      cell.classList.add('now');
+      speak(ch, rateFor(ch), ()=>cell.classList.remove('now'));
+    }else{
+      row.classList.add('now');
+      speak(text, rateFor(text), ()=>row.classList.remove('now'));
+    }
+  });
+  return row;
+}
+
+/* 依目前單位收集播放目標 */
+function targetsIn(root){
+  const out = [];
+  root.querySelectorAll('.sent').forEach(row=>{
+    if(readMode === 'char'){
+      row.querySelectorAll('.cell').forEach(c=>{
+        if(c.classList.contains('punc')) return;
+        out.push({ el:c, text:c.querySelector('.hz').textContent });
+      });
+    }else{
+      out.push({ el:row, text:row.dataset.line });
+    }
+  });
+  return out;
+}
+let playBtnEl = null;
+function playIn(root, btn){
+  if(playing){ stopSpeak(); return; }
+  const list = targetsIn(root);
+  if(!list.length) return;
+  playing = true; playIdx = 0; playBtnEl = btn || null;
+  if(btn) btn.textContent = '\u23f8 暫停';
+  stepList(list);
+}
+function stepList(list){
+  if(!playing || playIdx >= list.length){ stopSpeak(); return; }
+  document.querySelectorAll('.sent.now,.cell.now').forEach(e=>e.classList.remove('now'));
+  const t = list[playIdx];
+  t.el.classList.add('now');
+  t.el.scrollIntoView({ block:'center', behavior:'smooth' });
+  speak(t.text, rateFor(t.text), ()=>{
+    playIdx++;
+    setTimeout(()=>stepList(list), readMode === 'char' ? 260 : 380);
+  });
+}
+async function setReadMode(m){
+  readMode = m;
+  await store('readMode', m);
+  document.getElementById('rmSent').classList.toggle('on', m === 'sentence');
+  document.getElementById('rmChar').classList.toggle('on', m === 'char');
+}
+
+/* =====================  生字  ===================== */
+function setFilter(f){ filter = f; renderVocab(); }
+function listOf(f){
+  const l = L();
+  return f==='chars' ? l.chars : f==='words' ? l.words : (l.names||[]);
+}
+function renderVocab(){
+  if(!listOf(filter).length) filter = 'chars';
+  const fb = document.getElementById('filters');
+  const defs = [['chars','生字 Characters'],['words','詞語 Words'],['names','專有名詞 Names']];
+  fb.innerHTML = '';
+  defs.forEach(([k,label])=>{
+    const arr = listOf(k);
+    if(!arr.length) return;
+    const b = document.createElement('button');
+    b.className = 'fchip' + (filter===k ? ' on' : '');
+    b.textContent = label + ' ' + arr.length;
+    b.onclick = ()=>setFilter(k);
+    fb.appendChild(b);
+  });
+
+  const arr = listOf(filter);
+  const kn = arr.filter(e=>known[keyOf(e)]).length;
+  document.getElementById('vCount').textContent = '已學會 Learned ' + kn + ' / ' + arr.length;
+
+  const g = document.getElementById('vGrid');
+  g.innerHTML = '';
+  arr.forEach((e,i)=>{
+    const txt = fld(e);
+    const b = document.createElement('button');
+    b.className = 'gcard' + (txt.length>1 ? ' wide' : '') + (known[keyOf(e)] ? ' known' : '');
+    b.innerHTML = '<span class="hz">'+esc(txt)+'</span><span class="py">'+esc(annotFor(e))+'</span>';
+    b.onclick = ()=>openSheet(filter, i);
+    g.appendChild(b);
+  });
+}
+function keyOf(e){ return e[0]; }
+
+function openSheet(f, i){
+  const e = listOf(f)[i];
+  detail = e;
+  const txt = fld(e);
+  const big = document.getElementById('dBig');
+  big.textContent = txt;
+  big.className = 'big' + (txt.length>1 ? ' multi' : '');
+  big.style.display = '';
+  document.getElementById('strokeBox').innerHTML = '';
+  document.getElementById('dPy').textContent = annotFor(e);
+  document.getElementById('dMean').textContent = e[3];
+  const other = script==='t' ? e[0] : e[1];
+  document.getElementById('dAlt').textContent = (other!==txt) ? (script==='t'?'简体：':'繁體：') + other : '';
+  document.getElementById('dStroke').style.display = (e[0].length===1) ? '' : 'none';
+  document.getElementById('dKnow').textContent = known[keyOf(e)] ? '取消已學會 Unmark' : '標記已學會 Mark known';
+  document.getElementById('sheet').classList.add('open');
+}
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  if(window.speechSynthesis) speechSynthesis.cancel();
+  detail = null;
+}
+function speakCurrent(){ if(detail) speak(detail[0], rateFor(detail[0])); }
+function toggleKnown(){
+  if(!detail) return;
+  const k = keyOf(detail);
+  known[k] = !known[k];
+  if(!known[k]) delete known[k];
+  document.getElementById('dKnow').textContent = known[k] ? '取消已學會 Unmark' : '標記已學會 Mark known';
+  store(K('known'), known);
+  renderVocab();
+}
+function playStroke(){
+  if(!detail || detail[0].length!==1) return;
+  if(typeof HanziWriter === 'undefined' || window.__noStroke){ alert('筆順動畫需要連上網路載入字形資料，離線或沙箱環境無法使用。'); return; }
+  const box = document.getElementById('strokeBox');
+  box.innerHTML = '';
+  document.getElementById('dBig').style.display = 'none';
+  const w = HanziWriter.create(box, detail[0], {
+    width:140, height:140, padding:6,
+    strokeColor:'#17211C', radicalColor:'#B5342B',
+    delayBetweenStrokes:170, strokeAnimationSpeed:1
+  });
+  w.animateCharacter({ onComplete: ()=>{
+    setTimeout(()=>{ box.innerHTML=''; document.getElementById('dBig').style.display=''; }, 900);
+  }});
+}
+
+/* =====================  遊戲  ===================== */
+let gameScope = 'chars';
+function pool(){
+  return listOf(gameScope).filter(e => e[0].length<=3 && e[0].indexOf('…') < 0);
+}
+function scopeLabel(k){
+  return k==='chars' ? '生字 Characters' : k==='words' ? '詞語 Words' : '專有名詞 Names';
+}
+async function setScope(k){
+  gameScope = k;
+  await store('scope', k);
+  renderGameMenu();
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function renderGameMenu(){
+  const zy = notation === 'zhuyin';
+  const gm = document.getElementById('gMatchT');
+  if(gm) gm.innerHTML = (zy ? '配對消消 · 字配注音' : '配對消消 · 字配拼音') +
+    '<span class="en">Match · character to ' + (zy ? 'zhuyin' : 'pinyin') + '</span>';
+  const gq = document.getElementById('gQuizT');
+  if(gq) gq.innerHTML = (zy ? '注音快答' : '拼音快答') +
+    '<span class="en">' + (zy ? 'Zhuyin' : 'Pinyin') + ' quickfire</span>';
+  document.getElementById('gameMenu').style.display = '';
+  document.getElementById('gameArea').style.display = 'none';
+
+  if(!listOf(gameScope).length) gameScope = 'chars';
+
+  const sc = document.getElementById('scopePick');
+  sc.innerHTML = '';
+  ['chars','words','names'].forEach(k=>{
+    const arr = listOf(k);
+    if(!arr.length) return;
+    const b = document.createElement('button');
+    b.className = 'fchip' + (gameScope===k ? ' on' : '');
+    b.textContent = scopeLabel(k) + ' ' + arr.length;
+    b.onclick = ()=>setScope(k);
+    sc.appendChild(b);
+  });
+
+  const n = pool().length;
+  document.querySelectorAll('#gameList button').forEach(btn=>{
+    const need = +btn.dataset.need;
+    const ok = n >= need;
+    btn.disabled = !ok;
+    btn.style.opacity = ok ? '' : '.4';
+    const d = btn.querySelector('.d');
+    d.textContent = ok ? d.dataset.d : ('題目不足 Not enough items：' + n + ' / ' + need);
+  });
+
+  const b = (bestScores['B'+book+'L'+cur] || {})[gameScope] || {};
+  document.getElementById('bestNote').innerHTML =
+    scopeLabel(gameScope) + ' 最佳紀錄　配對 ' + (b.match!=null ? b.match+' 秒' : '—') +
+    '　·　聽音 Listen ' + (b.listen!=null ? b.listen+' 分' : '—') +
+    '　·　快答 Quickfire ' + (b.pinyin!=null ? b.pinyin+' 連對 in a row' : '—');
+}
+function backToMenu(){ stopSpeak(); renderGameMenu(); }
+function saveBest(kind, val, lowerBetter){
+  const key = 'B'+book+'L'+cur;
+  bestScores[key] = bestScores[key] || {};
+  bestScores[key][gameScope] = bestScores[key][gameScope] || {};
+  const slot = bestScores[key][gameScope];
+  const old = slot[kind];
+  if(old==null || (lowerBetter ? val<old : val>old)){ slot[kind] = val; store('best', bestScores); }
+}
+function startGame(kind){
+  document.getElementById('gameMenu').style.display = 'none';
+  const a = document.getElementById('gameArea');
+  a.style.display = '';
+  if(kind==='match') gameMatch(a);
+  if(kind==='listen') gameChoice(a, 'listen');
+  if(kind==='pinyin') gameChoice(a, 'pinyin');
+}
+
+/* --- 配對消消 --- */
+function gameMatch(root){
+  const p = pool();
+  const items = shuffle(p).slice(0, Math.min(6, p.length));
+  let t0 = Date.now(), timer = null, left = items.length, sel = null;
+  root.innerHTML =
+    '<div class="scorebar"><span>剩餘 Left <b id="mLeft">'+left+'</b></span><span>時間 Time <b id="mTime">0</b> s</span>'+
+    '<span style="flex:1"></span><button class="btn ghost" onclick="backToMenu()">結束 Quit</button></div>'+
+    '<div class="mgrid" id="mg"></div>';
+  timer = setInterval(()=>{ document.getElementById('mTime').textContent = Math.round((Date.now()-t0)/1000); }, 500);
+
+  const tiles = [];
+  items.forEach((e,i)=>{ tiles.push({k:i,type:'hz',txt:fld(e),e}); tiles.push({k:i,type:'py',txt:annotFor(e),e}); });
+  const g = document.getElementById('mg');
+  shuffle(tiles).forEach(t=>{
+    const b = document.createElement('button');
+    b.className = 'mtile ' + t.type;
+    b.dataset.noloc = '1';
+    b.textContent = t.txt;
+    b.onclick = ()=>{
+      if(!sel){ sel = {t,b}; b.classList.add('sel'); return; }
+      if(sel.b===b){ b.classList.remove('sel'); sel=null; return; }
+      if(sel.t.k===t.k && sel.t.type!==t.type){
+        speak(t.e[0], rateFor(t.e[0]));   /* 配對成功才發音 */
+        sel.b.classList.add('gone'); b.classList.add('gone'); sel=null;
+        left--; document.getElementById('mLeft').textContent = left;
+        if(left===0){
+          clearInterval(timer);
+          const secs = Math.round((Date.now()-t0)/1000);
+          saveBest('match', secs, true); stamp('好');
+          setTimeout(()=>{
+            root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">全部配對完成！</p>'+
+              '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+secs+' 秒</p>'+
+              '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'match\')">再玩一次 Again</button>'+
+              '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
+          }, 500);
+        }
+      } else {
+        b.classList.add('bad'); sel.b.classList.remove('sel');
+        const bad = b, s = sel; sel = null;
+        setTimeout(()=>bad.classList.remove('bad'), 320);
+      }
+    };
+    g.appendChild(b);
+  });
+}
+
+/* --- 聽音選字 / 拼音快答 --- */
+function gameChoice(root, mode){
+  const all = pool();
+  if(all.length < 4){ root.innerHTML = '<p class="hint">本課題目不足。</p>'; return; }
+  let score = 0, streak = 0, qn = 0;
+  const listen = mode==='listen';
+
+  root.innerHTML =
+    '<div class="scorebar">'+
+      (listen ? '<span>得分 Score <b id="gScore">0</b></span><span>第 <b id="gQn">1</b> 題 / 10</span>'
+              : '<span>連對 Streak <b id="gScore">0</b></span>')+
+    '<span style="flex:1"></span><button class="btn ghost" onclick="backToMenu()">結束 Quit</button></div>'+
+    '<div id="qHost"></div>';
+
+  function next(){
+    qn++;
+    if(listen && qn > 10){ finish(); return; }
+    if(listen) document.getElementById('gQn').textContent = Math.min(qn,10);
+    const opts = [], seenPy = {}, seenHz = {};
+    for(const c of shuffle(all)){
+      const key = annotFor(c);
+      if(seenPy[key] || seenHz[fld(c)]) continue;
+      seenPy[key] = seenHz[fld(c)] = 1; opts.push(c);
+      if(opts.length === 4) break;
+    }
+    const ans = opts[Math.floor(Math.random()*opts.length)];
+    const host = document.getElementById('qHost');
+
+    host.innerHTML = listen
+      ? '<div style="text-align:center;margin:26px 0 6px"><button class="btn seal" id="rep" style="padding:16px 28px;font-size:18px">🔊 再聽一次 Replay</button></div>'+
+        '<p class="hint" style="text-align:center">聽發音，選出正確的字</p><div class="opts" id="opts"></div>'
+      : '<div class="qbig' + (fld(ans).length>1?' small':'') + '" data-noloc>'+esc(fld(ans))+'</div>'+
+        '<p class="hint" style="text-align:center">選出正確的拼音</p><div class="opts" id="opts"></div>';
+
+    if(listen){
+      document.getElementById('rep').onclick = ()=>speak(ans[0], rateFor(ans[0]));
+      setTimeout(()=>speak(ans[0], rateFor(ans[0])), 300);
+    }
+
+    const ob = document.getElementById('opts');
+    opts.forEach(o=>{
+      const b = document.createElement('button');
+      b.className = 'opt' + (listen ? ' hz' : '');
+      b.dataset.noloc = '1';
+      b.textContent = listen ? fld(o) : annotFor(o);
+      b.onclick = ()=>{
+        if(b.dataset.done) return;
+        Array.from(ob.children).forEach(c=>c.dataset.done='1');
+        if(o===ans){
+          b.classList.add('right'); score++; streak++;
+          document.getElementById('gScore').textContent = listen ? score : streak;
+          if(!listen) saveBest('pinyin', streak, false);
+          stamp('對');
+          setTimeout(next, 620);
+        } else {
+          b.classList.add('wrong');
+          Array.from(ob.children).forEach(c=>{ if(c.textContent === (listen?fld(ans):annotFor(ans))) c.classList.add('right'); });
+          if(!listen){
+            setTimeout(()=>{
+              root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">連對中斷</p>'+
+                '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+streak+' 連對</p>'+
+                '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'pinyin\')">再來一次 Again</button>'+
+                '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
+            }, 1100);
+          } else {
+            streak = 0; setTimeout(next, 1100);
+          }
+        }
+      };
+      ob.appendChild(b);
+    });
+  }
+  function finish(){
+    saveBest('listen', score, false);
+    root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">聽音選字結束</p>'+
+      '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+score+' / 10</p>'+
+      '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'listen\')">再來一次 Again</button>'+
+      '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
+  }
+  next();
+}
+
+function testSound(){
+  speak(script==='t' ? '你好，我是中文老師。' : '你好，我是中文老师。', speechRate);
+}
+
+/* =====================  啟動  ===================== */
+async function loadLessonState(){
+  known = await fetchVal(K('known'), {}) || {};
+  const saved = await fetchVal(K('text'), '');
+  const builtin = ((LESSON_TEXTS[book] || {})[cur+1] || '').trim();
+  const el = document.getElementById('srcText');
+  if(el) el.value = saved || builtin || '';
+}
+async function boot(){
+  book = await fetchVal('book', 4);
+  if(!BOOKS[book]) book = 4;
+  renderBookPick();
+  script = await fetchVal('script','t');
+  bestScores = await fetchVal('best', {}) || {};
+  gameScope = await fetchVal('scope', 'chars');
+  const nb = await fetchVal('notationBy', null);
+  if(nb && nb.t && nb.s) notationBy = nb;
+  NOTATIONS.indexOf(notationBy.t) < 0 && (notationBy.t = 'zhuyin');
+  NOTATIONS.indexOf(notationBy.s) < 0 && (notationBy.s = 'pinyin');
+  notation = notationBy[script];
+  applyNotation();
+  await setReadMode(await fetchVal('readMode', 'sentence'));
+  sizeIdx = await fetchVal('size', 1);
+  applySize();
+  speechRate = parseFloat(await fetchVal('rate', 0.55)) || 0.55;
+  syncRateUI();
+  setScript(script);
+  renderLessons(); renderBanner();
+  await loadLessonState();
+  renderRead(); renderVocab(); renderGameMenu();
+  updateDiag();
+  const st = document.getElementById('srcText');
+  st.addEventListener('input', textStat);
+  st.addEventListener('blur', ()=>store(K('text'), st.value));
+  watchDom(); localize();
+  /* 函式庫是 defer 載入的，載完再重畫一次讓拼音補上 */
+  if(window.addEventListener) window.addEventListener('load', ()=>{ if(pyEngine()) renderRead(); });
+
+}
+boot().then(()=>{
+  const nL = document.getElementById('lessons').children.length;
+  const nB = document.getElementById('bookPick').children.length;
+  if(nL === 0 || nB === 0){
+    showErr('畫面沒建立完成：課程鈕 ' + nL + ' 個、冊別鈕 ' + nB + ' 個。請把這行截圖給我。');
+  }
+}).catch(err=>{
+  showErr('啟動失敗 boot(): ' + (err && err.message ? err.message : err));
+});
+</script>
+</body>
+</html>
