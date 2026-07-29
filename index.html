@@ -1460,6 +1460,13 @@ function playRecorded(text, onEnd){
 
 /* ---------- 語音 ---------- */
 let voices = [];
+/* 每次「刻意中斷」語音就加一。speakTTS 會記住自己啟動時的世代，
+   世代對不上就表示中途被使用者停掉了，這時絕不可以自動重播。 */
+let speakEpoch = 0;
+function cancelSpeech(){
+  speakEpoch++;
+  if(window.speechSynthesis) speechSynthesis.cancel();
+}
 let unlocked = false;
 function loadVoices(){
   if(!window.speechSynthesis) return;
@@ -1504,6 +1511,8 @@ function speak(text, rate, onEnd){
 function speakTTS(text, rate, onEnd){
   if(!window.speechSynthesis){ updateDiag('此瀏覽器不支援語音合成'); if(onEnd)onEnd(); return; }
   let retried = false;
+  const myEpoch = speakEpoch;
+  const stillMine = ()=> myEpoch === speakEpoch;
 
   const build = ()=>{
     const u = new SpeechSynthesisUtterance(text);
@@ -1515,7 +1524,7 @@ function speakTTS(text, rate, onEnd){
     let started = false;
     u.onstart = ()=>{ started = true; updateDiag(); };
     setTimeout(()=>{
-      if(started || speechSynthesis.speaking) return;
+      if(started || speechSynthesis.speaking || !stillMine()) return;
       if(!retried){
         /* 有些引擎在慢速下會整句吞掉，用標準速度再試一次 */
         retried = true;
@@ -1537,9 +1546,9 @@ function speakTTS(text, rate, onEnd){
     u.onerror = (e)=>{
       const err = (e && e.error) ? e.error : 'unknown';
       /* canceled / interrupted 是使用者連點造成的正常中斷，重試一次即可 */
-      if((err === 'canceled' || err === 'interrupted') && !retried){
+      if((err === 'canceled' || err === 'interrupted') && !retried && stillMine()){
         retried = true;
-        setTimeout(fire, 200);
+        setTimeout(()=>{ if(stillMine()) fire(); }, 200);
         return;
       }
       if(err !== 'canceled' && err !== 'interrupted') updateDiag('播放錯誤：' + err);
@@ -1567,7 +1576,7 @@ function speakTTS(text, rate, onEnd){
 
 function stopSpeak(){
   stopAudio();
-  if(window.speechSynthesis) speechSynthesis.cancel();
+  cancelSpeech();
   playing = false; playIdx = 0;
   const b = document.getElementById('playBtn'); if(b) b.textContent = '\u25b6 播放課文';
   if(playBtnEl){ playBtnEl.textContent = '\u25b6 播放'; playBtnEl = null; }
@@ -2397,19 +2406,15 @@ function openSheetFor(e){
 }
 
 function renderVocab(){
-  if(filter !== 'radicals' && !listOf(filter).length) filter = 'chars';
+  if(filter !== 'radicals' && filter !== 'chars') filter = 'chars';
   const fb = document.getElementById('filters');
-  /* 「詞語」不再單獨列出——詞語表的內容已經以組詞的形式掛在各個生字底下了。
-     這一格改放「部首」：把本課生字依部首分組，同部首的字排在一起。 */
-  const defs = [['chars','生字 Characters'],['radicals','部首 Radicals'],['names','專有名詞 Names']];
+  /* 篩選鈕只留「生字」和「部首」兩個。
+     詞語與專有名詞不再單獨列出——它們的內容已經以組詞的形式
+     掛在各個生字底下（標籤標「詞」），不需要另開一欄重複呈現。 */
+  const defs = [['chars','生字 Characters'],['radicals','部首 Radicals']];
   const radN = radicalReady() ? lessonRadicals().length : 0;
-  const isRad = (filter === 'radicals');
-  /* 列表＋組詞檢視只對單字有意義，該檢視下只留「生字」 */
-  const listOnlyChars = (vocabView === 'list' && !isRad);
-  if(listOnlyChars) filter = 'chars';
   fb.innerHTML = '';
   defs.forEach(([k,label])=>{
-    if(listOnlyChars && k !== 'chars') return;
     const n = (k === 'radicals') ? radN : listOf(k).length;
     if(!n) return;
     const b = document.createElement('button');
@@ -2566,7 +2571,8 @@ function openSheet(f, i){
 }
 function closeSheet(){
   document.getElementById('sheet').classList.remove('open');
-  if(window.speechSynthesis) speechSynthesis.cancel();
+  stopAudio();
+  cancelSpeech();
   detail = null;
 }
 function speakCurrent(){ if(detail) speak(detail[0], rateFor(detail[0])); }
