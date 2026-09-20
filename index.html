@@ -363,7 +363,11 @@ body.zy-mode .fcard .py{font-family:var(--zy);font-size:19px;letter-spacing:.04e
 .fcard .say{
   position:absolute;right:5px;bottom:5px;z-index:3;width:28px;height:28px;line-height:26px;
   border-radius:50%;border:1px solid var(--line);background:var(--paper-2);font-size:13px;
+  /* 沒翻開時不給按：正面就聽得到發音，等於先把答案給了。
+     pointer-events:none 讓點擊穿透到卡片本身，所以點那裡一樣會翻面。 */
+  opacity:0;pointer-events:none;transition:opacity .2s;
 }
+.fcard.on .say{opacity:1;pointer-events:auto}
 .fone{max-width:290px;margin:0 auto}
 .fone .fcard{aspect-ratio:1/1.15}
 .fone .fcard .hz{font-size:96px}
@@ -1584,9 +1588,18 @@ function speak(text, rate, onEnd){
 }
 function speakTTS(text, rate, onEnd){
   if(!window.speechSynthesis){ updateDiag('此瀏覽器不支援語音合成'); if(onEnd)onEnd(); return; }
+  /* 先打斷還在唸的，而且要用 cancelSpeech（會遞增世代）。
+     用原始的 speechSynthesis.cancel() 的話，被打斷的那一句會收到 canceled、
+     卻仍被判定為「自己還有效」，於是 200ms 後把舊的文字再唸一次——
+     換下一張卡時聽到上一張的聲音就是這樣來的。
+     世代必須在 cancel 之後才取，否則連自己都會被判成過期。 */
+  const busy = speechSynthesis.speaking || speechSynthesis.pending;
+  if(busy) cancelSpeech();
   let retried = false;
   const myEpoch = speakEpoch;
   const stillMine = ()=> myEpoch === speakEpoch;
+  /* 已經被後來的語音取代時，不要再回呼——否則會推進到下一題 */
+  const finish = ()=>{ if(stillMine() && onEnd) onEnd(); };
 
   const build = ()=>{
     const u = new SpeechSynthesisUtterance(text);
@@ -1609,14 +1622,14 @@ function speakTTS(text, rate, onEnd){
           u2.lang = vv ? vv.lang : (script === 't' ? 'zh-TW' : 'zh-CN');
           u2.rate = 1;
           u2.onstart = ()=>updateDiag('慢速播不出來，已改用標準語速。Slow rate failed; using normal speed.');
-          u2.onend = onEnd || null;
+          u2.onend = finish;
           speechSynthesis.speak(u2);
         }catch(e){}
         return;
       }
       updateDiag(voiceHelp());
     }, 1400);
-    u.onend = onEnd || null;
+    u.onend = finish;
     u.onerror = (e)=>{
       const err = (e && e.error) ? e.error : 'unknown';
       /* canceled / interrupted 是使用者連點造成的正常中斷，重試一次即可 */
@@ -1626,7 +1639,7 @@ function speakTTS(text, rate, onEnd){
         return;
       }
       if(err !== 'canceled' && err !== 'interrupted') updateDiag('播放錯誤：' + err);
-      if(onEnd) onEnd();
+      finish();
     };
     return u;
   };
@@ -1635,12 +1648,11 @@ function speakTTS(text, rate, onEnd){
     try{
       speechSynthesis.speak(build());
       setTimeout(()=>{ try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} }, 250);
-    }catch(err){ updateDiag('無法播放：' + err.message); if(onEnd) onEnd(); }
+    }catch(err){ updateDiag('無法播放：' + err.message); finish(); }
   };
 
-  if(speechSynthesis.speaking || speechSynthesis.pending){
-    /* 真的需要打斷時才 cancel，並且留一點時間讓 iOS 把佇列清乾淨 */
-    speechSynthesis.cancel();
+  if(busy){
+    /* 留一點時間讓 iOS 把佇列清乾淨 */
     setTimeout(fire, 140);
   }else{
     /* 閒置時同步呼叫，保住 iOS 要求的使用者手勢 */
@@ -2678,7 +2690,7 @@ function renderFlip(box){
   }
   const tip = document.createElement('p');
   tip.className = 'fhint';
-  tip.textContent = '點卡片翻面　🔊 聽發音　左下角標記已學會';
+  tip.textContent = '點卡片翻面　翻開後可聽發音　左下角標記已學會';
   box.appendChild(tip);
 }
 async function setVocabView(v){
