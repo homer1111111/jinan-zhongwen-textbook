@@ -68,6 +68,13 @@ header{
 
 .lessons{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
 .lessons::-webkit-scrollbar{display:none}
+/* 課次改成換行排列：原本是一列橫向捲動，後面的課被切掉，
+   要先左右滑才點得到，而且沒有捲軸提示。
+   只在夠寬的螢幕換行——手機上 12 課會排成四五列，
+   等於永久吃掉螢幕兩成高度，那裡維持橫向捲動比較好。 */
+@media (min-width:640px){
+  .lessons.wrap{flex-wrap:wrap;overflow-x:visible;row-gap:7px}
+}
 .lchip{
   flex:0 0 auto;padding:5px 12px;border-radius:999px;
   border:1px solid var(--line);background:var(--card);
