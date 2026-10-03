@@ -4,7 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>《中文》第一～六冊 — 跟讀 · 生字 · 遊戲</title>
+<meta name="description" content="暨南大學《中文》第一～六冊的跟讀、生字與遊戲練習。繁簡可切換，拼音注音可切換。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E4E8DC" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#1B221D" media="(prefers-color-scheme:dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="中文課本">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;%3E%3Crect width=&quot;100&quot; height=&quot;100&quot; rx=&quot;20&quot; fill=&quot;%23B5342B&quot;/%3E%3Ctext x=&quot;50&quot; y=&quot;50&quot; font-size=&quot;62&quot; fill=&quot;%23F7F8F2&quot; text-anchor=&quot;middle&quot; dominant-baseline=&quot;central&quot; font-family=&quot;Kaiti TC,STKaiti,serif&quot;%3E%E4%B8%AD%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-web@1.522.0/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@1.501.0/style.css">
 <script src="https://cdn.jsdelivr.net/npm/cnchar@3.2.6/cnchar.min.js" defer
@@ -27,6 +37,37 @@
   --indigo:#35576E;
   --line:#CFD6C6;
 
+  /* ---- surfaces ---- */
+  --card-hi:#FFFFFF;          /* raised / active surface */
+  --line-soft:#DDE3D4;        /* hairline, low emphasis */
+  --line-strong:#B6C2AA;      /* hairline, high emphasis */
+  --seal-wash:rgba(181,52,43,.10);
+  --indigo-wash:rgba(53,87,110,.12);
+
+  /* ---- type scale ----
+     Collapsed from 31 ad-hoc sizes (six of them half-pixel) to 13 steps.
+     Every size previously used maps onto one of these. */
+  --t-3xs:10px; --t-2xs:11px; --t-xs:12px; --t-sm:13px;  --t-md:15px;
+  --t-lg:17px;  --t-xl:20px;  --t-2xl:26px; --t-3xl:30px; --t-4xl:38px;
+  --t-5xl:46px; --t-6xl:76px; --t-7xl:96px;
+
+  /* ---- spacing (4px base) ---- */
+  --s-1:4px;  --s-2:8px;  --s-3:12px; --s-4:16px;
+  --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px;
+
+  /* ---- radius ---- */
+  --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+
+  /* ---- elevation ---- */
+  --e-1:0 1px 2px rgba(23,33,28,.05);
+  --e-2:0 2px 6px rgba(23,33,28,.07), 0 1px 2px rgba(23,33,28,.05);
+  --e-3:0 10px 30px rgba(23,33,28,.13), 0 2px 8px rgba(23,33,28,.07);
+
+  /* ---- motion ---- */
+  --dur-1:120ms; --dur-2:200ms; --dur-3:340ms;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+
   --kai:"LXGW WenKai TC","LXGW WenKai","Kaiti TC","Kaiti SC",STKaiti,"Noto Serif TC","Songti TC",KaiTi,BiauKai,"DFKai-SB",serif;
   --ui:"PingFang TC","Hiragino Sans TC","Noto Sans TC","Microsoft JhengHei UI","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
@@ -38,7 +79,7 @@ body{
   background:var(--paper);
   color:var(--ink);
   font-family:var(--ui);
-  font-size:16px;
+  font-size:var(--t-lg);
   line-height:1.6;
   padding-bottom:env(safe-area-inset-bottom);
 }
@@ -58,12 +99,12 @@ header{
 .hd-books button{min-width:36px}
 .row{row-gap:8px}
 .hd-title{font-family:var(--kai);font-size:clamp(16px,4.4vw,22px);font-weight:700;letter-spacing:.01em}
-.hd-sub{white-space:nowrap;font-size:11px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase;font-family:var(--mono)}
+.hd-sub{white-space:nowrap;font-size:var(--t-2xs);color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase;font-family:var(--mono)}
 .hd-spacer{flex:1}
 .script-toggle{
   display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card);
 }
-.script-toggle button{padding:4px 11px;font-size:13px;font-family:var(--kai);color:var(--ink-soft)}
+.script-toggle button{padding:4px 11px;font-size:var(--t-sm);font-family:var(--kai);color:var(--ink-soft)}
 .script-toggle button.on{background:var(--ink);color:var(--paper)}
 
 .lessons{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
@@ -78,34 +119,34 @@ header{
 .lchip{
   flex:0 0 auto;padding:5px 12px;border-radius:999px;
   border:1px solid var(--line);background:var(--card);
-  font-size:13px;white-space:nowrap;color:var(--ink-soft);
+  font-size:var(--t-sm);white-space:nowrap;color:var(--ink-soft);
 }
-.lchip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-right:5px}
+.lchip .n{font-family:var(--mono);font-size:var(--t-2xs);opacity:.7;margin-right:5px}
 .lchip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .lchip:disabled{opacity:.38;cursor:not-allowed}
 
 /* ---------- lesson banner ---------- */
 .banner{padding:18px 16px 14px}
-.banner h1{margin:0;font-family:var(--kai);font-size:31px;font-weight:700;letter-spacing:.02em}
-.banner .en{margin:4px 0 0;font-size:13px;color:var(--ink-soft);font-style:italic}
+.banner h1{margin:0;font-family:var(--kai);font-size:var(--t-3xl);font-weight:700;letter-spacing:.02em}
+.banner .en{margin:4px 0 0;font-size:var(--t-sm);color:var(--ink-soft);font-style:italic}
 
 /* ---------- tabs ---------- */
 .tabs{display:flex;gap:0;padding:0 16px;border-bottom:1px solid var(--line);background:var(--paper)}
 .tab{
-  padding:10px 0;margin-right:26px;font-family:var(--kai);font-size:17px;
+  padding:10px 0;margin-right:26px;font-family:var(--kai);font-size:var(--t-lg);
   color:var(--ink-soft);border-bottom:2.5px solid transparent;margin-bottom:-1px;
 }
 .tab.on{color:var(--ink);border-bottom-color:var(--seal)}
 .tab{line-height:1.15;text-align:left}
-.tab .en{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+.tab .en{display:block;font-family:var(--mono);font-size:var(--t-3xs);letter-spacing:.06em;
   color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
-.script-toggle button .en{display:block;font-family:var(--mono);font-size:8px;
+.script-toggle button .en{display:block;font-family:var(--mono);font-size:var(--t-3xs);
   letter-spacing:.04em;opacity:.75;margin-top:-1px}
-.pill-label{font-size:10px;font-family:var(--mono);letter-spacing:.1em;
+.pill-label{font-size:var(--t-3xs);font-family:var(--mono);letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-soft);margin-right:7px}
-.en-note{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+.en-note{display:block;font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft);
   margin-top:3px;line-height:1.5;letter-spacing:.01em}
-.gpick .en{display:block;font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);
+.gpick .en{display:block;font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft);
   text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
 main{padding:16px 16px 60px;max-width:760px;margin:0 auto}
 .wrap{max-width:760px;margin-left:auto;margin-right:auto}
@@ -115,11 +156,11 @@ header{overflow-x:hidden}
 .script-toggle{flex:0 0 auto}
 
 /* ---------- generic ---------- */
-.hint{font-size:13px;color:var(--ink-soft);line-height:1.7}
+.hint{font-size:var(--t-sm);color:var(--ink-soft);line-height:1.7}
 .diagbox{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:16px}
 .btn{
   padding:9px 16px;border-radius:8px;background:var(--ink);color:var(--paper);
-  font-size:14px;letter-spacing:.03em;
+  font-size:var(--t-md);letter-spacing:.03em;
 }
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .btn.seal{background:var(--seal);color:#fff}
@@ -127,29 +168,29 @@ header{overflow-x:hidden}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .note{
   border-left:3px solid var(--grid);padding:9px 0 9px 12px;margin:14px 0;
-  font-size:13px;color:var(--ink-soft);line-height:1.7;
+  font-size:var(--t-sm);color:var(--ink-soft);line-height:1.7;
 }
 
 /* ---------- 跟讀 ---------- */
 textarea{
   width:100%;min-height:130px;padding:12px;border:1px solid var(--line);border-radius:10px;
-  background:var(--card);color:var(--ink);font-family:var(--kai);font-size:17px;line-height:2;resize:vertical;
+  background:var(--card);color:var(--ink);font-family:var(--kai);font-size:var(--t-lg);line-height:2;resize:vertical;
 }
-.speedbar{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:13px;color:var(--ink-soft)}
+.speedbar{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:var(--t-sm);color:var(--ink-soft)}
 .speedbar input[type=range]{flex:1;accent-color:var(--seal)}
 .sent{
   display:flex;gap:11px;align-items:flex-start;
   padding:13px 14px;margin-bottom:8px;border-radius:10px;
   background:var(--card);border:1px solid var(--line);
-  font-family:var(--kai);font-size:20px;line-height:1.95;text-align:left;width:100%;
+  font-family:var(--kai);font-size:var(--t-xl);line-height:1.95;text-align:left;width:100%;
 }
-.sent .idx{font-family:var(--mono);font-size:11px;color:var(--ink-soft);padding-top:6px;flex:0 0 auto}
-.sent.now{background:#fff;border-color:var(--seal);box-shadow:0 0 0 2px rgba(181,52,43,.13)}
+.sent .idx{font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft);padding-top:6px;flex:0 0 auto}
+.sent.now{background:var(--card-hi);border-color:var(--seal);box-shadow:0 0 0 2px var(--seal-wash)}
 .cell.now{background:rgba(181,52,43,.16);border-radius:5px}
 .poemcard{border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;margin-bottom:14px;background:rgba(255,255,255,.45)}
-.poem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;font-family:var(--kai);font-size:16px;color:var(--ink)}
-.poem-head .who{font-size:13px;color:var(--ink-soft)}
-.poem{font-family:var(--kai);font-size:20px;line-height:2.2;letter-spacing:.02em}
+.poem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;font-family:var(--kai);font-size:var(--t-lg);color:var(--ink)}
+.poem-head .who{font-size:var(--t-sm);color:var(--ink-soft)}
+.poem{font-family:var(--kai);font-size:var(--t-xl);line-height:2.2;letter-spacing:.02em}
 /* 每個字一欄：拼音在上、漢字在下，兩者各自置中；欄與欄之間留兩個空格的距離 */
 .cell{display:inline-block;vertical-align:top;text-align:center;margin:0 .5em}
 .cell.punc{margin:0}
@@ -162,45 +203,45 @@ body.zy-mode .gcard .py,
 body.zy-mode .d-py,
 body.zy-mode .mtile.py,
 body.zy-mode .opt:not(.hz){font-family:var(--zy);letter-spacing:.02em}
-body.zy-mode .gcard .py{font-size:12px}
+body.zy-mode .gcard .py{font-size:var(--t-xs)}
 .cell .hz{display:block;font-family:var(--kai);line-height:1.35}
 .sent.ruby{line-height:1.2;padding-top:12px;padding-bottom:10px}
 #poemBlock,#readOut{font-size:var(--sent-size,20px)}
 #poemBlock .sent,#readOut .sent{font-size:inherit}
-.poem-head{font-family:var(--kai);font-size:15px;color:var(--ink-soft);margin:20px 0 6px}
+.poem-head{font-family:var(--kai);font-size:var(--t-md);color:var(--ink-soft);margin:20px 0 6px}
 
 /* ---------- 生字 ---------- */
 .filters{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
-.fchip{padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--ink-soft)}
+.fchip{padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:var(--t-sm);color:var(--ink-soft)}
 .fchip.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:9px}
 .gcard{
   position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;
   padding:11px 6px 8px;text-align:center;
 }
-.gcard .hz{font-family:var(--kai);font-size:30px;line-height:1.25;display:block}
-.gcard.wide .hz{font-size:23px}
-.gcard .py{font-family:var(--mono);font-size:11px;color:var(--indigo);margin-top:3px;display:block;word-break:break-all}
-.gcard.known{border-color:var(--seal);background:#fff}
+.gcard .hz{font-family:var(--kai);font-size:var(--t-3xl);line-height:1.25;display:block}
+.gcard.wide .hz{font-size:var(--t-2xl)}
+.gcard .py{font-family:var(--mono);font-size:var(--t-2xs);color:var(--indigo);margin-top:3px;display:block;word-break:break-all}
+.gcard.known{border-color:var(--seal);background:var(--card-hi)}
 .gcard.known::after{
   content:"熟";position:absolute;top:5px;right:5px;
-  width:19px;height:19px;line-height:19px;font-family:var(--kai);font-size:11px;
-  color:#fff;background:var(--seal);border-radius:3px;
+  width:19px;height:19px;line-height:19px;font-family:var(--kai);font-size:var(--t-2xs);
+  color:var(--card-hi);background:var(--seal);border-radius:var(--r-xs);
 }
 .vrow{
   display:flex;gap:12px;align-items:flex-start;padding:11px 12px;margin-bottom:7px;
   border-radius:10px;background:var(--card);border:1px solid var(--line);text-align:left;width:100%;
 }
-.vrow.known{border-color:var(--seal);background:#fff}
-.vrow .vhz{font-family:var(--kai);font-size:30px;line-height:1.1;flex:0 0 auto;min-width:1.3em;text-align:center}
+.vrow.known{border-color:var(--seal);background:var(--card-hi)}
+.vrow .vhz{font-family:var(--kai);font-size:var(--t-3xl);line-height:1.1;flex:0 0 auto;min-width:1.3em;text-align:center}
 .vrow .vmid{flex:0 0 auto;min-width:5.4em}
-.vrow .vpy{font-family:var(--mono);font-size:12px;color:var(--indigo);display:block;word-break:break-all}
-body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
-.vrow .ven{font-size:11.5px;color:var(--ink-soft);display:block;margin-top:2px;line-height:1.4}
-.vrow .vwords{flex:1;font-family:var(--kai);font-size:16px;line-height:1.55}
-.vrow .vwords .none{font-family:var(--ui);font-size:11.5px;color:var(--ink-soft)}
+.vrow .vpy{font-family:var(--mono);font-size:var(--t-xs);color:var(--indigo);display:block;word-break:break-all}
+body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:var(--t-md)}
+.vrow .ven{font-size:var(--t-xs);color:var(--ink-soft);display:block;margin-top:2px;line-height:1.4}
+.vrow .vwords{flex:1;font-family:var(--kai);font-size:var(--t-lg);line-height:1.55}
+.vrow .vwords .none{font-family:var(--ui);font-size:var(--t-xs);color:var(--ink-soft)}
 .vrow .vwords em{font-style:normal;color:var(--seal)}
-.count{font-size:12px;color:var(--ink-soft);font-family:var(--mono);margin-bottom:10px}
+.count{font-size:var(--t-xs);color:var(--ink-soft);font-family:var(--mono);margin-bottom:10px}
 
 /* ---------- detail sheet ---------- */
 .start{
@@ -214,10 +255,10 @@ body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
   font-family:var(--kai);font-size:clamp(22px,6vw,30px);font-weight:700;
   margin:0;letter-spacing:.01em;
 }
-.start .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+.start .sub{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.16em;
   text-transform:uppercase;color:var(--ink-soft);margin:6px 0 2px}
-.start .ask{font-family:var(--kai);font-size:17px;margin:26px 0 12px}
-.start .ask span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+.start .ask{font-family:var(--kai);font-size:var(--t-lg);margin:26px 0 12px}
+.start .ask span{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.08em;
   text-transform:uppercase;color:var(--ink-soft);margin-left:8px}
 .bookgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
 .bookcard{
@@ -226,18 +267,18 @@ body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
 }
 .bookcard:active{transform:translateY(1px)}
 .bookcard .num{
-  font-family:var(--kai);font-size:26px;font-weight:700;line-height:1.1;
+  font-family:var(--kai);font-size:var(--t-2xl);font-weight:700;line-height:1.1;
   display:flex;align-items:baseline;gap:8px;
 }
-.bookcard .num em{font-family:var(--mono);font-size:10px;font-style:normal;
+.bookcard .num em{font-family:var(--mono);font-size:var(--t-3xs);font-style:normal;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
-.bookcard .first{font-family:var(--kai);font-size:14px;color:var(--ink-soft);margin-top:7px}
-.bookcard .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin-top:5px;letter-spacing:.03em}
-.bookcard.cur{border-color:var(--seal);background:#fff}
+.bookcard .first{font-family:var(--kai);font-size:var(--t-md);color:var(--ink-soft);margin-top:7px}
+.bookcard .meta{font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft);margin-top:5px;letter-spacing:.03em}
+.bookcard.cur{border-color:var(--seal);background:var(--card-hi)}
 .bookcard.cur::after{content:"";position:absolute;top:12px;right:12px;
   width:8px;height:8px;border-radius:50%;background:var(--seal)}
 .homebtn{
-  font-family:var(--kai);font-size:12px;padding:3px 10px;border-radius:999px;
+  font-family:var(--kai);font-size:var(--t-xs);padding:3px 10px;border-radius:999px;
   border:1px solid var(--line);background:var(--card);color:var(--ink-soft);margin-right:8px;
 }
 .sheet{
@@ -251,7 +292,7 @@ body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
 }
 .tian{
   width:150px;height:150px;margin:6px auto 14px;position:relative;
-  background:#fff;border:1.5px solid var(--grid);border-radius:3px;
+  background:var(--card-hi);border:1.5px solid var(--grid);border-radius:var(--r-xs);
   display:flex;align-items:center;justify-content:center;
 }
 .tian::before,.tian::after{
@@ -259,12 +300,12 @@ body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
 }
 .tian::before{left:50%;top:0;bottom:0;border-left:1px dashed var(--grid)}
 .tian::after{top:50%;left:0;right:0;border-top:1px dashed var(--grid)}
-.tian .big{font-family:var(--kai);font-size:96px;line-height:1;position:relative;z-index:2}
-.tian .big.multi{font-size:44px;letter-spacing:.04em}
+.tian .big{font-family:var(--kai);font-size:var(--t-7xl);line-height:1;position:relative;z-index:2}
+.tian .big.multi{font-size:var(--t-5xl);letter-spacing:.04em}
 #strokeBox{position:relative;z-index:2}
-.d-py{font-family:var(--mono);font-size:19px;color:var(--indigo);text-align:center;letter-spacing:.04em}
-.d-mean{text-align:center;font-size:15px;color:var(--ink-soft);margin-top:5px}
-.d-alt{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:8px;font-family:var(--kai)}
+.d-py{font-family:var(--mono);font-size:var(--t-xl);color:var(--indigo);text-align:center;letter-spacing:.04em}
+.d-mean{text-align:center;font-size:var(--t-md);color:var(--ink-soft);margin-top:5px}
+.d-alt{text-align:center;font-size:var(--t-xs);color:var(--ink-soft);margin-top:8px;font-family:var(--kai)}
 .d-actions{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
 
 /* ---------- 遊戲 ---------- */
@@ -272,56 +313,56 @@ body.zy-mode .vrow .vpy{font-family:var(--zy);font-size:14px}
 .gpick button{
   text-align:left;padding:15px 16px;background:var(--card);border:1px solid var(--line);border-radius:11px;
 }
-.gpick .t{font-family:var(--kai);font-size:18px}
-.gpick .d{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
-.scorebar{display:flex;gap:16px;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:13px;color:var(--ink-soft)}
-.scorebar b{color:var(--seal);font-size:17px}
+.gpick .t{font-family:var(--kai);font-size:var(--t-lg)}
+.gpick .d{font-size:var(--t-sm);color:var(--ink-soft);margin-top:2px}
+.scorebar{display:flex;gap:16px;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:var(--t-sm);color:var(--ink-soft)}
+.scorebar b{color:var(--seal);font-size:var(--t-lg)}
 .mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .mtile{
   padding:15px 8px;border-radius:10px;background:var(--card);border:1px solid var(--line);
   text-align:center;min-height:60px;display:flex;align-items:center;justify-content:center;
 }
-.mtile.hz{font-family:var(--kai);font-size:26px}
-.mtile.py{font-family:var(--mono);font-size:14px;color:var(--indigo)}
-body.zy-mode .mtile.py{font-size:19px;letter-spacing:.04em}
+.mtile.hz{font-family:var(--kai);font-size:var(--t-2xl)}
+.mtile.py{font-family:var(--mono);font-size:var(--t-md);color:var(--indigo)}
+body.zy-mode .mtile.py{font-size:var(--t-xl);letter-spacing:.04em}
 .mtile.sel{border-color:var(--indigo);box-shadow:0 0 0 2px rgba(53,87,110,.18)}
 .mtile.gone{opacity:.18;pointer-events:none}
 .mtile.bad{border-color:var(--seal);animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .qbig{
-  font-family:var(--kai);font-size:76px;text-align:center;margin:20px 0 6px;line-height:1.1;
+  font-family:var(--kai);font-size:var(--t-6xl);text-align:center;margin:20px 0 6px;line-height:1.1;
 }
-.qbig.small{font-size:42px}
+.qbig.small{font-size:var(--t-5xl)}
 .opts{display:grid;gap:9px;margin-top:16px}
-.opt{padding:14px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-family:var(--mono);font-size:16px;text-align:center}
-.opt.hz{font-family:var(--kai);font-size:26px}
-.opt.right{background:#fff;border-color:var(--seal);color:var(--seal)}
+.opt{padding:14px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-family:var(--mono);font-size:var(--t-lg);text-align:center}
+.opt.hz{font-family:var(--kai);font-size:var(--t-2xl)}
+.opt.right{background:var(--card-hi);border-color:var(--seal);color:var(--seal)}
 .opt.wrong{opacity:.4}
 .mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .memcard{
   aspect-ratio:1/1.15;border-radius:10px;border:1px solid var(--line);
   background:var(--ink);color:var(--paper);display:flex;align-items:center;
   justify-content:center;text-align:center;padding:4px;font-family:var(--kai);
-  font-size:22px;transition:background .15s;
+  font-size:var(--t-xl);transition:background .15s;
 }
 .memcard .face{display:none}
 .memcard.up,.memcard.done{background:var(--card);color:var(--ink);border-color:var(--line)}
 .memcard.up .face,.memcard.done .face{display:block}
 .memcard.up .back,.memcard.done .back{display:none}
 .memcard.done{border-color:var(--seal);opacity:.45}
-.memcard .py{font-family:var(--mono);font-size:13px;color:var(--indigo);line-height:1.3}
-body.zy-mode .memcard .py{font-family:var(--zy);font-size:16px}
+.memcard .py{font-family:var(--mono);font-size:var(--t-sm);color:var(--indigo);line-height:1.3}
+body.zy-mode .memcard .py{font-family:var(--zy);font-size:var(--t-lg)}
 .tonebtns{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:18px}
 .tonebtn{
   padding:14px 4px;border-radius:10px;background:var(--card);border:1px solid var(--line);
-  text-align:center;font-family:var(--kai);font-size:15px;line-height:1.3;
+  text-align:center;font-family:var(--kai);font-size:var(--t-md);line-height:1.3;
 }
-.tonebtn b{display:block;font-size:26px;font-family:var(--mono);color:var(--indigo)}
-.tonebtn.right{background:#fff;border-color:var(--seal)}
+.tonebtn b{display:block;font-size:var(--t-2xl);font-family:var(--mono);color:var(--indigo)}
+.tonebtn.right{background:var(--card-hi);border-color:var(--seal)}
 .tonebtn.right b{color:var(--seal)}
 .tonebtn.wrong{opacity:.35}
 .strokebox{
-  width:220px;height:220px;margin:16px auto;background:#fff;
+  width:220px;height:220px;margin:16px auto;background:var(--card-hi);
   border:1.5px solid var(--grid);border-radius:4px;position:relative;
 }
 .strokebox::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed var(--grid)}
@@ -329,7 +370,7 @@ body.zy-mode .memcard .py{font-family:var(--zy);font-size:16px}
 .stamp{
   position:fixed;top:44%;left:50%;transform:translate(-50%,-50%) rotate(-14deg) scale(.5);
   width:104px;height:104px;border:5px solid var(--seal);border-radius:8px;color:var(--seal);
-  font-family:var(--kai);font-size:36px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--kai);font-size:var(--t-4xl);display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;z-index:80;background:rgba(255,255,255,.82);letter-spacing:.05em;
 }
 .stamp.go{animation:stampIn .65s ease-out}
@@ -349,27 +390,27 @@ body.zy-mode .memcard .py{font-family:var(--zy);font-size:16px}
   display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;
   background:var(--card);border:1px solid var(--line);border-radius:12px;
 }
-.fcard .face.back{transform:rotateY(180deg);background:#fff;border-color:var(--seal)}
+.fcard .face.back{transform:rotateY(180deg);background:var(--card-hi);border-color:var(--seal)}
 .fcard .face.back::before{
   content:"答案";position:absolute;top:5px;left:0;right:0;text-align:center;
-  font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-soft);
+  font-family:var(--mono);font-size:var(--t-3xs);letter-spacing:.12em;color:var(--ink-soft);
 }
-.fone .fcard .face.back::before{font-size:12px;top:10px}
-.fcard .hz{font-family:var(--kai);font-size:38px;line-height:1.2}
-.fcard .hz.multi{font-size:24px}
-.fcard .py{font-family:var(--mono);font-size:15px;color:var(--indigo);word-break:break-all;line-height:1.4}
-body.zy-mode .fcard .py{font-family:var(--zy);font-size:19px;letter-spacing:.04em}
+.fone .fcard .face.back::before{font-size:var(--t-xs);top:10px}
+.fcard .hz{font-family:var(--kai);font-size:var(--t-4xl);line-height:1.2}
+.fcard .hz.multi{font-size:var(--t-2xl)}
+.fcard .py{font-family:var(--mono);font-size:var(--t-md);color:var(--indigo);word-break:break-all;line-height:1.4}
+body.zy-mode .fcard .py{font-family:var(--zy);font-size:var(--t-xl);letter-spacing:.04em}
 .fcard.known .face{border-color:var(--seal)}
 .fcard .mark{
   position:absolute;left:5px;bottom:5px;z-index:3;width:28px;height:28px;line-height:26px;
   border-radius:50%;border:1px solid var(--line);background:var(--paper-2);
-  font-family:var(--kai);font-size:13px;color:var(--ink-soft);
+  font-family:var(--kai);font-size:var(--t-sm);color:var(--ink-soft);
 }
 .fcard.known .mark{background:var(--seal);border-color:var(--seal);color:#fff}
-.fone .fcard .mark{width:36px;height:36px;line-height:34px;font-size:17px;left:9px;bottom:9px}
+.fone .fcard .mark{width:36px;height:36px;line-height:34px;font-size:var(--t-lg);left:9px;bottom:9px}
 .fcard .say{
   position:absolute;right:5px;bottom:5px;z-index:3;width:28px;height:28px;line-height:26px;
-  border-radius:50%;border:1px solid var(--line);background:var(--paper-2);font-size:13px;
+  border-radius:50%;border:1px solid var(--line);background:var(--paper-2);font-size:var(--t-sm);
   /* 沒翻開時不給按：正面就聽得到發音，等於先把答案給了。
      pointer-events:none 讓點擊穿透到卡片本身，所以點那裡一樣會翻面。 */
   opacity:0;pointer-events:none;transition:opacity .2s;
@@ -377,15 +418,186 @@ body.zy-mode .fcard .py{font-family:var(--zy);font-size:19px;letter-spacing:.04e
 .fcard.on .say{opacity:1;pointer-events:auto}
 .fone{max-width:290px;margin:0 auto}
 .fone .fcard{aspect-ratio:1/1.15}
-.fone .fcard .hz{font-size:96px}
-.fone .fcard .hz.multi{font-size:46px}
-.fone .fcard .py{font-size:27px}
-body.zy-mode .fone .fcard .py{font-size:32px}
-.fone .fcard .say{width:36px;height:36px;line-height:34px;font-size:16px;right:9px;bottom:9px}
-.fhint{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:10px}
+.fone .fcard .hz{font-size:var(--t-7xl)}
+.fone .fcard .hz.multi{font-size:var(--t-5xl)}
+.fone .fcard .py{font-size:var(--t-2xl)}
+body.zy-mode .fone .fcard .py{font-size:var(--t-3xl)}
+.fone .fcard .say{width:36px;height:36px;line-height:34px;font-size:var(--t-lg);right:9px;bottom:9px}
+.fhint{text-align:center;font-size:var(--t-xs);color:var(--ink-soft);margin-top:10px}
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* ==========================================================
+   Refinement layer — depth, motion, dark mode, wide screens.
+   Appended last so it overrides the base rules above without
+   touching any existing selector or class name.
+   ========================================================== */
+
+/* ---------- dark mode ---------- */
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#141A16;
+    --paper-2:#1B221D;
+    --card:#212A23;
+    --card-hi:#2B352D;
+    --ink:#E6EBE3;
+    --ink-soft:#9BAA9F;
+    --grid:#4A5A4C;
+    --seal:#EA7870;   /* AA on --card, --paper and --card-hi alike */
+    --indigo:#8FB8D4;
+    --line:#333F36;
+    --line-soft:#2A342C;
+    --line-strong:#4A5A4C;
+    --seal-wash:rgba(234,120,112,.16);
+    --indigo-wash:rgba(143,184,212,.14);
+    --e-1:0 1px 2px rgba(0,0,0,.30);
+    --e-2:0 2px 6px rgba(0,0,0,.36), 0 1px 2px rgba(0,0,0,.28);
+    --e-3:0 10px 30px rgba(0,0,0,.50), 0 2px 8px rgba(0,0,0,.34);
+  }
+  .sheet{background:rgba(0,0,0,.62)}
+  /* 蓋著的牌在深色下若用 --ink 會變成刺眼的亮面，改用中間調 */
+  .memcard{background:var(--grid);color:var(--ink);border-color:var(--line-strong)}
+}
+
+/* ---------- surfaces get real depth ---------- */
+.gcard,.vrow,.sent,.mtile,.opt,.tonebtn,.memcard,.bookcard,
+.gpick button,.poemcard,.diagbox,.fcard .face{box-shadow:var(--e-1)}
+.sheet-in,.start{box-shadow:var(--e-3)}
+.lchip,.fchip,.script-toggle,.homebtn{box-shadow:none}
+
+/* ---------- consistent radii ---------- */
+.gcard,.vrow,.sent,.mtile,.opt,.tonebtn,.memcard,.diagbox,
+textarea,.btn,.fcard .face{border-radius:var(--r-md)}
+.bookcard,.poemcard,.gpick button{border-radius:var(--r-md)}
+.sheet-in{border-radius:var(--r-lg) var(--r-lg) 0 0}
+
+/* ---------- motion: everything interactive responds ---------- */
+.lchip,.fchip,.tab,.btn,.gcard,.vrow,.mtile,.opt,.tonebtn,
+.bookcard,.gpick button,.homebtn,.script-toggle button,.sent{
+  transition:background-color var(--dur-2) var(--ease),
+             border-color var(--dur-2) var(--ease),
+             color var(--dur-2) var(--ease),
+             box-shadow var(--dur-2) var(--ease),
+             transform var(--dur-1) var(--ease);
+}
+@media (hover:hover){
+  .lchip:not(.on):not(:disabled):hover,
+  .fchip:not(.on):hover,
+  .homebtn:hover{border-color:var(--line-strong);background:var(--card-hi)}
+  .gcard:hover,.bookcard:hover,.gpick button:hover,.vrow:hover{
+    box-shadow:var(--e-2);border-color:var(--line-strong);
+  }
+  .mtile:not(.gone):hover,.opt:hover,.tonebtn:hover{
+    box-shadow:var(--e-2);border-color:var(--line-strong);
+  }
+  .tab:not(.on):hover{color:var(--ink)}
+  .btn:hover{box-shadow:var(--e-2)}
+}
+.gcard:active,.bookcard:active,.mtile:active,.opt:active,
+.tonebtn:active,.gpick button:active,.vrow:active{transform:scale(.985)}
+
+/* the active lesson / filter chip should read as selected, not just dark */
+.lchip.on,.fchip.on{box-shadow:var(--e-1)}
+
+/* ---------- header: firmer separation once it sticks ---------- */
+header{
+  /* the blur only does something if the background is translucent;
+     colour-mix keeps the exact paper tone and degrades to opaque
+     on browsers without it. */
+  background:color-mix(in srgb, var(--paper-2) 82%, transparent);
+  backdrop-filter:saturate(1.3) blur(10px);
+  -webkit-backdrop-filter:saturate(1.3) blur(10px);
+  transition:box-shadow var(--dur-2) var(--ease);
+}
+@supports not (backdrop-filter:blur(1px)){
+  header{background:var(--paper-2)}
+}
+header.stuck{box-shadow:var(--e-2)}
+
+/* ---------- tabs: the indicator slides instead of jumping ---------- */
+/* .tab.on outranks .tab, so the original border has to be cleared at the
+   same specificity — otherwise the border and the ::after bar both show. */
+.tab,.tab.on{position:relative;border-bottom-color:transparent}
+.tab::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2.5px;
+  background:var(--seal);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--dur-3) var(--ease-out);
+}
+.tab.on::after{transform:scaleX(1)}
+
+/* ---------- typography: kill the half-pixel sizes ---------- */
+.vrow .ven,.vrow .vwords .none{font-size:var(--t-xs)}
+.gpick .d{font-size:var(--t-sm)}
+.bookcard .meta,.gpick .en{font-size:var(--t-3xs)}
+.tab .en{font-size:var(--t-3xs)}
+.hd-sub,.start .sub{font-size:var(--t-2xs)}
+.count,.scorebar{font-size:var(--t-xs)}
+.hint,.note,.banner .en{font-size:var(--t-sm)}
+
+/* ---------- reading measure & wide screens ---------- */
+main{max-width:min(760px,100%)}
+@media (min-width:900px){
+  main{max-width:860px;padding-left:var(--s-6);padding-right:var(--s-6)}
+  .banner{padding-left:var(--s-6);padding-right:var(--s-6)}
+  .tabs{padding-left:var(--s-6);padding-right:var(--s-6)}
+  .hd-row,.hd-books,.lessons{padding-left:var(--s-6);padding-right:var(--s-6)}
+  .banner h1{font-size:var(--t-3xl)}
+  .gpick{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1200px){
+  main{max-width:1080px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+  /* Two columns for the list view. Rows are independent cards, so a
+     masonry-free column flow keeps reading order top-to-bottom per column
+     and avoids the ragged bottom a grid would give. */
+  #vList{columns:2;column-gap:var(--s-3)}
+  #vList .vrow{break-inside:avoid;-webkit-column-break-inside:avoid;width:100%}
+  /* The radical view keeps one column: its headings group the rows below
+     them, and splitting a group across columns would break that link. */
+  #vRad{columns:1}
+  .bookgrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .mem{grid-template-columns:repeat(6,1fr)}
+}
+@media (min-width:1500px){
+  main{max-width:1180px}
+  #vList{columns:2;column-gap:var(--s-4)}
+}
+
+/* ---------- focus: visible but not ugly ---------- */
+:focus-visible{
+  outline:2.5px solid var(--indigo);outline-offset:3px;
+  border-radius:var(--r-xs);
+}
+
+/* ---------- selection ---------- */
+::selection{background:var(--seal-wash);color:var(--ink)}
+
+/* ---------- respect the user's motion setting ---------- */
+@media (prefers-reduced-motion:reduce){
+  .tab::after{transition:none}
+  .gcard:active,.bookcard:active,.mtile:active,.opt:active,
+  .tonebtn:active,.gpick button:active,.vrow:active{transform:none}
+}
+
+
+/* ---------- touch targets ----------
+   Six controls sat between 25 and 40 px tall. Expanding only the hit
+   area with a pseudo-element would make neighbouring chips overlap and
+   cause mis-taps, so the controls themselves grow instead — on a tool
+   used by a six-year-old a visibly larger target is the better answer. */
+.lchip,.fchip{padding:9px 15px;min-height:40px;display:inline-flex;align-items:center}
+.homebtn{padding:7px 13px;min-height:38px;display:inline-flex;align-items:center}
+.script-toggle button{padding:8px 14px;min-height:40px}
+.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--s-1)}
+.filters{gap:var(--s-2)}
+.lessons{gap:var(--s-2)}
+@media (min-width:640px){ .lessons.wrap{row-gap:var(--s-2)} }
+.fcard .say,.fcard .mark{width:34px;height:34px;line-height:32px}
+.fone .fcard .say,.fone .fcard .mark{width:44px;height:44px;line-height:42px}
+.tab{padding:12px 0}
+
 </style>
 </head>
 <body>
@@ -648,18 +860,18 @@ const BOOKS = {
     {"n":12,"s":"新年到","t":"新年到","en":"New Year Is Here","chars":[["新","新","xīn","new"],["到","到","dào","to arrive"],["祝","祝","zhù","to wish"],["热","熱","rè","hot"],["闹","鬧","nào","noisy; lively"],["衣","衣","yī","clothes"],["戴","戴","dài","to wear (hat etc.)"],["帽","帽","mào","hat"],["身","身","shēn","body"],["体","體","tǐ","body"],["习","習","xí","to practise"]],"words":[["新年","新年","xīnnián","New Year"],["热闹","熱鬧","rènao","lively; bustling"],["大家","大家","dàjiā","everyone"],["身体","身體","shēntǐ","body; health"],["学习","學習","xuéxí","to study; learning"]],"names":[],"poems":null}
   ],
   2: [
-    {"n":1,"s":"在中文学校","t":"在中文學校","en":"At the Chinese School","chars":[["在","在","zài","at; in"],["字","字","zì","character"],["汉","漢","hàn","Han; Chinese"],["语","語","yǔ","language"],["读","讀","dú","to read"],["写","寫","xiě","to write"],["画","畫","huà","to draw; painting"],["歌","歌","gē","song"],["教","教","jiāo","to teach"],["喜","喜","xǐ","to like; joy"],["欢","歡","huān","joyful"]],"words":[["我们","我們","wǒmen","we; us"],["汉语","漢語","Hànyǔ","Chinese language"],["汉字","漢字","Hànzì","Chinese character"],["喜欢","喜歡","xǐhuan","to like"]],"names":[],"poems":null},
-    {"n":2,"s":"教室里","t":"教室裡","en":"In the Classroom","chars":[["教","教","jiào","teaching"],["室","室","shì","room"],["里","裡","lǐ","inside"],["本","本","běn","book; MW"],["笔","筆","bǐ","pen; brush"],["书","書","shū","book"],["讲","講","jiǎng","to speak; to explain"],["那","那","nà","that"],["吗","嗎","ma","(question particle)"],["不","不","bù","not"],["她","她","tā","she; her"],["子","子","zi","(noun suffix)"]],"words":[["教室","教室","jiàoshì","classroom"],["本子","本子","běnzi","notebook"]],"names":[],"poems":null},
-    {"n":3,"s":"放学了","t":"放學了","en":"School Is Over","chars":[["放","放","fàng","to let go; to put"],["今","今","jīn","today; now"],["午","午","wǔ","noon"],["星","星","xīng","star"],["期","期","qī","period; week"],["听","聽","tīng","to listen"],["问","問","wèn","to ask"],["告","告","gào","to tell"],["诉","訴","sù","to tell"],["谁","誰","shéi","who"],["朋","朋","péng","friend"],["友","友","yǒu","friend"],["心","心","xīn","heart"]],"words":[["放学","放學","fàngxué","school lets out"],["今天","今天","jīntiān","today"],["星期","星期","xīngqī","week"],["告诉","告訴","gàosu","to tell"],["下午","下午","xiàwǔ","afternoon"],["朋友","朋友","péngyou","friend"],["开心","開心","kāixīn","happy"]],"names":[],"poems":null},
-    {"n":4,"s":"讲礼貌","t":"講禮貌","en":"Being Polite","chars":[["请","請","qǐng","please"],["谢","謝","xiè","to thank"],["对","對","duì","correct; towards"],["起","起","qǐ","to rise"],["关","關","guān","to close; concern"],["系","係","xì","relation"],["记","記","jì","to remember"],["孩","孩","hái","child"],["没","沒","méi","not have"],["用","用","yòng","to use"],["再","再","zài","again"],["做","做","zuò","to do"]],"words":[["谢谢","謝謝","xièxie","thank you"],["对不起","對不起","duìbuqǐ","sorry"],["没关系","沒關係","méiguānxi","never mind"],["再见","再見","zàijiàn","goodbye"],["孩子","孩子","háizi","child"]],"names":[],"poems":null},
-    {"n":5,"s":"买东西","t":"買東西","en":"Going Shopping","chars":[["买","買","mǎi","to buy"],["卡","卡","kǎ","card"],["果","果","guǒ","fruit"],["蛋","蛋","dàn","egg"],["包","包","bāo","bag; bun"],["给","給","gěi","to give"],["张","張","zhāng","sheet; MW"],["岁","歲","suì","year of age"],["哥","哥","gē","elder brother"],["姐","姐","jiě","elder sister"],["唱","唱","chàng","to sing"],["玩","玩","wán","to play"],["具","具","jù","tool; utensil"],["昨","昨","zuó","yesterday"]],"words":[["东西","東西","dōngxi","thing"],["今年","今年","jīnnián","this year"],["昨天","昨天","zuótiān","yesterday"],["生日","生日","shēngrì","birthday"],["面包","麵包","miànbāo","bread"],["牛奶","牛奶","niúnǎi","milk"],["水果","水果","shuǐguǒ","fruit"],["玩具","玩具","wánjù","toy"],["哥哥","哥哥","gēge","elder brother"],["姐姐","姐姐","jiějie","elder sister"],["唱歌","唱歌","chànggē","to sing"]],"names":[],"poems":null},
-    {"n":6,"s":"我会做的事","t":"我會做的事","en":"Things I Can Do","chars":[["会","會","huì","can; to meet"],["事","事","shì","matter; thing"],["洗","洗","xǐ","to wash"],["拾","拾","shí","to pick up"],["收","收","shōu","to receive; to put away"],["房","房","fáng","room; house"],["间","間","jiān","room; between"],["还","還","hái","still; also"],["可","可","kě","can; may"],["别","別","bié","don't; other"],["饿","餓","è","hungry"]],"words":[["可是","可是","kěshì","but"],["收拾","收拾","shōushi","to tidy up"],["房间","房間","fángjiān","room"],["不少","不少","bùshǎo","quite a few"]],"names":[],"poems":null},
-    {"n":7,"s":"人有两件宝","t":"人有兩件寶","en":"People Have Two Treasures","chars":[["两","兩","liǎng","two"],["件","件","jiàn","item; MW"],["宝","寶","bǎo","treasure"],["双","雙","shuāng","pair"],["脑","腦","nǎo","brain"],["思","思","sī","to think"],["工","工","gōng","work"],["作","作","zuò","to work"],["考","考","kǎo","to test; to ponder"],["得","得","dé","to get"],["又","又","yòu","again; also"],["万","萬","wàn","ten thousand"]],"words":[["工作","工作","gōngzuò","work; job"]],"names":[],"poems":null},
-    {"n":8,"s":"月亮会不会跟人走","t":"月亮會不會跟人走","en":"Does the Moon Follow Us","chars":[["亮","亮","liàng","bright"],["跟","跟","gēn","to follow; with"],["都","都","dōu","all"],["很","很","hěn","very"],["觉","覺","jué","to feel"],["么","麼","me","(suffix)"],["什","什","shén","what"],["为","為","wèi","for; because"],["哪","哪","nǎ","which"],["明","明","míng","bright; next"],["也","也","yě","also"],["远","遠","yuǎn","far"],["地","地","de","(adverbial particle)"]],"words":[["月亮","月亮","yuèliang","the moon"],["为什么","為什麼","wèishénme","why"],["觉得","覺得","juéde","to feel; to think"],["明白","明白","míngbai","to understand"]],"names":[],"poems":null},
-    {"n":9,"s":"为什么","t":"為什麼","en":"Why","chars":[["飞","飛","fēi","to fly"],["动","動","dòng","to move"],["河","河","hé","river"],["湖","湖","hú","lake"],["流","流","liú","to flow"],["光","光","guāng","light"],["时","時","shí","time"],["想","想","xiǎng","to think"],["夜","夜","yè","night"],["游","游","yóu","to swim; to travel"],["长","長","zhǎng","to grow"]],"words":[["夏天","夏天","xiàtiān","summer"],["冬天","冬天","dōngtiān","winter"],["哪里","哪裡","nǎlǐ","where"],["光明","光明","guāngmíng","light; bright"],["大人","大人","dàren","adult"],["这么","這麼","zhème","so; like this"]],"names":[],"poems":null},
-    {"n":10,"s":"春雨","t":"春雨","en":"Spring Rain","chars":[["苗","苗","miáo","sprout"],["芽","芽","yá","bud; sprout"],["树","樹","shù","tree"],["瓜","瓜","guā","melon"],["种","種","zhǒng","seed; kind"],["发","發","fā","to send out; to sprout"],["要","要","yào","to want"],["吧","吧","ba","(final particle)"]],"words":[["种子","種子","zhǒngzi","seed"],["开花","開花","kāihuā","to bloom"]],"names":[],"poems":null},
-    {"n":11,"s":"江河","t":"江河","en":"Rivers","chars":[["江","江","jiāng","large river"],["长","長","cháng","long"],["条","條","tiáo","strip; MW"],["国","國","guó","country"],["华","華","huá","China; splendid"],["古","古","gǔ","ancient"],["从","從","cóng","from"],["母","母","mǔ","mother"],["亲","親","qīn","dear; parent"],["名","名","míng","name"],["叫","叫","jiào","to call"],["它","它","tā","it"],["着","著","zhe","(aspect particle)"],["最","最","zuì","most"]],"words":[["古老","古老","gǔlǎo","ancient"],["名字","名字","míngzi","name"],["母亲","母親","mǔqīn","mother"],["它们","它們","tāmen","they (things)"],["中华","中華","Zhōnghuá","China"]],"names":[["中国","中國","Zhōngguó","China"],["长江","長江","Chángjiāng","the Yangtze"],["黄河","黃河","Huánghé","the Yellow River"]],"poems":null},
-    {"n":12,"s":"放假了","t":"放假了","en":"The Holidays Have Begun","chars":[["假","假","jià","holiday"],["快","快","kuài","fast; happy"],["乐","樂","lè","happy"],["旅","旅","lǚ","travel"],["海","海","hǎi","sea"],["洋","洋","yáng","ocean"],["泳","泳","yǒng","to swim"],["活","活","huó","to live; lively"],["物","物","wù","thing"],["务","務","wù","affair; duty"],["公","公","gōng","public"],["点","點","diǎn","dot; o'clock"],["帮","幫","bāng","to help"],["以","以","yǐ","with; by"]],"words":[["放假","放假","fàngjià","to have a holiday"],["以后","以後","yǐhòu","after; later"],["动物","動物","dòngwù","animal"],["动物园","動物園","dòngwùyuán","zoo"],["海洋","海洋","hǎiyáng","ocean"],["公园","公園","gōngyuán","park"],["游泳","游泳","yóuyǒng","to swim"],["点儿","點兒","diǎnr","a bit"],["快乐","快樂","kuàilè","happy"]],"names":[],"poems":null}
+    {"n":1,"s":"在中文学校","t":"在中文學校","en":"At a Chinese School","chars":[["在","在","zài","at; in"],["教","教","jiāo","to teach"],["汉","漢","hàn","Han; Chinese"],["语","語","yǔ","language"],["写","寫","xiě","to write"],["歌","歌","gē","song"],["画","畫","huà","to draw; painting"]],"words":[["我们","我們","wǒmen","we; us"],["汉语","漢語","hànyǔ","Chinese language"],["汉字","漢字","hànzì","Chinese character"],["唱歌","唱歌","chànggē","to sing"]],"names":[],"poems":null},
+    {"n":2,"s":"我们的教室","t":"我們的教室","en":"Our Classroom","chars":[["这","這","zhè","this"],["又","又","yòu","and; again"],["桌","桌","zhuō","table; desk"],["椅","椅","yǐ","chair"],["很","很","hěn","very"],["讲","講","jiǎng","to speak; to lecture"],["两","兩","liǎng","two; both"],["边","邊","biān","side"],["墙","牆","qiáng","wall"],["着","著","zhe","(aspect particle)"],["图","圖","tú","picture; chart"],["书","書","shū","book"],["角","角","jiǎo","corner; horn"],["看","看","kàn","to look; to read"]],"words":[["教室","教室","jiàoshì","classroom"],["干净","乾淨","gānjìng","clean"],["整齐","整齊","zhěngqí","neat; tidy"],["作品","作品","zuòpǐn","work; piece"],["后边","後邊","hòubian","behind; the back"],["好看","好看","hǎokàn","good-looking"]],"names":[],"poems":null},
+    {"n":3,"s":"开心的一天","t":"開心的一天","en":"A Happy Day","chars":[["星","星","xīng","star"],["期","期","qī","period; term"],["朋","朋","péng","friend"],["友","友","yǒu","friend"],["做","做","zuò","to do; to make"],["客","客","kè","guest"],["午","午","wǔ","noon"],["本","本","běn","book; MW for books"],["玩","玩","wán","to play"],["形","形","xíng","shape; form"],["都","都","dōu","all; both"]],"words":[["开心","開心","kāixīn","happy"],["今天","今天","jīntiān","today"],["朋友","朋友","péngyou","friend"],["上午","上午","shàngwǔ","morning"],["一起","一起","yìqǐ","together"],["游戏","遊戲","yóuxì","game"],["饼干","餅乾","bǐnggān","biscuit; cookie"],["漂亮","漂亮","piàoliang","pretty"]],"names":[],"poems":null},
+    {"n":4,"s":"讲礼貌","t":"講禮貌","en":"Being Polite","chars":[["用","用","yòng","to use"],["记","記","jì","to remember; to note"],["里","裡","lǐ","inside"],["请","請","qǐng","please; to invite"],["谢","謝","xiè","to thank"],["对","對","duì","correct; towards"],["不","不","bù","not"],["没","沒","méi","not have"],["关","關","guān","to close; concern"],["系","係","xì","relation"],["再","再","zài","again"],["孩","孩","hái","child"]],"words":[["心里","心裡","xīnlǐ","in one's heart"],["请坐","請坐","qǐngzuò","please sit"],["谢谢","謝謝","xièxie","thank you"],["对不起","對不起","duìbuqǐ","sorry"],["没关系","沒關係","méiguānxi","it doesn't matter"],["再见","再見","zàijiàn","goodbye"],["孩子","孩子","háizi","child"]],"names":[],"poems":null},
+    {"n":5,"s":"过生日","t":"過生日","en":"Birthday","chars":[["过","過","guò","to pass; to celebrate"],["昨","昨","zuó","yesterday"],["全","全","quán","whole; all"],["会","會","huì","gathering; can"],["吃","吃","chī","to eat"],["菜","菜","cài","dish; vegetable"],["给","給","gěi","to give; for"],["买","買","mǎi","to buy"],["蛋","蛋","dàn","egg"],["送","送","sòng","to give; to see off"],["具","具","jù","tool; utensil"],["龙","龍","lóng","dragon"]],"words":[["生日","生日","shēngrì","birthday"],["昨天","昨天","zuótiān","yesterday"],["准备","準備","zhǔnbèi","to prepare"],["好吃","好吃","hǎochī","tasty"],["水果","水果","shuǐguǒ","fruit"],["可爱","可愛","kě'ài","lovely; cute"],["玩具","玩具","wánjù","toy"],["因为","因為","yīnwèi","because"]],"names":[],"poems":null},
+    {"n":6,"s":"我会做的事","t":"我會做的事","en":"Things I Can Do","chars":[["事","事","shì","matter; thing"],["可","可","kě","but; can"],["别","別","bié","don't; other"],["洗","洗","xǐ","to wash"],["澡","澡","zǎo","bath"],["还","還","hái","also; still"],["收","收","shōu","to collect"],["拾","拾","shí","to pick up; to tidy"],["打","打","dǎ","to hit; to do"],["扫","掃","sǎo","to sweep"],["猫","貓","māo","cat"],["饿","餓","è","hungry"],["喂","餵","wèi","to feed"]],"words":[["可是","可是","kěshì","but"],["洗澡","洗澡","xǐzǎo","to take a bath"],["收拾","收拾","shōushi","to tidy up"],["打扫","打掃","dǎsǎo","to clean; to sweep"],["不少","不少","bùshǎo","quite a few"]],"names":[],"poems":null},
+    {"n":7,"s":"红绿灯","t":"紅綠燈","en":"Traffic Light","chars":[["红","紅","hóng","red"],["绿","綠","lǜ","green"],["灯","燈","dēng","lamp; light"],["街","街","jiē","street"],["道","道","dào","road; way"],["长","長","cháng","long"],["交","交","jiāo","to hand over; to cross"],["通","通","tōng","to go through"],["忙","忙","máng","busy"],["往","往","wǎng","towards; to go"],["弟","弟","dì","younger brother"],["拉","拉","lā","to pull"],["停","停","tíng","to stop"],["快","快","kuài","fast"]],"words":[["红绿灯","紅綠燈","hónglǜdēng","traffic light"],["街道","街道","jiēdào","street"],["交通","交通","jiāotōng","traffic"],["通畅","通暢","tōngchàng","unobstructed"],["弟弟","弟弟","dìdi","younger brother"],["拉手","拉手","lāshǒu","to hold hands"],["上学","上學","shàngxué","to go to school"],["看见","看見","kànjiàn","to see"]],"names":[],"poems":null},
+    {"n":8,"s":"去书店","t":"去書店","en":"Going to the Bookstore","chars":[["店","店","diàn","shop"],["带","帶","dài","to bring; to take"],["区","區","qū","area; zone"],["那","那","nà","that"],["拿","拿","ná","to take; to hold"],["奇","奇","qí","strange; wonderful"],["他","他","tā","he; him"],["点","點","diǎn","dot; o'clock"],["该","該","gāi","should"],["回","回","huí","to return"],["饭","飯","fàn","rice; meal"],["吧","吧","ba","(suggestion particle)"],["付","付","fù","to pay"],["钱","錢","qián","money"]],"words":[["书店","書店","shūdiàn","bookstore"],["故事","故事","gùshi","story"],["还有","還有","háiyǒu","and also"],["科学","科學","kēxué","science"],["后来","後來","hòulái","afterwards"],["回家","回家","huíjiā","to go home"],["吃饭","吃飯","chīfàn","to eat a meal"],["有意思","有意思","yǒuyìsi","interesting"]],"names":[["神奇校车","神奇校車","Shénqí Xiàochē","The Magic School Bus"]],"poems":null},
+    {"n":9,"s":"在医院里","t":"在醫院裡","en":"In the Hospital","chars":[["医","醫","yī","medicine; doctor"],["院","院","yuàn","courtyard; institution"],["得","得","de","(degree particle)"],["急","急","jí","urgent; anxious"],["病","病","bìng","illness"],["要","要","yào","to want; must"],["药","藥","yào","medicine"],["就","就","jiù","then; at once"],["听","聽","tīng","to listen"],["话","話","huà","words; speech"],["放","放","fàng","to put; to release"],["完","完","wán","to finish"],["睡","睡","shuì","to sleep"],["觉","覺","jué","to feel; sleep"]],"words":[["发烧","發燒","fāshāo","to run a fever"],["体温","體溫","tǐwēn","body temperature"],["医生","醫生","yīshēng","doctor"],["检查","檢查","jiǎnchá","to examine"],["感冒","感冒","gǎnmào","to catch a cold"],["休息","休息","xiūxi","to rest"],["放心","放心","fàngxīn","to feel at ease"],["觉得","覺得","juéde","to feel"]],"names":[],"poems":null},
+    {"n":10,"s":"春雨","t":"春雨","en":"Spring Rain","chars":[["滴","滴","dī","drop; to drip"],["答","答","dá","to answer"],["发","發","fā","to send out; to sprout"],["芽","芽","yá","sprout"],["苗","苗","miáo","seedling"],["种","種","zhòng","to plant"]],"words":[["下雨","下雨","xiàyǔ","to rain"],["种子","種子","zhǒngzi","seed"],["发芽","發芽","fāyá","to sprout"],["长大","長大","zhǎngdà","to grow up"],["开花","開花","kāihuā","to bloom"]],"names":[],"poems":null},
+    {"n":11,"s":"青蛙写诗","t":"青蛙寫詩","en":"The Frog Writes Poems","chars":[["青","青","qīng","green; blue"],["诗","詩","shī","poem"],["沙","沙","shā","sand"],["草","草","cǎo","grass"],["当","當","dāng","to act as"],["号","號","hào","mark; number"],["能","能","néng","can; able"],["句","句","jù","sentence"],["串","串","chuàn","string; cluster"],["以","以","yǐ","with; by"],["省","省","shěng","to save; province"],["成","成","chéng","to become"]],"words":[["青蛙","青蛙","qīngwā","frog"],["雨点儿","雨點兒","yǔdiǎnr","raindrop"],["水草","水草","shuǐcǎo","water plants"],["逗号","逗號","dòuhào","comma"],["句号","句號","jùhào","full stop"],["水珠","水珠","shuǐzhū","drop of water"],["可以","可以","kěyǐ","may; can"]],"names":[],"poems":null},
+    {"n":12,"s":"江河","t":"江河","en":"Rivers","chars":[["江","江","jiāng","river"],["河","河","hé","river"],["古","古","gǔ","ancient"],["国","國","guó","country"],["条","條","tiáo","MW for long things"],["它","它","tā","it"],["名","名","míng","name"],["最","最","zuì","most"],["亲","親","qīn","close; parent"],["从","從","cóng","from"],["流","流","liú","to flow"],["华","華","huá","China; splendid"]],"words":[["古老","古老","gǔlǎo","ancient"],["中国","中國","Zhōngguó","China"],["名字","名字","míngzi","name"],["它们","它們","tāmen","they (things)"],["中华","中華","Zhōnghuá","China; Chinese"],["大地","大地","dàdì","the earth"]],"names":[["中国","中國","Zhōngguó","China"],["长江","長江","Chángjiāng","the Yangtze"],["黄河","黃河","Huánghé","the Yellow River"]],"poems":null}
   ],
   3: [
     {"n":1,"s":"红绿灯","t":"紅綠燈","en":"Traffic Lights","chars":[["灯","燈","dēng","lamp; light"],["街","街","jiē","street"],["道","道","dào","road; way"],["宽","寬","kuān","wide"],["交","交","jiāo","to hand over; to cross"],["通","通","tōng","to go through"],["忙","忙","máng","busy"],["往","往","wǎng","towards"],["弟","弟","dì","younger brother"],["妹","妹","mèi","younger sister"],["拉","拉","lā","to pull"],["停","停","tíng","to stop"]],"words":[["街道","街道","jiēdào","street"],["交通","交通","jiāotōng","traffic"],["真是","真是","zhēnshì","really is"],["弟弟","弟弟","dìdi","younger brother"],["妹妹","妹妹","mèimei","younger sister"],["一起","一起","yìqǐ","together"],["看见","看見","kànjiàn","to see"]],"names":[],"poems":null},
@@ -882,22 +1094,16 @@ const LESSON_TEXTS = {
 大家祝我學習好。` },
   },
   2: {
-    1: { s: `我在中文学校学习。老师教我们说汉语，写汉字，读儿歌，画画儿。我喜欢学中文。`,
-         t: `我在中文學校學習。老師教我們說漢語，寫漢字，讀兒歌，畫畫兒。我喜歡學中文。` },
-    2: { s: `方方：这是你的书吗？
-冬冬：这不是我的书。这是云云的书。
-方方：那是她的笔和本子吗？
-冬冬：是她的。
-方方：你在家里讲中文吗？
-冬冬：我在家里讲中文。爸爸、妈妈喜欢和我讲中文。`,
-         t: `方方：這是你的書嗎？
-冬冬：這不是我的書。這是雲雲的書。
-方方：那是她的筆和本子嗎？
-冬冬：是她的。
-方方：你在家裡講中文嗎？
-冬冬：我在家裡講中文。爸爸、媽媽喜歡和我講中文。` },
-    3: { s: `今天星期五，放学了，爸爸在车上告诉我：“下午有一个小朋友来我们家。”我问：“他是谁？”爸爸说：“是云云。”云云是我的好朋友，我听了，真开心。`,
-         t: `今天星期五，放學了，爸爸在車上告訴我：「下午有一個小朋友來我們家。」我問：「他是誰？」爸爸說：「是雲雲。」雲雲是我的好朋友，我聽了，真開心。` },
+    1: { s: `我在中文学校学习。老师教我们说汉语、写汉字、唱歌、画画儿。
+我喜欢学中文。`,
+         t: `我在中文學校學習。老師教我們說漢語、寫漢字、唱歌、畫畫兒。
+我喜歡學中文。` },
+    2: { s: `这是我们的教室。教室又大又干净，桌椅很整齐，前面是讲台，两边的墙上贴着同学们的作品。教室后边有一个图书角，有很多好看的中文书。`,
+         t: `這是我們的教室。教室又大又乾淨，桌椅很整齊，前面是講台，兩邊的牆上貼著同學們的作品。教室後邊有一個圖書角，有很多好看的中文書。` },
+    3: { s: `今天是星期六，我的好朋友云云来我家做客。上午，我们一起看绘本、玩游戏、画画儿。下午，妈妈教我们烤饼干，云云做的是方形的，我做的是圆形的，都很漂亮。
+这一天，我真开心！`,
+         t: `今天是星期六，我的好朋友雲雲來我家做客。上午，我們一起看繪本、玩遊戲、畫畫兒。下午，媽媽教我們烤餅乾，雲雲做的是方形的，我做的是圓形的，都很漂亮。
+這一天，我真開心！` },
     4: { s: `小朋友，讲礼貌，
 礼貌用语记心里。
 “你好！”
@@ -916,62 +1122,55 @@ const LESSON_TEXTS = {
 「沒關係。」
 「再見！」
 做個有禮貌的好孩子。` },
-    5: { s: `今年我六岁了，昨天是我的生日，我们一家去买东西。妈妈给我买了蛋糕、面包、牛奶和水果。爸爸给我买了笔、本子和我喜欢的玩具。哥哥和姐姐给我买了一张生日卡。我们一起唱生日歌，这一天，我真高兴。`,
-         t: `今年我六歲了，昨天是我的生日，我們一家去買東西。媽媽給我買了蛋糕、麵包、牛奶和水果。爸爸給我買了筆、本子和我喜歡的玩具。哥哥和姐姐給我買了一張生日卡。我們一起唱生日歌，這一天，我真高興。` },
+    5: { s: `昨天是九月十五日，我七岁生日，全家人为我准备了一个热闹的生日会。妈妈为我做了一桌子好吃的菜，爸爸给我买了一个水果蛋糕，哥哥和姐姐送给我一个可爱的玩具龙，因为我属龙。我们一起唱生日歌，开心极了！`,
+         t: `昨天是九月十五日，我七歲生日，全家人為我準備了一個熱鬧的生日會。媽媽為我做了一桌子好吃的菜，爸爸給我買了一個水果蛋糕，哥哥和姐姐送給我一個可愛的玩具龍，因為我屬龍。我們一起唱生日歌，開心極了！` },
     6: { s: `我是一个小学生，
-可是你别说我小。
-我会收拾小房间，
-还会洗衣和洗澡。
+可是你别说我小，
+我会洗澡和洗衣，
+还会收拾和打扫。
 小猫饿了我会喂，
 我会做的事真不少。`,
          t: `我是一個小學生，
-可是你別說我小。
-我會收拾小房間，
-還會洗衣和洗澡。
+可是你別說我小，
+我會洗澡和洗衣，
+還會收拾和打掃。
 小貓餓了我會餵，
 我會做的事真不少。` },
-    7: { s: `人有两件宝，双手和大脑。
-双手会做工，大脑会思考。
-用手不用脑，工作做不好。
-用脑不用手，万事做不到。
-用手又用脑，事事做得好。`,
-         t: `人有兩件寶，雙手和大腦。
-雙手會做工，大腦會思考。
-用手不用腦，工作做不好。
-用腦不用手，萬事做不到。
-用手又用腦，事事做得好。` },
-    8: { s: `一天，方方问爸爸：“我走，月亮也走。月亮为什么跟人走？”爸爸说：“月亮很高很远，人在哪儿都能看得见，你才会觉得月亮跟人走。”方方高兴地说：“我有点儿明白了。”`,
-         t: `一天，方方問爸爸：「我走，月亮也走。月亮為什麼跟人走？」爸爸說：「月亮很高很遠，人在哪兒都能看得見，你才會覺得月亮跟人走。」方方高興地說：「我有點兒明白了。」` },
-    9: { s: `夏天时，冬天在哪里？
-冬天时，夏天在哪里？
-天亮时，黑夜在哪里？
-天黑时，光明在哪里？
+    7: { s: `街道宽，交通真是忙，
+好在有了红绿灯，
+人人来往很通畅。
 
-为什么河水会流动？
-为什么湖水又不流？
-为什么鸟儿不在水中飞？
-为什么鱼儿不在天上游？
+弟弟拉妹妹手，
+上学走到街道口，
+看见红灯停一停，
+看见绿灯快快走。`,
+         t: `街道寬，交通真是忙，
+好在有了紅綠燈，
+人人來往很通暢。
 
-为什么？为什么？
-大人都这么说：
-“你长大了会明白。”
-可是我天天都在心里想。`,
-         t: `夏天時，冬天在哪裡？
-冬天時，夏天在哪裡？
-天亮時，黑夜在哪裡？
-天黑時，光明在哪裡？
-
-為什麼河水會流動？
-為什麼湖水又不流？
-為什麼鳥兒不在水中飛？
-為什麼魚兒不在天上游？
-
-為什麼？為什麼？
-大人都這麼說：
-「你長大了會明白。」
-可是我天天都在心裡想。` },
+弟弟拉妹妹手，
+上學走到街道口，
+看見紅燈停一停，
+看見綠燈快快走。` },
+    8: { s: `星期天，爸爸带我去书店。
+书店的书可真多！爸爸去看大人的书，我去了儿童区。那儿有故事书、漫画书，还有很多科学书和历史书。
+我拿了一本《神奇校车》看了起来。后来，爸爸来叫我。他说：“快十二点了，该回家吃饭了。”我说：“爸爸，这本书很有意思！买一本吧！”爸爸同意了。
+他付了钱，我拿着新买的书，高高兴兴地回家了。`,
+         t: `星期天，爸爸帶我去書店。
+書店的書可真多！爸爸去看大人的書，我去了兒童區。那兒有故事書、漫畫書，還有很多科學書和歷史書。
+我拿了一本《神奇校車》看了起來。後來，爸爸來叫我。他說：「快十二點了，該回家吃飯了。」我說：「爸爸，這本書很有意思！買一本吧！」爸爸同意了。
+他付了錢，我拿著新買的書，高高興興地回家了。` },
+    9: { s: `我发烧了，烧得很厉害，爸爸妈妈很着急，急忙带我去看病。
+到了医院，护士给我量了体温，医生给我做完检查，说：“只是感冒了，不要紧，好好儿休息，吃点儿药就会好的。”
+听了医生的话，爸爸妈妈都放心了。爸爸付完钱，我们一起去拿药。
+回家后，我吃完药睡了一觉，出了一身汗，觉得好多了。`,
+         t: `我發燒了，燒得很厲害，爸爸媽媽很著急，急忙帶我去看病。
+到了醫院，護士給我量了體溫，醫生給我做完檢查，說：「只是感冒了，不要緊，好好兒休息，吃點兒藥就會好的。」
+聽了醫生的話，爸爸媽媽都放心了。爸爸付完錢，我們一起去拿藥。
+回家後，我吃完藥睡了一覺，出了一身汗，覺得好多了。` },
     10: { s: `滴答，滴答，
-下雨了，下雨了。
+下雨了，
+下雨了。
 种子说：
 “下吧，下吧，我要发芽。”
 禾苗说：
@@ -980,9 +1179,11 @@ const LESSON_TEXTS = {
 “下吧，下吧，我要开花。”
 小朋友说：
 “下吧，下吧，我要种瓜。”
-滴答，滴答，下雨了，下雨了。`,
+滴答，滴答，
+下雨了，下雨了。`,
           t: `滴答，滴答，
-下雨了，下雨了。
+下雨了，
+下雨了。
 種子說：
 「下吧，下吧，我要發芽。」
 禾苗說：
@@ -991,8 +1192,33 @@ const LESSON_TEXTS = {
 「下吧，下吧，我要開花。」
 小朋友說：
 「下吧，下吧，我要種瓜。」
-滴答，滴答，下雨了，下雨了。` },
-    11: { s: `古老的中国有一条江，
+滴答，滴答，
+下雨了，下雨了。` },
+    11: { s: `下雨了，
+雨点儿淅沥沥，沙啦啦。
+青蛙说：
+“我要写诗啦！”
+水草中的小蝌蚪说：
+“我来当个小逗号。”
+池塘里的小水泡说：
+“我能当个小句号。”
+荷叶上的一串水珠说：
+“我们可以当省略号。”
+青蛙的诗写成了：
+“呱呱，呱呱，呱呱呱，呱呱，呱呱，呱呱呱。”`,
+          t: `下雨了，
+雨點兒淅瀝瀝，沙啦啦。
+青蛙說：
+「我要寫詩啦！」
+水草中的小蝌蚪說：
+「我來當個小逗號。」
+池塘裡的小水泡說：
+「我能當個小句號。」
+荷葉上的一串水珠說：
+「我們可以當省略號。」
+青蛙的詩寫成了：
+「呱呱，呱呱，呱呱呱，呱呱，呱呱，呱呱呱。」` },
+    12: { s: `古老的中国有一条江，
 它的名字叫长江。
 古老的中国有一条河，
 它的名字叫黄河。
@@ -1012,18 +1238,6 @@ const LESSON_TEXTS = {
 哺育著中華大地。
 我們愛長江，
 我們愛黃河。` },
-    12: { s: `老师：要放假了。放假以后，你们想去哪儿？
-明明：我想跟爸爸、妈妈去中国旅游。
-方方：我想去动物园。
-亮亮：我想去海洋公园游泳。
-云云：我哪儿都不去，想帮妈妈做点儿家务活儿。
-老师：祝你们假期快乐。`,
-          t: `老師：要放假了。放假以後，你們想去哪兒？
-明明：我想跟爸爸、媽媽去中國旅遊。
-方方：我想去動物園。
-亮亮：我想去海洋公園游泳。
-雲雲：我哪兒都不去，想幫媽媽做點兒家務活兒。
-老師：祝你們假期快樂。` },
   },
   3: {
     1: { s: `街道宽，街道长，
@@ -1778,7 +1992,7 @@ function paintDiag(el, msg){
 }
 
 /* ---------- 繁簡：整個介面（不只課文）跟著開關走 ---------- */
-const T2S = {'倫':'伦','簡':'简','補':'补','魚':'鱼','歲':'岁','衛':'卫','鐘':'钟','價':'价','區':'区','嚴':'严','險':'险','丟':'丢','並':'并','乾':'干','佇':'伫','佈':'布','來':'来','個':'个','們':'们','傳':'传','僅':'仅','儘':'尽','儲':'储','兒':'儿','內':'内','冊':'册','別':'别','則':'则','動':'动','勢':'势','匯':'汇','啟':'启','單':'单','國':'国','圍':'围','圖':'图','報':'报','場':'场','壺':'壶','孫':'孙','學':'学','寫':'写','專':'专','對':'对','屆':'届','層':'层','屬':'属','島':'岛','師':'师','帶':'带','幹':'干','幾':'几','廣':'广','後':'后','從':'从','愛':'爱','態':'态','憶':'忆','應':'应','戲':'戏','換':'换','撈':'捞','敗':'败','斷':'断','於':'于','時':'时','暫':'暂','曉':'晓','書':'书','會':'会','東':'东','棄':'弃','樂':'乐','樓':'楼','標':'标','樣':'样','橋':'桥','機':'机','檔':'档','檢':'检','權':'权','歸':'归','決':'决','沒':'没','淨':'净','測':'测','瀏':'浏','為':'为','無':'无','熱':'热','燈':'灯','燒':'烧','爺':'爷','狀':'状','獅':'狮','獨':'独','現':'现','環':'环','產':'产','畫':'画','當':'当','發':'发','確':'确','碼':'码','種':'种','筆':'笔','節':'节','範':'范','紀':'纪','紙':'纸','級':'级','組':'组','結':'结','給':'给','綠':'绿','網':'网','線':'线','編':'编','練':'练','縣':'县','總':'总','續':'续','習':'习','聞':'闻','聲':'声','聽':'听','與':'与','舊':'旧','華':'华','萬':'万','蓋':'盖','藝':'艺','藥':'药','處':'处','號':'号','裡':'里','製':'制','複':'复','親':'亲','覺':'觉','覽':'览','觀':'观','計':'计','訊':'讯','記':'记','設':'设','診':'诊','詞':'词','試':'试','詩':'诗','話':'话','認':'认','語':'语','誤':'误','說':'说','課':'课','請':'请','謊':'谎','識':'识','譯':'译','護':'护','讀':'读','變':'变','讓':'让','貓':'猫','貼':'贴','資':'资','賽':'赛','車':'车','載':'载','輔':'辅','這':'这','連':'连','進':'进','遊':'游','過':'过','選':'选','還':'还','邊':'边','郵':'邮','鄉':'乡','醫':'医','針':'针','釣':'钓','錄':'录','錢':'钱','錯':'错','鍵':'键','鎖':'锁','鏡':'镜','長':'长','閉':'闭','開':'开','閒':'闲','間':'间','關':'关','隨':'随','離':'离','難':'难','電':'电','響':'响','頁':'页','項':'项','順':'顺','預':'预','領':'领','頭':'头','顆':'颗','題':'题','顯':'显','風':'风','飯':'饭','餘':'余','馬':'马','騙':'骗','驗':'验','體':'体','鳥':'鸟','麗':'丽','麼':'么','點':'点','齊':'齐','齒':'齿','龍':'龙','龜':'龟','暢':'畅','視':'视','漿':'浆','簾':'帘','築':'筑','鋪':'铺','鋤':'锄','鯉':'鲤','備':'备','撿':'捡','暉':'晖','髮':'发','復':'复','禮':'礼','鯊':'鲨','鯨':'鲸','維':'维','納':'纳','濺':'溅','辭':'辞','盡':'尽','曆':'历','譽':'誉','鬥':'斗','傑':'杰','頌':'颂','謎':'谜','鶯':'莺','蹤':'踪','勵':'励','駕':'驾','閃':'闪','鳴':'鸣','劉':'刘','籠':'笼','賀':'贺','鬢':'鬓','貝':'贝','銘':'铭','參':'参','擴':'扩','懷':'怀','贏':'赢','緊':'紧','盧':'卢','崙':'仑','蘇':'苏','奮':'奋','騰':'腾','霧':'雾','獎':'奖','轉':'转','團':'团','賓':'宾','揚':'扬','歐':'欧','減':'减','桿':'杆','劃':'划','輸':'输','評':'评','堅':'坚','導':'导','絲':'丝','週':'周','購':'购','約':'约','營':'营','灘':'滩','帳':'帐','統':'统','騎':'骑','積':'积','艷':'艳','徑':'径','聯':'联','餃':'饺','螞':'蚂','蟻':'蚁',
+const T2S = {'倫':'伦','簡':'简','補':'补','魚':'鱼','歲':'岁','衛':'卫','鐘':'钟','價':'价','區':'区','嚴':'严','險':'险','丟':'丢','並':'并','乾':'干','佇':'伫','佈':'布','來':'来','個':'个','們':'们','傳':'传','僅':'仅','儘':'尽','儲':'储','兒':'儿','內':'内','冊':'册','別':'别','則':'则','動':'动','勢':'势','匯':'汇','啟':'启','單':'单','國':'国','圍':'围','圖':'图','報':'报','場':'场','壺':'壶','孫':'孙','學':'学','寫':'写','專':'专','對':'对','屆':'届','層':'层','屬':'属','島':'岛','師':'师','帶':'带','幹':'干','幾':'几','廣':'广','後':'后','從':'从','愛':'爱','態':'态','憶':'忆','應':'应','戲':'戏','換':'换','撈':'捞','敗':'败','斷':'断','於':'于','時':'时','暫':'暂','曉':'晓','書':'书','會':'会','東':'东','棄':'弃','樂':'乐','樓':'楼','標':'标','樣':'样','橋':'桥','機':'机','檔':'档','檢':'检','權':'权','歸':'归','決':'决','沒':'没','淨':'净','測':'测','瀏':'浏','為':'为','無':'无','熱':'热','燈':'灯','燒':'烧','爺':'爷','狀':'状','獅':'狮','獨':'独','現':'现','環':'环','產':'产','畫':'画','當':'当','發':'发','確':'确','碼':'码','種':'种','筆':'笔','節':'节','範':'范','紀':'纪','紙':'纸','級':'级','組':'组','結':'结','給':'给','綠':'绿','網':'网','線':'线','編':'编','練':'练','縣':'县','總':'总','續':'续','習':'习','聞':'闻','聲':'声','聽':'听','與':'与','舊':'旧','華':'华','萬':'万','蓋':'盖','藝':'艺','藥':'药','處':'处','號':'号','裡':'里','製':'制','複':'复','親':'亲','覺':'觉','覽':'览','觀':'观','計':'计','訊':'讯','記':'记','設':'设','診':'诊','詞':'词','試':'试','詩':'诗','話':'话','認':'认','語':'语','誤':'误','說':'说','課':'课','請':'请','謊':'谎','識':'识','譯':'译','護':'护','讀':'读','變':'变','讓':'让','貓':'猫','貼':'贴','資':'资','賽':'赛','車':'车','載':'载','輔':'辅','這':'这','連':'连','進':'进','遊':'游','過':'过','選':'选','還':'还','邊':'边','郵':'邮','鄉':'乡','醫':'医','針':'针','釣':'钓','錄':'录','錢':'钱','錯':'错','鍵':'键','鎖':'锁','鏡':'镜','長':'长','閉':'闭','開':'开','閒':'闲','間':'间','關':'关','隨':'随','離':'离','難':'难','電':'电','響':'响','頁':'页','項':'项','順':'顺','預':'预','領':'领','頭':'头','顆':'颗','題':'题','顯':'显','風':'风','飯':'饭','餘':'余','馬':'马','騙':'骗','驗':'验','體':'体','鳥':'鸟','麗':'丽','麼':'么','點':'点','齊':'齐','齒':'齿','龍':'龙','龜':'龟','暢':'畅','視':'视','漿':'浆','簾':'帘','築':'筑','鋪':'铺','鋤':'锄','鯉':'鲤','備':'备','撿':'捡','暉':'晖','髮':'发','復':'复','禮':'礼','鯊':'鲨','鯨':'鲸','維':'维','納':'纳','濺':'溅','辭':'辞','盡':'尽','曆':'历','譽':'誉','鬥':'斗','傑':'杰','頌':'颂','謎':'谜','鶯':'莺','蹤':'踪','餅':'饼','掃':'扫','繪':'绘','誼':'谊','厲':'厉','瀝':'沥','勵':'励','駕':'驾','閃':'闪','鳴':'鸣','劉':'刘','籠':'笼','賀':'贺','鬢':'鬓','貝':'贝','銘':'铭','參':'参','擴':'扩','懷':'怀','贏':'赢','緊':'紧','盧':'卢','崙':'仑','蘇':'苏','奮':'奋','騰':'腾','霧':'雾','獎':'奖','轉':'转','團':'团','賓':'宾','揚':'扬','歐':'欧','減':'减','桿':'杆','劃':'划','輸':'输','評':'评','堅':'坚','導':'导','絲':'丝','週':'周','購':'购','約':'约','營':'营','灘':'滩','帳':'帐','統':'统','騎':'骑','積':'积','艷':'艳','徑':'径','聯':'联','餃':'饺','螞':'蚂','蟻':'蚁',
 /* 以下 186 字為補齊：原表缺漏，介面繁轉簡時會漏字。
    「著」刻意不收 - 著(正在)->着 與 著名->著名 相衝，需看語境。 */
 '雲':'云','蟲':'虫','紅':'红','藍':'蓝','黃':'黄','見':'见','興':'兴','媽':'妈','園':'园','門':'门','陽':'阳','鬧':'闹','漢':'汉','歡':'欢','講':'讲','嗎':'吗','問':'问','訴':'诉','誰':'谁','謝':'谢','係':'系','買':'买','張':'张','麵':'面','餓':'饿','兩':'两','寶':'宝','雙':'双','腦':'脑','遠':'远','飛':'飞','樹':'树','條':'条','務':'务','幫':'帮','寬':'宽','溫':'温','隻':'只','採':'采','勞':'劳','飄':'飘','滿':'满','鹽':'盐','爭':'争','嘗':'尝','鹹':'咸','涼':'凉','靜':'静','舉':'举','渙':'涣','鸛':'鹳','氣':'气','衝':'冲','烏':'乌','經':'经','宮':'宫','頤':'颐','壽':'寿','廳':'厅','爾':'尔','曬':'晒','尋':'寻','淺':'浅','該':'该','辦':'办','掛':'挂','剛':'刚','擡':'抬','農':'农','盤':'盘','紳':'绅','聰':'聪','裝':'装','嚇':'吓','驚':'惊','塊':'块','勁':'劲','數':'数','極':'极','彎':'弯','圓':'圆','蘋':'苹','豐':'丰','傘':'伞','葉':'叶','細':'细','員':'员','實':'实','類':'类','夢':'梦','達':'达','顏':'颜','許':'许','館':'馆','鮮':'鲜','湯':'汤','雞':'鸡','飽':'饱','頓':'顿','闊':'阔','擋':'挡','錶':'表','談':'谈','輛':'辆','髒':'脏','輕':'轻','壞':'坏','撲':'扑','運':'运','準':'准','夠':'够','終':'终','喪':'丧','劍':'剑','趕':'赶','臨':'临','縫':'缝','遲':'迟','絕':'绝','滅':'灭','歷':'历','榮':'荣','強':'强','僑':'侨','賣':'卖','幣':'币','楊':'杨','偉':'伟','奧':'奥','聯':'联','灣':'湾','費':'费','聶':'聂','勝':'胜','稱':'称','牆':'墙','殺':'杀','搖':'摇','讚':'赞','沖':'冲','討':'讨','論':'论','窮':'穷','適':'适','綱':'纲','寧':'宁','術':'术','壯':'壮','莊':'庄','臘':'腊','羅':'罗','瞭':'了','賞':'赏','慶':'庆','貴':'贵','擔':'担','雖':'虽','養':'养','糧':'粮','鑽':'钻','願':'愿','須':'须','鄰':'邻','勸':'劝','倆':'俩','繼':'继','軍':'军','蘭':'兰','萊':'莱','爐':'炉','煙':'烟','遙':'遥','銀':'银','廬':'庐','卻':'却','傷':'伤','餵':'喂','業':'业','畢':'毕','戰':'战','貢':'贡','獻':'献','靈':'灵','創':'创','憤':'愤','義':'义'};
@@ -4307,18 +4521,157 @@ const TEXT_PHRASES = {
          ["出生","出生","d"],["一点儿也没有","一點兒也沒有","d"]]
   },
   2: {
-    1: [["中文学校","中文學校","k"],["学中文","學中文","k"],["学习","學習","k"],["教我们","教我們","k"],["说汉语","說漢語","k"],["写汉字","寫漢字","k"],["读儿歌","讀兒歌","k"],["儿歌","兒歌","k"],["画画儿","畫畫兒","k"],["在家","在家","d"],["在学校","在學校","d"],["在花园","在花園","d"],["教汉语","教漢語","d"],["教汉字","教漢字","d"],["写字","寫字","d"],["写一写","寫一寫","d"],["读书","讀書","d"],["读一读","讀一讀","d"],["画一画","畫一畫","d"],["画太阳","畫太陽","d"],["画小鸟","畫小鳥","d"],["画红花","畫紅花","d"],["山水画儿","山水畫兒","d"],["年画儿","年畫兒","d"],["喜欢写字","喜歡寫字","d"],["喜欢说汉语","喜歡說漢語","d"],["喜欢去学校","喜歡去學校","d"],["喜欢学中文","喜歡學中文","k"]],
-    2: [["教室里","教室裡","d"],["家里","家裡","k"],["学校里","學校裡","d"],["花园里","花園裡","d"],["山里","山裡","d"],["水里","水裡","d"],["风里","風裡","d"],["雨里","雨裡","d"],["云里","雲裡","d"],["中文书","中文書","d"],["不来","不來","d"],["不好","不好","d"],["不喜欢","不喜歡","d"],["那个同学","那個同學","d"],["那本书","那本書","d"],["红笔","紅筆","d"],["黑笔","黑筆","d"],["我的笔","我的筆","d"],["他的笔","他的筆","d"],["本子","本子","d"],["书本","書本","d"],["一本书","一本書","d"],["讲一讲","講一講","d"],["讲中文","講中文","k"],["讲汉语","講漢語","d"]],
-    3: [["放学了","放學了","k"],["好朋友","好朋友","k"],["放学","放學","k"],["今天","今天","k"],["今年","今年","d"],["星期","星期","d"],["星期日","星期日","d"],["星期天","星期天","d"],["星期一","星期一","d"],["星期二","星期二","d"],["星期三","星期三","d"],["星期四","星期四","d"],["星期五","星期五","k"],["星期六","星期六","d"],["告诉","告訴","k"],["上午","上午","d"],["中午","中午","d"],["下午","下午","k"],["朋友","朋友","k"],["小朋友","小朋友","k"],["新朋友","新朋友","d"],["老朋友","老朋友","d"],["问一问","問一問","d"],["问方向","問方向","d"],["问老师","問老師","d"],["谁的书","誰的書","d"],["谁的车","誰的車","d"],["谁的本子","誰的本子","d"],["谁的笔","誰的筆","d"],["听说","聽說","d"],["听写","聽寫","d"],["听一听","聽一聽","d"],["听歌","聽歌","d"],["开心","開心","k"],["放心","放心","d"],["心里","心裡","d"],["好心","好心","d"],["爱心","愛心","d"]],
-    4: [["用笔","用筆","d"],["用本子","用本子","d"],["用心","用心","d"],["记下来","記下來","d"],["记一记","記一記","d"],["日记","日記","d"],["笔记本","筆記本","d"],["请坐","請坐","k"],["请问","請問","d"],["请上车","請上車","d"],["请说中文","請說中文","d"],["谢谢","謝謝","k"],["谢谢爸爸","謝謝爸爸","d"],["谢谢妈妈","謝謝媽媽","d"],["谢谢老师","謝謝老師","d"],["对不起","對不起","k"],["没关系","沒關係","k"],["没有","沒有","d"],["没去","沒去","d"],["没说","沒說","d"],["没走","沒走","d"],["没教","沒教","d"],["没看","沒看","d"],["没做","沒做","d"],["再见","再見","k"],["再来","再來","d"],["再去","再去","d"],["做朋友","做朋友","d"],["做老师","做老師","d"],["做学生","做學生","d"],["做好孩子","做好孩子","d"],["孩子","孩子","k"],["小孩子","小孩子","d"],["好孩子","好孩子","k"]],
-    5: [["买面包","買面包","d"],["买水果","買水果","d"],["买牛奶","買牛奶","d"],["买书","買書","d"],["买笔","買筆","d"],["买本子","買本子","d"],["买玩具","買玩具","d"],["五岁","五歲","d"],["六岁","六歲","k"],["前天","前天","d"],["昨天","昨天","k"],["今天","今天","d"],["后天","後天","d"],["给我","給我","k"],["给老师","給老師","d"],["给奶奶","給奶奶","d"],["书包","書包","d"],["面包","面包","k"],["包子","包子","d"],["水果","水果","k"],["玩具","玩具","k"],["文具","文具","d"],["哥哥","哥哥","k"],["姐姐","姐姐","k"],["一张生日卡","一張生日卡","k"],["唱歌","唱歌","d"],["唱一唱","唱一唱","d"],["唱中文歌","唱中文歌","d"]],
-    6: [["会不会","會不會","d"],["不会","不會","d"],["会说","會說","d"],["会做","會做","k"],["做事","做事","d"],["高兴的事","高興的事","d"],["大事","大事","d"],["小事","小事","d"],["有事","有事","d"],["没事","沒事","d"],["别人","別人","d"],["别说","別說","k"],["别走","別走","d"],["别做","別做","d"],["别去","別去","d"],["别写","別寫","d"],["别用","別用","d"],["收拾","收拾","k"],["收拾房间","收拾房間","d"],["收好","收好","d"],["收起来","收起來","d"],["房间","房間","k"],["一个房间","一個房間","d"],["房子","房子","d"],["书房","書房","d"],["洗手","洗手","d"],["洗头","洗頭","d"],["洗水果","洗水果","d"],["很饿","很餓","d"],["不饿","不餓","d"],["饿不饿","餓不餓","d"]],
-    7: [["两个","兩個","d"],["两本","兩本","d"],["两人","兩人","d"],["一件事","一件事","d"],["两件事","兩件事","d"],["双手","雙手","k"],["双脚","雙脚","d"],["双眼","雙眼","d"],["双耳","雙耳","d"],["大脑","大腦","k"],["脑子","腦子","d"],["用脑","用腦","k"],["工人","工人","d"],["工作","工作","k"],["思考","思考","k"],["考一考","考一考","d"],["一万","一萬","d"],["万一","萬一","d"],["又写又画","又寫又畫","d"],["又听又说","又聽又說","d"],["做得好","做得好","k"],["唱不好","唱不好","d"],["来得早","來得早","d"],["走不快","走不快","d"],["看得见","看得見","d"],["看不见","看不見","d"]],
-    8: [["月亮","月亮","k"],["天亮了","天亮了","d"],["跟我去","跟我去","d"],["跟你们走","跟你們走","d"],["为什么","為什麼","k"],["做什么","做什麼","d"],["写什么","寫什麼","d"],["说什么","說什麼","d"],["很大","很大","d"],["很小","很小","d"],["很多","很多","d"],["很少","很少","d"],["很好","很好","d"],["很远","很遠","k"],["远方","遠方","d"],["哪儿","哪兒","k"],["哪里","哪裡","d"],["哪个","哪個","d"],["哪件","哪件","d"],["觉得","覺得","k"],["高兴地说","高興地說","k"],["明白","明白","k"],["明天","明天","d"],["明年","明年","d"]],
-    9: [["时间","時間","d"],["小时","小時","d"],["两个小时","兩個小時","d"],["七个小时","七個小時","d"],["黑夜","黑夜","k"],["夜里","夜裡","d"],["夜间","夜間","d"],["光明","光明","k"],["光亮","光亮","d"],["月光","月光","d"],["阳光","陽光","d"],["星光","星光","d"],["亮光","亮光","d"],["时光","時光","d"],["小河","小河","d"],["河水","河水","k"],["河流","河流","d"],["流水","流水","d"],["流下来","流下來","d"],["流星","流星","d"],["流动","流動","k"],["走动","走動","d"],["动作","動作","d"],["电动玩具","電動玩具","d"],["动画","動畫","d"],["动脑","動腦","d"],["动手","動手","d"],["动笔","動筆","d"],["湖水","湖水","k"],["湖面","湖面","d"],["飞来飞去","飛來飛去","d"],["飞得高","飛得高","d"],["飞得远","飛得遠","d"],["飞上天","飛上天","d"],["飞下来","飛下來","d"],["游来游去","游來游去","d"],["长大","長大","k"],["长高","長高","d"],["想家","想家","d"],["想爸爸和妈妈","想爸爸和媽媽","d"],["想爷爷和奶奶","想爺爺和奶奶","d"]],
-    10: [["种子","種子","k"],["种花","種花","d"],["种瓜","種瓜","k"],["种草","種草","d"],["种树","種樹","d"],["来吧","來吧","d"],["去吧","去吧","d"],["吃吧","吃吧","d"],["走吧","走吧","d"],["要种花","要種花","d"],["要去公园","要去公園","d"],["要买玩具","要買玩具","d"],["要看书","要看書","d"],["出发","出發","d"],["发火","發火","d"],["发芽","發芽","k"],["禾苗","禾苗","k"],["树苗","樹苗","d"],["小树","小樹","d"],["树木","樹木","d"],["西瓜","西瓜","d"],["冬瓜","冬瓜","d"],["南瓜","南瓜","d"],["黄瓜","黃瓜","d"],["果树","果樹","k"],["果园","果園","d"],["水果","水果","d"]],
-    11: [["长江","長江","k"],["江水","江水","d"],["江河","江河","d"],["黄河","黃河","k"],["古老","古老","k"],["中国","中國","k"],["外国","外國","d"],["国家","國家","d"],["一条江","一條江","k"],["两条鱼","兩條魚","d"],["它们","它們","k"],["有名","有名","d"],["名字","名字","k"],["最长","最長","k"],["最多","最多","d"],["最少","最少","d"],["最大","最大","d"],["最小","最小","d"],["最远","最遠","d"],["最高兴","最高興","d"],["最热闹","最熱鬧","d"],["最好看","最好看","d"],["母亲","母親","k"],["父亲","父親","d"],["双亲","雙親","d"],["亲人","親人","d"],["从西流到东","從西流到東","k"],["从北流到南","從北流到南","d"],["从左写到右","從左寫到右","d"],["从上看到下","從上看到下","d"],["从东走到西","從東走到西","d"],["从南飞到北","從南飛到北","d"],["写着字","寫著字","d"],["唱着歌","唱著歌","d"],["看着书","看著書","d"],["中华","中華","k"],["华夏","華夏","d"],["华人","華人","d"]],
-    12: [["假日","假日","d"],["放假","放假","k"],["请假","請假","d"],["以后","以後","k"],["以前","以前","d"],["可以","可以","d"],["旅游","旅游","k"],["动物","動物","k"],["动物园","動物園","k"],["海水","海水","d"],["海洋","海洋","k"],["公园","公園","k"],["泳衣","泳衣","d"],["泳帽","泳帽","d"],["游泳","游泳","k"],["一点儿","一點兒","d"],["生活","生活","d"],["快点儿","快點兒","d"],["家务活儿","家務活兒","k"],["帮妈妈收拾房间","幫媽媽收拾房間","d"],["快乐","快樂","k"],["假期快乐","假期快樂","k"],["生日快乐","生日快樂","d"]]
+    1: [["中文学校","中文學校","k"],["学习","學習","k"],["教我们","教我們","k"],
+        ["说汉语","說漢語","k"],["写汉字","寫漢字","k"],["唱歌","唱歌","k"],
+        ["画画儿","畫畫兒","k"],["学中文","學中文","k"],
+        ["在学校","在學校","d"],["在家","在家","d"],["在花园","在花園","d"],
+        ["教汉语","教漢語","d"],["教汉字","教漢字","d"],["教学生","教學生","d"],
+        ["教唱歌","教唱歌","d"],
+        ["汉语","漢語","d"],["汉字","漢字","d"],["英语","英語","d"],["法语","法語","d"],
+        ["写作业","寫作業","d"],["唱中文歌","唱中文歌","d"],
+        ["画花儿","畫花兒","d"],["画鸟","畫鳥","d"],["画太阳","畫太陽","d"],
+        ["在中文学校","在中文學校","d"],["哥哥在家写字","哥哥在家寫字","d"]],
+    2: [["教室","教室","k"],["又大又干净","又大又乾淨","k"],["干净","乾淨","k"],
+        ["桌椅","桌椅","k"],["整齐","整齊","k"],["前面","前面","k"],["讲台","講台","k"],
+        ["两边","兩邊","k"],["墙上","牆上","k"],["贴着","貼著","k"],["作品","作品","k"],
+        ["后边","後邊","k"],["图书角","圖書角","k"],["好看","好看","k"],["中文书","中文書","k"],
+        ["这里","這裡","d"],["这边","這邊","d"],
+        ["又干净又整齐","又乾淨又整齊","d"],["又大又好","又大又好","d"],["又写又画","又寫又畫","d"],
+        ["桌子","桌子","d"],["椅子","椅子","d"],["很整齐","很整齊","d"],["很干净","很乾淨","d"],
+        ["很好","很好","d"],
+        ["讲课","講課","d"],["讲话","講話","d"],["两个","兩個","d"],["两岁","兩歲","d"],
+        ["上边","上邊","d"],["下边","下邊","d"],["左边","左邊","d"],["右边","右邊","d"],
+        ["前边","前邊","d"],
+        ["墙角","牆角","d"],["照片墙","照片牆","d"],["看着","看著","d"],["唱着","唱著","d"],
+        ["图书","圖書","d"],["英文书","英文書","d"],
+        ["中文角","中文角","d"],["汉语角","漢語角","d"],["看书","看書","d"],["看花儿","看花兒","d"],
+        ["看画儿","看畫兒","d"]],
+    3: [["开心","開心","k"],["今天","今天","k"],["星期六","星期六","k"],["好朋友","好朋友","k"],
+        ["朋友","朋友","k"],["做客","做客","k"],["上午","上午","k"],["一起","一起","k"],
+        ["绘本","繪本","k"],["玩游戏","玩遊戲","k"],["游戏","遊戲","k"],["画画儿","畫畫兒","k"],
+        ["下午","下午","k"],["饼干","餅乾","k"],["方形","方形","k"],["圆形","圓形","k"],
+        ["漂亮","漂亮","k"],
+        ["星星","星星","d"],["日期","日期","d"],["过期","過期","d"],
+        ["友谊","友誼","d"],["网友","網友","d"],["书友","書友","d"],
+        ["客人","客人","d"],["客厅","客廳","d"],
+        ["中午","中午","d"],["书本","書本","d"],["本子","本子","d"],
+        ["玩耍","玩耍","d"],["玩水","玩水","d"],["形状","形狀","d"],
+        ["一起玩游戏","一起玩遊戲","d"]],
+    4: [["小朋友","小朋友","k"],["讲礼貌","講禮貌","k"],["礼貌","禮貌","k"],
+        ["用语","用語","k"],["心里","心裡","k"],["你好","你好","k"],["请坐","請坐","k"],
+        ["谢谢","謝謝","k"],["对不起","對不起","k"],["没关系","沒關係","k"],
+        ["再见","再見","k"],["好孩子","好孩子","k"],["孩子","孩子","k"],
+        ["用笔","用筆","d"],["用手写","用手寫","d"],
+        ["记下来","記下來","d"],["记一记","記一記","d"],["日记","日記","d"],
+        ["笔记本","筆記本","d"],
+        ["家里","家裡","d"],["车里","車裡","d"],["学校里","學校裡","d"],
+        ["请问","請問","d"],["请上车","請上車","d"],["请说中文","請說中文","d"],
+        ["谢谢你","謝謝你","d"],["谢谢爸爸","謝謝爸爸","d"],["谢谢妈妈","謝謝媽媽","d"],
+        ["对了","對了","d"],["不对","不對","d"],
+        ["没有","沒有","d"],["没去","沒去","d"],["没说","沒說","d"],
+        ["再说","再說","d"],["再来","再來","d"],["再去","再去","d"],
+        ["小孩子","小孩子","d"],["做个好孩子","做個好孩子","d"]],
+    5: [["昨天","昨天","k"],["生日","生日","k"],["全家人","全家人","k"],["准备","準備","k"],
+        ["热闹","熱鬧","k"],["生日会","生日會","k"],["好吃","好吃","k"],["水果","水果","k"],
+        ["蛋糕","蛋糕","k"],["可爱","可愛","k"],["玩具","玩具","k"],["因为","因為","k"],
+        ["生日歌","生日歌","k"],["开心","開心","k"],
+        ["过生日","過生日","d"],["过节","過節","d"],["过年","過年","d"],["昨晚","昨晚","d"],
+        ["全家","全家","d"],["全校","全校","d"],["全班","全班","d"],["全国","全國","d"],
+        ["开会","開會","d"],
+        ["吃饼干","吃餅乾","d"],["吃水果","吃水果","d"],["吃蛋糕","吃蛋糕","d"],
+        ["吃菜","吃菜","d"],["做菜","做菜","d"],["买菜","買菜","d"],["白菜","白菜","d"],
+        ["给我","給我","d"],["给爸爸","給爸爸","d"],["给妈妈","給媽媽","d"],["给姐姐","給姐姐","d"],
+        ["买书","買書","d"],["买水果","買水果","d"],["买蛋糕","買蛋糕","d"],["买玩具","買玩具","d"],
+        ["鸡蛋","雞蛋","d"],["文具","文具","d"],["家具","家具","d"],
+        ["属龙","屬龍","d"],["龙年","龍年","d"],["龙头","龍頭","d"]],
+    6: [["小学生","小學生","k"],["可是","可是","k"],["别说","別說","k"],["洗澡","洗澡","k"],
+        ["洗衣","洗衣","k"],["收拾","收拾","k"],["打扫","打掃","k"],["小猫","小貓","k"],
+        ["不少","不少","k"],
+        ["做事","做事","d"],["大事","大事","d"],["小事","小事","d"],["没事","沒事","d"],
+        ["可以","可以","d"],["不可以","不可以","d"],
+        ["别走","別走","d"],["别做","別做","d"],["别写","別寫","d"],
+        ["洗手","洗手","d"],["洗头","洗頭","d"],["洗衣服","洗衣服","d"],
+        ["收拾房间","收拾房間","d"],["收拾玩具","收拾玩具","d"],["收拾好","收拾好","d"],
+        ["打扫教室","打掃教室","d"],["打扫房间","打掃房間","d"],["打扫干净","打掃乾淨","d"],
+        ["老猫","老貓","d"],["猫叫","貓叫","d"],
+        ["饿了","餓了","d"],["很饿","很餓","d"],["不饿","不餓","d"],["饿不饿","餓不餓","d"],
+        ["喂猫","餵貓","d"],["喂鸟","餵鳥","d"],["喂牛","餵牛","d"],["喂羊","餵羊","d"],
+        ["会收拾房间","會收拾房間","d"]],
+    7: [["街道","街道","k"],["交通","交通","k"],["红绿灯","紅綠燈","k"],["人来往","人來往","k"],
+        ["通畅","通暢","k"],["弟弟","弟弟","k"],["妹妹","妹妹","k"],["拉手","拉手","k"],
+        ["上学","上學","k"],["街道口","街道口","k"],["看见","看見","k"],["红灯","紅燈","k"],
+        ["绿灯","綠燈","k"],["快走","快走","k"],
+        ["红花","紅花","d"],["绿树","綠樹","d"],["绿叶","綠葉","d"],
+        ["灯火","燈火","d"],["开灯","開燈","d"],["关灯","關燈","d"],
+        ["上街","上街","d"],["街市","街市","d"],["道路","道路","d"],["人行道","人行道","d"],
+        ["车道","車道","d"],
+        ["很长","很長","d"],["长城","長城","d"],["长期","長期","d"],["交朋友","交朋友","d"],
+        ["通过","通過","d"],["通行","通行","d"],["通知","通知","d"],
+        ["人来车往","人來車往","d"],["人来人往","人來人往","d"],["往东","往東","d"],
+        ["往西","往西","d"],
+        ["拉车","拉車","d"],["拉住","拉住","d"],["停一停","停一停","d"],["停车","停車","d"],
+        ["停水","停水","d"],
+        ["快去","快去","d"],["快来","快來","d"],["快说","快說","d"]],
+    8: [["星期天","星期天","k"],["书店","書店","k"],["儿童区","兒童區","k"],["故事书","故事書","k"],
+        ["漫画书","漫畫書","k"],["还有","還有","k"],["科学书","科學書","k"],["历史书","歷史書","k"],
+        ["神奇校车","神奇校車","k"],["后来","後來","k"],["回家","回家","k"],["吃饭","吃飯","k"],
+        ["有意思","有意思","k"],["同意","同意","k"],["付钱","付錢","k"],["高高兴兴","高高興興","k"],
+        ["花店","花店","d"],["文具店","文具店","d"],["玩具店","玩具店","d"],
+        ["带我","帶我","d"],["带妹妹","帶妹妹","d"],["带孩子","帶孩子","d"],["带蛋糕","帶蛋糕","d"],
+        ["成人区","成人區","d"],["水果区","水果區","d"],["游戏区","遊戲區","d"],
+        ["那里","那裡","d"],["那边","那邊","d"],["拿书","拿書","d"],["拿水","拿水","d"],
+        ["神奇","神奇","d"],["好奇","好奇","d"],["一点","一點","d"],["三点","三點","d"],
+        ["回学校","回學校","d"],["做饭","做飯","d"],["早饭","早飯","d"],["午饭","午飯","d"],
+        ["走吧","走吧","d"],["好吧","好吧","d"],["吃吧","吃吧","d"],
+        ["用钱","用錢","d"],["花钱","花錢","d"],["交钱","交錢","d"]],
+    9: [["发烧","發燒","k"],["厉害","厲害","k"],["着急","著急","k"],["急忙","急忙","k"],
+        ["看病","看病","k"],["医院","醫院","k"],["护士","護士","k"],["体温","體溫","k"],
+        ["医生","醫生","k"],["检查","檢查","k"],["感冒","感冒","k"],["休息","休息","k"],
+        ["吃药","吃藥","k"],["放心","放心","k"],["付完钱","付完錢","k"],["拿药","拿藥","k"],
+        ["睡觉","睡覺","k"],["觉得","覺得","k"],
+        ["中医","中醫","d"],["西医","西醫","d"],["住院","住院","d"],["出院","出院","d"],
+        ["写得好","寫得好","d"],["吃得多","吃得多","d"],["来得快","來得快","d"],
+        ["烧得厉害","燒得厲害","d"],
+        ["急事","急事","d"],["生病","生病","d"],["病人","病人","d"],
+        ["药店","藥店","d"],["中药","中藥","d"],
+        ["听话","聽話","d"],["听歌","聽歌","d"],["听课","聽課","d"],["听见","聽見","d"],
+        ["说话","說話","d"],["大话","大話","d"],
+        ["放学","放學","d"],["放下","放下","d"],["吃完","吃完","d"],["学完","學完","d"],
+        ["做完","做完","d"],["睡衣","睡衣","d"]],
+    10: [["滴答","滴答","k"],["下雨","下雨","k"],["种子","種子","k"],["发芽","發芽","k"],
+         ["禾苗","禾苗","k"],["长大","長大","k"],["果树","果樹","k"],["开花","開花","k"],
+         ["小朋友","小朋友","k"],["种瓜","種瓜","k"],
+         ["滴水","滴水","d"],["水滴","水滴","d"],["点滴","點滴","d"],
+         ["发火","發火","d"],["树苗","樹苗","d"],["花苗","花苗","d"],
+         ["种花","種花","d"],["种草","種草","d"]],
+    11: [["下雨","下雨","k"],["雨点儿","雨點兒","k"],["青蛙","青蛙","k"],["写诗","寫詩","k"],
+         ["水草","水草","k"],["蝌蚪","蝌蚪","k"],["逗号","逗號","k"],["池塘","池塘","k"],
+         ["水泡","水泡","k"],["句号","句號","k"],["荷叶","荷葉","k"],["一串","一串","k"],
+         ["水珠","水珠","k"],["可以","可以","k"],["省略号","省略號","k"],["写成","寫成","k"],
+         ["青草","青草","d"],["青色","青色","d"],["背诗","背詩","d"],["诗人","詩人","d"],
+         ["沙啦啦","沙啦啦","d"],["沙子","沙子","d"],["沙地","沙地","d"],
+         ["草地","草地","d"],["海草","海草","d"],
+         ["当老师","當老師","d"],["当医生","當醫生","d"],["当护士","當護士","d"],
+         ["能唱歌","能唱歌","d"],["能跳舞","能跳舞","d"],["能画画儿","能畫畫兒","d"],
+         ["句子","句子","d"],["句意","句意","d"],
+         ["一串葡萄","一串葡萄","d"],["一串水珠","一串水珠","d"],["以为","以為","d"],
+         ["省钱","省錢","d"],["省事","省事","d"],["省时间","省時間","d"],
+         ["完成","完成","d"],["做成","做成","d"]],
+    12: [["古老","古老","k"],["中国","中國","k"],["一条江","一條江","k"],["名字","名字","k"],
+         ["长江","長江","k"],["一条河","一條河","k"],["黄河","黃河","k"],["最长","最長","k"],
+         ["母亲河","母親河","k"],["母亲","母親","k"],["它们","它們","k"],
+         ["从西流到东","從西流到東","k"],["哺育","哺育","k"],["中华","中華","k"],
+         ["大地","大地","k"],
+         ["江水","江水","d"],["大江","大江","d"],["江河","江河","d"],
+         ["河水","河水","d"],["河流","河流","d"],["大河","大河","d"],["长河","長河","d"],
+         ["古人","古人","d"],["古文","古文","d"],["古代","古代","d"],
+         ["外国","外國","d"],["国家","國家","d"],["两条鱼","兩條魚","d"],
+         ["有名","有名","d"],["人名","人名","d"],["地名","地名","d"],
+         ["最少","最少","d"],["最好看","最好看","d"],["最高兴","最高興","d"],
+         ["父亲","父親","d"],["双亲","雙親","d"],["亲人","親人","d"],
+         ["从北走到南","從北走到南","d"],["从左飞到右","從左飛到右","d"],
+         ["从上看到下","從上看到下","d"],
+         ["华夏","華夏","d"],["华人","華人","d"]],
   }
 };
 
@@ -4908,6 +5261,14 @@ async function boot(){
   await loadLessonState();
   renderRead(); renderVocab(); renderGameMenu(true);
   updateDiag();
+  /* header 是 sticky 的；捲離頂端時給它一層陰影，和內容分開 */
+  const hdr = document.querySelector('header');
+  if(hdr && window.addEventListener){
+    const syncStuck = ()=> hdr.classList.toggle('stuck', (window.scrollY || 0) > 4);
+    window.addEventListener('scroll', syncStuck, { passive:true });
+    syncStuck();
+  }
+
   const st = document.getElementById('srcText');
   st.addEventListener('input', textStat);
   /* 組詞小標籤的發音：用事件委派，不要用行內 onclick。
