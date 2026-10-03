@@ -1934,9 +1934,9 @@ function paintNoVoice(){
       '請改用 <b>Chrome</b>（Android）或 <b>Safari</b>（iPhone）開啟。<br>' +
       '<span style="opacity:.85">Open this page in Chrome or Safari instead.</span>' +
       '<div style="margin-top:10px"><button onclick="copyUrl()" ' +
-      'style="padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.55);' +
-      'background:rgba(255,255,255,.14);color:#fff;font-size:13px">複製網址 Copy link</button></div>' +
-      '<div style="margin-top:10px;opacity:.85;font-size:12px">' +
+      'style="padding:7px 14px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.55);' +
+      'background:rgba(255,255,255,.14);color:#fff;font-size:var(--t-sm)">複製網址 Copy link</button></div>' +
+      '<div style="margin-top:10px;opacity:.85;font-size:var(--t-xs)">' +
       '生字、筆順、拼音注音、配對與快答都還能正常使用，只有發音相關的功能受影響。' +
       'Characters, strokes and most games still work.</div>';
     return;
@@ -2400,7 +2400,7 @@ function renderRead(){
                      ' <span class="who">' + esc(script === 's' ? tx(pm.author) : pm.author) + '</span></span>';
     const btn = document.createElement('button');
     btn.className = 'btn ghost';
-    btn.style.cssText = 'padding:5px 13px;font-size:13px;flex:0 0 auto';
+    btn.style.cssText = 'padding:5px 13px;font-size:var(--t-sm);flex:0 0 auto';
     btn.textContent = '\u25b6 播放';
     btn.onclick = ()=>playIn(card, btn);
     head.appendChild(btn);
@@ -2652,11 +2652,11 @@ function renderRadicalGroups(box){
     head.style.cssText = 'display:flex;align-items:baseline;gap:10px;margin:18px 0 6px;' +
       'padding-bottom:5px;border-bottom:1px solid var(--line)';
     head.innerHTML =
-      '<span style="font-family:var(--kai);font-size:27px;color:var(--seal)">' + esc(r) + '</span>' +
-      '<span style="font-family:var(--kai);font-size:15px;color:var(--ink-soft)">' +
+      '<span style="font-family:var(--kai);font-size:var(--t-2xl);color:var(--seal)">' + esc(r) + '</span>' +
+      '<span style="font-family:var(--kai);font-size:var(--t-md);color:var(--ink-soft)">' +
         '部</span>' +
       '<span style="flex:1"></span>' +
-      '<span style="font-family:var(--mono);font-size:11px;color:var(--ink-soft)">' +
+      '<span style="font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft)">' +
         fam.length + ' 字</span>';
     box.appendChild(head);
 
@@ -2713,7 +2713,7 @@ function openSheetFor(e){
     const ws = wordsFor(e[0]);
     dw.innerHTML = ws.length
       ? '<div class="note" style="margin:0"><b>' + (script === 't' ? '組詞' : '组词') + ' Builds these words</b>' +
-        '<div style="margin-top:7px;font-family:var(--kai);font-size:17px;line-height:1.9">' + wordChips(e) + '</div></div>'
+        '<div style="margin-top:7px;font-family:var(--kai);font-size:var(--t-lg);line-height:1.9">' + wordChips(e) + '</div></div>'
       : '';
   }
   document.getElementById('dStroke').style.display = '';
@@ -2926,7 +2926,7 @@ function renderFlip(box){
     prev.className = 'btn ghost'; prev.textContent = '\u2190 上一個';
     prev.onclick = ()=>{ flipIdx--; renderVocab(); };
     const pos = document.createElement('span');
-    pos.style.cssText = 'font-family:var(--mono);font-size:13px;color:var(--ink-soft);min-width:5em;text-align:center';
+    pos.style.cssText = 'font-family:var(--mono);font-size:var(--t-sm);color:var(--ink-soft);min-width:5em;text-align:center';
     pos.textContent = (flipIdx + 1) + ' / ' + arr.length;
     const next = document.createElement('button');
     next.className = 'btn ghost'; next.textContent = '下一個 \u2192';
@@ -2982,15 +2982,15 @@ function wordChips(e){
     const marked = [...shown].map((c,i)=> i === at ? '<em>' + esc(c) + '</em>' : esc(c)).join('');
     const origins = [x].concat(x.also || []);
     const tags = origins.map(o =>
-      '<span style="font-size:9px;color:var(--ink-soft);border:1px solid var(--line);' +
-      'border-radius:3px;padding:0 3px;margin-left:3px;vertical-align:2px;font-family:var(--ui)">' +
+      '<span style="font-size:var(--t-3xs);color:var(--ink-soft);border:1px solid var(--line);' +
+      'border-radius:var(--r-xs);padding:0 3px;margin-left:3px;vertical-align:2px;font-family:var(--ui)">' +
       esc(label(o)) + '</span>').join('');
     return '<span class="wchip" data-say="' + esc(w[0]) + '"' +
            ' style="display:inline-block;margin:0 12px 3px 0;cursor:pointer' +
            (isMine(x) ? ';border-bottom:2px solid var(--seal)' : '') + '" title="' +
            esc(origins.map(where).join('；')) + '">' +
            marked + tags +
-           (w[3] ? '<span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin-left:4px">' +
+           (w[3] ? '<span style="font-family:var(--mono);font-size:var(--t-2xs);color:var(--ink-soft);margin-left:4px">' +
            esc(w[3]) + '</span>' : '') + '</span>';
   }).join('');
 }
@@ -3019,7 +3019,7 @@ function openSheet(f, i){
     const ws = (e[0].length === 1) ? wordsFor(e[0]) : [];
     dw.innerHTML = ws.length
       ? '<div class="note" style="margin:0"><b>' + (script === 't' ? '組詞' : '组词') + ' Builds these words</b>' +
-        '<div style="margin-top:7px;font-family:var(--kai);font-size:17px;line-height:1.9">' + wordChips(e) + '</div></div>'
+        '<div style="margin-top:7px;font-family:var(--kai);font-size:var(--t-lg);line-height:1.9">' + wordChips(e) + '</div></div>'
       : '';
   }
   document.getElementById('dStroke').style.display = (e[0].length===1) ? '' : 'none';
@@ -3258,7 +3258,7 @@ function gameTypo(root){
     host.innerHTML =
       '<p class="hint" style="text-align:center;margin:22px 0 10px">' +
         '句子裡有一個字寫錯了，點出來　One character is wrong — tap it</p>' +
-      '<div id="tSent" data-noloc style="font-size:23px;line-height:1.6;' +
+      '<div id="tSent" data-noloc style="font-size:var(--t-xl);line-height:1.6;' +
         'text-align:center;padding:0 6px"></div>' +
       '<p class="hint" id="tTip" style="text-align:center;margin-top:14px"></p>';
     const box = document.getElementById('tSent');
@@ -3345,7 +3345,7 @@ function gamePair(root){
   const mk = (txt, side, w)=>{
     const b = document.createElement('button');
     b.className = 'opt'; b.dataset.noloc = '1';
-    b.style.cssText = 'width:100%;margin-bottom:8px;font-size:19px;line-height:1.5';
+    b.style.cssText = 'width:100%;margin-bottom:8px;font-size:var(--t-xl);line-height:1.5';
     b.innerHTML = rubyHTML(txt);
     b.dataset.txt = txt; b.dataset.w = w;
     b.onclick = ()=>{
@@ -3407,7 +3407,7 @@ function gameOrder(root){
     document.getElementById('qHost').innerHTML =
       '<p class="hint" style="text-align:center;margin:22px 0 10px">' +
         '照課文的順序點出來　Tap the parts in the order they appear in the text</p>' +
-      '<div id="oLine" data-noloc style="font-size:20px;line-height:1.6;' +
+      '<div id="oLine" data-noloc style="font-size:var(--t-xl);line-height:1.6;' +
         'min-height:3em;text-align:center;padding:10px;border-bottom:1px solid var(--line)"></div>' +
       '<div class="opts" id="oOpts" style="margin-top:14px"></div>' +
       '<p class="hint" id="oTip" style="text-align:center;margin-top:12px"></p>';
@@ -3416,7 +3416,7 @@ function gameOrder(root){
     shuffle(parts.slice()).forEach(p=>{
       const b = document.createElement('button');
       b.className = 'opt'; b.dataset.noloc = '1';
-      b.style.cssText = 'font-size:18px;line-height:1.5';
+      b.style.cssText = 'font-size:var(--t-lg);line-height:1.5';
       b.innerHTML = rubyHTML(p);
       b.onclick = ()=>{
         if(b.dataset.gone || ob.dataset.done) return;
@@ -3593,9 +3593,9 @@ function gameRadical(root){
     const rows = g.fam.slice(0, 6).map(e=>{
       const ws = wordsFor(e[0]).slice(0, 3).map(x => fld(x.w)).join('、');
       return '<div style="display:flex;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--line)">' +
-             '<span style="font-family:var(--kai);font-size:23px;min-width:1.6em">' + esc(fld(e)) + '</span>' +
-             '<span style="font-family:var(--mono);font-size:12px;color:var(--indigo);min-width:5em">' + esc(annotFor(e)) + '</span>' +
-             '<span style="font-family:var(--kai);font-size:15px">' + (ws ? esc(ws) : '<span style="color:var(--ink-soft)">—</span>') + '</span></div>';
+             '<span style="font-family:var(--kai);font-size:var(--t-xl);min-width:1.6em">' + esc(fld(e)) + '</span>' +
+             '<span style="font-family:var(--mono);font-size:var(--t-xs);color:var(--indigo);min-width:5em">' + esc(annotFor(e)) + '</span>' +
+             '<span style="font-family:var(--kai);font-size:var(--t-md)">' + (ws ? esc(ws) : '<span style="color:var(--ink-soft)">—</span>') + '</span></div>';
     }).join('');
     box.innerHTML =
       '<div class="note" style="margin-top:16px"><b>' + esc(g.rad) + ' 部的字</b>' +
@@ -4085,7 +4085,7 @@ const TEXT_PHRASES = {
         ["新鲜的空气","新鮮的空氣","d"],["新鲜的食物","新鮮的食物","d"],
         ["我再想想","我再想想","d"],["让我再想想","讓我再想想","d"]],
     2: [["露营","露營","k"],["海边","海邊","k"],["大约","大約","k"],["小时","小時","k"],
-        ["沙滩","沙灘","k"],["帐篷","帳篷","k"],["天空","天空","k"],
+        ["沙滩","沙灘","k"],["搭满","搭滿","k"],["搭好","搭好","k"],["换上","換上","k"],["躺在","躺在","k"],["帐篷","帳篷","k"],["天空","天空","k"],
         ["五颜六色","五顏六色","k"],["好像","好像","k"],["油画","油畫","k"],
         ["泳衣","泳衣","k"],["游泳","游泳","k"],["聊天","聊天","k"],["烧烤","燒烤","k"],
         ["夜晚","夜晚","k"],["美妙","美妙","k"],["海浪","海浪","k"],["甜美","甜美","k"],
@@ -4125,7 +4125,7 @@ const TEXT_PHRASES = {
         ["又饿又渴","又餓又渴","k"],["自言自语","自言自語","k"],["如果","如果","k"],
         ["葡萄园","葡萄園","k"],["葡萄架","葡萄架","k"],["一串串","一串串","k"],
         ["哈哈","哈哈","k"],["运气","運氣","k"],["不错","不錯","k"],["从来","從來","k"],
-        ["这么","這麼","k"],["用力","用力","k"],["够不着","夠不著","k"],["始终","始終","k"],
+        ["这么","這麼","k"],["摘不到","摘不到","k"],["用力","用力","k"],["够不着","夠不著","k"],["始终","始終","k"],
         ["最后","最後","k"],["力气","力氣","k"],["垂头丧气","垂頭喪氣","k"],
         ["没见过","沒見過","k"],["从来没见过","從來沒見過","k"],["走开","走開","k"]],
     6: [["闻鸡起舞","聞雞起舞","k"],["远大","遠大","k"],["理想","理想","k"],["淘气","淘氣","k"],
@@ -4550,7 +4550,7 @@ const TEXT_PHRASES = {
         ["朋友","朋友","k"],["做客","做客","k"],["上午","上午","k"],["一起","一起","k"],
         ["绘本","繪本","k"],["玩游戏","玩遊戲","k"],["游戏","遊戲","k"],["画画儿","畫畫兒","k"],
         ["下午","下午","k"],["饼干","餅乾","k"],["方形","方形","k"],["圆形","圓形","k"],
-        ["漂亮","漂亮","k"],
+        ["都很漂亮","都很漂亮","k"],["漂亮","漂亮","k"],
         ["星星","星星","d"],["日期","日期","d"],["过期","過期","d"],
         ["友谊","友誼","d"],["网友","網友","d"],["书友","書友","d"],
         ["客人","客人","d"],["客厅","客廳","d"],
@@ -4571,7 +4571,7 @@ const TEXT_PHRASES = {
         ["没有","沒有","d"],["没去","沒去","d"],["没说","沒說","d"],
         ["再说","再說","d"],["再来","再來","d"],["再去","再去","d"],
         ["小孩子","小孩子","d"],["做个好孩子","做個好孩子","d"]],
-    5: [["昨天","昨天","k"],["生日","生日","k"],["全家人","全家人","k"],["准备","準備","k"],
+    5: [["送给我一个","送給我一個","k"],["昨天","昨天","k"],["生日","生日","k"],["全家人","全家人","k"],["准备","準備","k"],
         ["热闹","熱鬧","k"],["生日会","生日會","k"],["好吃","好吃","k"],["水果","水果","k"],
         ["蛋糕","蛋糕","k"],["可爱","可愛","k"],["玩具","玩具","k"],["因为","因為","k"],
         ["生日歌","生日歌","k"],["开心","開心","k"],
@@ -4586,7 +4586,7 @@ const TEXT_PHRASES = {
         ["属龙","屬龍","d"],["龙年","龍年","d"],["龙头","龍頭","d"]],
     6: [["小学生","小學生","k"],["可是","可是","k"],["别说","別說","k"],["洗澡","洗澡","k"],
         ["洗衣","洗衣","k"],["收拾","收拾","k"],["打扫","打掃","k"],["小猫","小貓","k"],
-        ["不少","不少","k"],
+        ["还会","還會","k"],["不少","不少","k"],
         ["做事","做事","d"],["大事","大事","d"],["小事","小事","d"],["没事","沒事","d"],
         ["可以","可以","d"],["不可以","不可以","d"],
         ["别走","別走","d"],["别做","別做","d"],["别写","別寫","d"],
@@ -4597,7 +4597,7 @@ const TEXT_PHRASES = {
         ["饿了","餓了","d"],["很饿","很餓","d"],["不饿","不餓","d"],["饿不饿","餓不餓","d"],
         ["喂猫","餵貓","d"],["喂鸟","餵鳥","d"],["喂牛","餵牛","d"],["喂羊","餵羊","d"],
         ["会收拾房间","會收拾房間","d"]],
-    7: [["街道","街道","k"],["交通","交通","k"],["红绿灯","紅綠燈","k"],["人来往","人來往","k"],
+    7: [["真是忙","真是忙","k"],["街道","街道","k"],["交通","交通","k"],["红绿灯","紅綠燈","k"],["人来往","人來往","k"],
         ["通畅","通暢","k"],["弟弟","弟弟","k"],["妹妹","妹妹","k"],["拉手","拉手","k"],
         ["上学","上學","k"],["街道口","街道口","k"],["看见","看見","k"],["红灯","紅燈","k"],
         ["绿灯","綠燈","k"],["快走","快走","k"],
@@ -4614,7 +4614,7 @@ const TEXT_PHRASES = {
         ["快去","快去","d"],["快来","快來","d"],["快说","快說","d"]],
     8: [["星期天","星期天","k"],["书店","書店","k"],["儿童区","兒童區","k"],["故事书","故事書","k"],
         ["漫画书","漫畫書","k"],["还有","還有","k"],["科学书","科學書","k"],["历史书","歷史書","k"],
-        ["神奇校车","神奇校車","k"],["后来","後來","k"],["回家","回家","k"],["吃饭","吃飯","k"],
+        ["神奇校车","神奇校車","k"],["后来","後來","k"],["该回家","該回家","k"],["回家","回家","k"],["吃饭","吃飯","k"],
         ["有意思","有意思","k"],["同意","同意","k"],["付钱","付錢","k"],["高高兴兴","高高興興","k"],
         ["花店","花店","d"],["文具店","文具店","d"],["玩具店","玩具店","d"],
         ["带我","帶我","d"],["带妹妹","帶妹妹","d"],["带孩子","帶孩子","d"],["带蛋糕","帶蛋糕","d"],
@@ -4627,7 +4627,7 @@ const TEXT_PHRASES = {
     9: [["发烧","發燒","k"],["厉害","厲害","k"],["着急","著急","k"],["急忙","急忙","k"],
         ["看病","看病","k"],["医院","醫院","k"],["护士","護士","k"],["体温","體溫","k"],
         ["医生","醫生","k"],["检查","檢查","k"],["感冒","感冒","k"],["休息","休息","k"],
-        ["吃药","吃藥","k"],["放心","放心","k"],["付完钱","付完錢","k"],["拿药","拿藥","k"],
+        ["吃药","吃藥","k"],["不要紧","不要緊","k"],["就会好","就會好","k"],["放心","放心","k"],["付完钱","付完錢","k"],["拿药","拿藥","k"],
         ["睡觉","睡覺","k"],["觉得","覺得","k"],
         ["中医","中醫","d"],["西医","西醫","d"],["住院","住院","d"],["出院","出院","d"],
         ["写得好","寫得好","d"],["吃得多","吃得多","d"],["来得快","來得快","d"],
@@ -4781,7 +4781,7 @@ function gameCount(root){
       }
       host.innerHTML =
         '<div class="qbig" data-noloc>' + esc(fld(e)) + '</div>' +
-        '<p style="text-align:center;font-family:var(--mono);font-size:17px;color:var(--indigo);margin:0" data-noloc>' +
+        '<p style="text-align:center;font-family:var(--mono);font-size:var(--t-lg);color:var(--indigo);margin:0" data-noloc>' +
           esc(annotFor(e)) + '</p>' +
         '<p class="hint" style="text-align:center;margin-top:10px">這個字總共幾畫？　How many strokes?</p>' +
         '<div class="opts" id="opts"></div>' +
@@ -4854,7 +4854,7 @@ function gameMeaning(root){
     }
     const ans = opts[Math.floor(Math.random()*opts.length)];
     document.getElementById('qHost').innerHTML =
-      '<p style="text-align:center;font-size:21px;margin:26px 0 4px;font-style:italic">' + esc(ans[3]) + '</p>' +
+      '<p style="text-align:center;font-size:var(--t-xl);margin:26px 0 4px;font-style:italic">' + esc(ans[3]) + '</p>' +
       '<p class="hint" style="text-align:center">哪一個是這個意思？　Which one means this?</p>' +
       '<div class="opts" id="opts"></div>';
     const ob = document.getElementById('opts');
@@ -4902,7 +4902,7 @@ function gameTone(root){
     const want = toneOf(q[2]);
     document.getElementById('qHost').innerHTML =
       '<div class="qbig" data-noloc>' + esc(fld(q)) + '</div>' +
-      '<p style="text-align:center;font-family:var(--mono);font-size:19px;color:var(--indigo);margin:0" data-noloc>' +
+      '<p style="text-align:center;font-family:var(--mono);font-size:var(--t-xl);color:var(--indigo);margin:0" data-noloc>' +
         esc(stripTone(q[2])) + '</p>' +
       '<p class="hint" style="text-align:center;margin-top:10px">這個字是第幾聲？　Which tone?</p>' +
       '<div class="tonebtns" id="tb"></div>' +
@@ -5010,7 +5010,7 @@ function gameStroke(root){
     }
     const e = queue[idx];
     document.getElementById('sHost').innerHTML =
-      '<p style="text-align:center;margin:14px 0 0;font-family:var(--mono);font-size:18px;color:var(--indigo)" data-noloc>' +
+      '<p style="text-align:center;margin:14px 0 0;font-family:var(--mono);font-size:var(--t-lg);color:var(--indigo)" data-noloc>' +
         esc(annotFor(e)) + '</p>' +
       '<p class="hint" style="text-align:center;margin:4px 0 0">' + esc(e[3]) + '</p>' +
       '<div class="strokebox" id="sBox"></div>' +
@@ -5046,8 +5046,8 @@ function gameStroke(root){
 /* --- 共用的結算畫面 --- */
 function endRound(root, title, value, unit, kind){
   root.innerHTML =
-    '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">' + esc(title) + '結束</p>' +
-    '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">' + value + ' ' + esc(unit) + '</p>' +
+    '<p style="text-align:center;font-family:var(--kai);font-size:var(--t-xl);margin-top:34px">' + esc(title) + '結束</p>' +
+    '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:var(--t-3xl)">' + value + ' ' + esc(unit) + '</p>' +
     '<div class="row" style="justify-content:center;margin-top:20px">' +
       '<button class="btn" onclick="startGame(\'' + kind + '\')">再來一次 Again</button>' +
       '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
@@ -5084,8 +5084,8 @@ function gameMatch(root){
           const secs = Math.round((Date.now()-t0)/1000);
           saveBest('match', secs, true); stamp('好');
           setTimeout(()=>{
-            root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">全部配對完成！</p>'+
-              '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+secs+' 秒</p>'+
+            root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:var(--t-xl);margin-top:34px">全部配對完成！</p>'+
+              '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:var(--t-3xl)">'+secs+' 秒</p>'+
               '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'match\')">再玩一次 Again</button>'+
               '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
           }, 500);
@@ -5129,7 +5129,7 @@ function gameChoice(root, mode){
     const host = document.getElementById('qHost');
 
     host.innerHTML = listen
-      ? '<div style="text-align:center;margin:26px 0 6px"><button class="btn seal" id="rep" style="padding:16px 28px;font-size:18px">🔊 再聽一次 Replay</button></div>'+
+      ? '<div style="text-align:center;margin:26px 0 6px"><button class="btn seal" id="rep" style="padding:16px 28px;font-size:var(--t-lg)">🔊 再聽一次 Replay</button></div>'+
         '<p class="hint" style="text-align:center">聽發音，選出正確的字</p><div class="opts" id="opts"></div>'
       : '<div class="qbig' + (fld(ans).length>1?' small':'') + '" data-noloc>'+esc(fld(ans))+'</div>'+
         '<p class="hint" style="text-align:center">選出正確的拼音</p><div class="opts" id="opts"></div>';
@@ -5159,8 +5159,8 @@ function gameChoice(root, mode){
           Array.from(ob.children).forEach(c=>{ if(c.textContent === (listen?fld(ans):annotFor(ans))) c.classList.add('right'); });
           if(!listen){
             setTimeout(()=>{
-              root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">連對中斷</p>'+
-                '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+streak+' 連對</p>'+
+              root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:var(--t-xl);margin-top:34px">連對中斷</p>'+
+                '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:var(--t-3xl)">'+streak+' 連對</p>'+
                 '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'pinyin\')">再來一次 Again</button>'+
                 '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
             }, 1100);
@@ -5174,8 +5174,8 @@ function gameChoice(root, mode){
   }
   function finish(){
     saveBest('listen', score, false);
-    root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:22px;margin-top:34px">聽音選字結束</p>'+
-      '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:30px">'+score+' / 10</p>'+
+    root.innerHTML = '<p style="text-align:center;font-family:var(--kai);font-size:var(--t-xl);margin-top:34px">聽音選字結束</p>'+
+      '<p style="text-align:center;font-family:var(--mono);color:var(--seal);font-size:var(--t-3xl)">'+score+' / 10</p>'+
       '<div class="row" style="justify-content:center;margin-top:20px"><button class="btn" onclick="startGame(\'listen\')">再來一次 Again</button>'+
       '<button class="btn ghost" onclick="backToMenu()">回選單 Menu</button></div>';
   }
