@@ -2604,8 +2604,13 @@ function radOfEntry(e){
   }
   return radicalOf(e[0]);
 }
-/* 已經教到的所有單字：更前面的冊，或本冊本課以前 */
+/* 已經教到的所有單字：更前面的冊，或本冊本課以前。
+   錯別字遊戲每試一個字就呼叫一次，不快取的話一題會重建上百次陣列，
+   第六冊那種九百多字的課會明顯卡頓。 */
+let taughtKey = '', taughtVal = null;
 function taughtChars(){
+  const ck = book + ':' + cur;
+  if(taughtKey === ck && taughtVal) return taughtVal;
   const here = cur + 1;
   const out = [];
   for(const b of BOOK_LIST){
@@ -2615,6 +2620,7 @@ function taughtChars(){
       l.chars.forEach(e=>{ if(e[0].length === 1) out.push({ e, b, n:l.n }); });
     }
   }
+  taughtKey = ck; taughtVal = out;
   return out;
 }
 /* 本課生字用到的部首，依課本生字順序，不重複 */
@@ -3048,9 +3054,22 @@ function toggleKnown(){
 function strokeFor(e){
   const want = (typeof e === 'string') ? e : fld(e);
   const alt  = (typeof e === 'string') ? e : e[0];
-  return HanziWriter.loadCharacterData(want)
+  /* CDN 被擋或極慢時，這個請求可能既不成功也不失敗，Promise 永遠不會 settle，
+     畫面就一直停在「載入中…」。加逾時讓它一定有結果。
+     逾時代表網路本身卡住，這時不必再試另一種字形（會再等一輪），直接放棄；
+     只有「這個字形查無資料」才退回去試簡體。 */
+  const STALL = 'stroke-data-stalled';
+  const withTimeout = (pr)=> Promise.race([
+    pr,
+    new Promise((_, rej)=> setTimeout(()=> rej(new Error(STALL)), 5000))
+  ]);
+  return withTimeout(HanziWriter.loadCharacterData(want))
     .then(d => ({ ch: want, data: d }))
-    .catch(()=> HanziWriter.loadCharacterData(alt).then(d => ({ ch: alt, data: d })));
+    .catch(err => {
+      if(err && err.message === STALL) throw err;
+      if(alt === want) throw err;
+      return withTimeout(HanziWriter.loadCharacterData(alt)).then(d => ({ ch: alt, data: d }));
+    });
 }
 function playStroke(){
   if(!detail || detail[0].length!==1) return;
@@ -3217,15 +3236,28 @@ function taughtWordSet(){
 /* ---------- 錯別字改正 ---------- */
 function typoSentences(){ return lessonSentences(9); }
 /* 找一個形近字來替換：優先同部首，否則同一批已教的字 */
-function confusableFor(ch){
-  const all = taughtChars().map(x=>x.e).filter(e=>e[0].length === 1 && fld(e) !== ch);
-  if(!all.length) return '';
+/* 依部首先分好組，整題共用，不必每個字重掃一次 */
+function confusablePool(){
+  const by = {}, all = [];
+  for(const x of taughtChars()){
+    const e = x.e;
+    if(e[0].length !== 1) continue;
+    all.push(e);
+    if(!radicalReady()) continue;
+    const r = radOfEntry(e);
+    if(r) (by[r] = by[r] || []).push(e);
+  }
+  return { by, all };
+}
+function confusableFor(ch, cache){
+  const c = cache || confusablePool();
   let pool = [];
   if(radicalReady()){
     const r = radicalOf(ch);
-    if(r) pool = all.filter(e=> radOfEntry(e) === r);
+    if(r && c.by[r]) pool = c.by[r].filter(e => fld(e) !== ch);
   }
-  if(!pool.length) pool = all;
+  if(!pool.length) pool = c.all.filter(e => fld(e) !== ch);
+  if(!pool.length) return '';
   return fld(pool[Math.floor(Math.random() * pool.length)]);
 }
 function gameTypo(root){
@@ -3239,12 +3271,13 @@ function gameTypo(root){
 
   function next(){
     let sent = null, pos = -1, wrongCh = '';
+    const cache = confusablePool();
     for(const s of shuffle(sents)){
       const idx = [];
       [...s].forEach((c,i)=>{ if(/[\u4e00-\u9fff]/.test(c)) idx.push(i); });
       if(!idx.length) continue;
       for(const i of shuffle(idx)){
-        const w = confusableFor(s[i]);
+        const w = confusableFor(s[i], cache);
         if(w && w !== s[i]){ sent = s; pos = i; wrongCh = w; break; }
       }
       if(sent) break;
@@ -3542,16 +3575,26 @@ function gameRadical(root){
     '<div id="qHost"></div>';
 
   function next(){
-    const g = groups[Math.floor(Math.random()*groups.length)];
-    const ans = shuffle(g.own)[0];
-    const others = [];
-    for(const e of shuffle(all)){
-      if(radOfEntry(e) === g.rad) continue;
-      if(others.some(x => fld(x) === fld(e))) continue;
-      others.push(e);
-      if(others.length === 3) break;
+    /* 原本湊不出三個干擾選項時會 setTimeout(next,0) 無限自我呼叫，
+       字少的課（第一冊前幾課）會直接把瀏覽器卡死。改成試完就收。 */
+    let g = null, ans = null, others = [];
+    for(const cand of shuffle(groups)){
+      const o = [];
+      for(const e of shuffle(all)){
+        if(radOfEntry(e) === cand.rad) continue;
+        if(o.some(x => fld(x) === fld(e))) continue;
+        o.push(e);
+        if(o.length === 3) break;
+      }
+      if(o.length === 3){ g = cand; others = o; ans = shuffle(cand.own)[0]; break; }
     }
-    if(others.length < 3){ setTimeout(next, 0); return; }
+    if(!g){
+      root.innerHTML = '<p class="hint">本課湊不出足夠的選項。' +
+        '<span class="en-note">Not enough characters in this lesson.</span></p>' +
+        '<div style="text-align:center;margin-top:18px">' +
+        '<button class="btn ghost" onclick="backToMenu()">回選單 Back</button></div>';
+      return;
+    }
     const opts = shuffle([ans, ...others]);
 
     document.getElementById('qHost').innerHTML =
@@ -4766,11 +4809,15 @@ function gameCount(root){
     '<span style="flex:1"></span><button class="btn ghost" onclick="backToMenu()">結束 Quit</button></div>' +
     '<div id="qHost"></div>';
 
+  let miss = 0;
   function next(){
     const e = all[Math.floor(Math.random()*all.length)];
     const host = document.getElementById('qHost');
     host.innerHTML = '<p class="hint" style="text-align:center;margin-top:30px">載入中… Loading…</p>';
     strokeFor(e).then(({ ch, data })=>{
+      /* 等待期間可能已經換課或離開遊戲，這時 host 已經不在畫面上，
+         繼續寫下去會對著已被取代的節點操作。 */
+      if(!document.body.contains(host)) return;
       const real = data.strokes.length;
       const set = new Set([real]);
       let d = 1;
@@ -4813,10 +4860,21 @@ function gameCount(root){
       document.getElementById('cShow').onclick = ()=>{
         const box = document.getElementById('cBox');
         box.innerHTML = '<div class="strokebox" id="cAnim"></div>';
+        if(!document.getElementById('cAnim')) return;
         HanziWriter.create('cAnim', ch, { width:220, height:220, padding:10,
           strokeColor:'#17211C', delayBetweenStrokes:150 }).animateCharacter();
       };
     }).catch(()=>{
+      /* 整課都載不到筆畫資料時（CDN 被擋）原本會每 900ms 無限重試，
+         畫面一直跳訊息卻永遠出不了題。連續失敗就收掉。 */
+      miss++;
+      if(miss >= 6){
+        host.innerHTML = '<p class="hint" style="text-align:center;margin-top:30px">' +
+          '載不到筆畫資料，請檢查網路。<span class="en-note">Could not load stroke data.</span></p>' +
+          '<div style="text-align:center;margin-top:18px">' +
+          '<button class="btn ghost" onclick="backToMenu()">回選單 Back</button></div>';
+        return;
+      }
       host.innerHTML = '<p class="hint" style="text-align:center;margin-top:30px">這個字沒有筆畫資料，換一個。</p>';
       setTimeout(next, 900);
     });
@@ -5019,6 +5077,7 @@ function gameStroke(root){
         '<button class="btn ghost" id="sSkip">跳過 Skip</button></div>';
 
     strokeFor(e).then(({ ch })=>{
+      if(!document.getElementById('sBox')) return;   /* 已經換課或離開遊戲 */
       const w = HanziWriter.create('sBox', ch, {
         width:220, height:220, padding:10,
         showCharacter:false, showOutline:true,
