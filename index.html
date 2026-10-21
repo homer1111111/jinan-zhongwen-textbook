@@ -598,6 +598,275 @@ main{max-width:min(760px,100%)}
 .fone .fcard .say,.fone .fcard .mark{width:44px;height:44px;line-height:42px}
 .tab{padding:12px 0}
 
+
+/* ==========================================================
+   Bilingual typography.
+   The English is kept — it is needed — but it was set at the same
+   size and weight as the Chinese, on the same line, which reads as a
+   translation table rather than a designed interface. Here it becomes
+   one consistent annotation style: mono, uppercase, widely tracked,
+   muted. Deliberate caption, not a gloss.
+   ========================================================== */
+.en,.en-note,.hd-sub,.bookcard .meta,.start .sub{
+  font-family:var(--mono);
+  font-size:var(--t-3xs);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  font-style:normal;
+  font-weight:400;
+}
+.banner .en{
+  display:block;margin:6px 0 0;
+  font-size:var(--t-2xs);letter-spacing:.16em;
+}
+.tab .en,.script-toggle button .en,.gpick .en{display:block;margin-top:3px}
+.en-note{display:block;margin-top:4px;letter-spacing:.1em;line-height:1.5}
+/* inside a button the annotation sits under the label, not beside it */
+.btn .en,.opt .en{display:block;margin-top:2px;letter-spacing:.1em;opacity:.8}
+.on .en,.btn.seal .en{color:inherit;opacity:.62}
+
+/* ---------- masthead ----------
+   A title and a subtitle stacked in a row is the default any generator
+   produces. Giving the wordmark a rule and real tracking makes it read
+   as a masthead. */
+.hd-title{letter-spacing:.02em}
+.hd-sub{
+  padding-left:10px;margin-left:2px;
+  border-left:1px solid var(--line-strong);
+  line-height:1.1;
+}
+
+/* ---------- stop centring everything ----------
+   Centred body copy is the other generator tell. Prose reads from the
+   left; only the single large character and the game prompt stay centred. */
+.note,.hint,.diagbox,.count{text-align:left}
+.fhint,.scorebar{text-align:left}
+.qbig,.tian,.big,.d-py,.d-mean{text-align:center}
+
+/* ---------- a drawn speaker, not an emoji ---------- */
+.fcard .say{
+  font-size:0;                      /* hide the emoji glyph */
+  background:var(--paper-2) no-repeat center/15px 15px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317211C' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4z'/%3E%3Cpath d='M17 8.5a5 5 0 0 1 0 7'/%3E%3C/svg%3E");
+}
+.fone .fcard .say{background-size:19px 19px}
+@media (prefers-color-scheme:dark){
+  .fcard .say{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E6EBE3' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4z'/%3E%3Cpath d='M17 8.5a5 5 0 0 1 0 7'/%3E%3C/svg%3E");
+  }
+}
+
+
+/* ==========================================================
+   Structure.
+   Every control was a full-width row of identical pills stacked on
+   top of the next — five of them before the content began. The
+   controls are all used, so nothing is hidden; instead they are
+   grouped by what they do and given different weights.
+   ========================================================== */
+
+/* what to show (left)  |  how to show it (right) — one row, not two */
+.ctl-bar{
+  display:flex;align-items:center;gap:var(--s-3);
+  flex-wrap:wrap;margin:0 0 var(--s-3);
+}
+.ctl-bar .filters{margin:0}
+.ctl-right{display:flex;gap:var(--s-2);margin-left:auto}
+
+/* sub-options of a mode are not peers of the mode switch:
+   quieter, smaller, no pill outline, indented under it */
+.subopts{
+  display:flex;align-items:center;flex-wrap:wrap;gap:var(--s-2) var(--s-4);
+  margin:calc(var(--s-2) * -1) 0 var(--s-4);
+  padding:var(--s-2) 0 var(--s-2) var(--s-3);
+  border-left:2px solid var(--line);
+}
+.subopts .pill-label{margin:0}
+.subopts .filters{margin:0;gap:var(--s-1)}
+.subopts .fchip{
+  min-height:30px;padding:4px 10px;border-color:transparent;
+  background:transparent;color:var(--ink-soft);box-shadow:none;
+}
+.subopts .fchip.on{
+  background:transparent;color:var(--seal);border-color:transparent;
+  box-shadow:inset 0 -2px 0 var(--seal);border-radius:0;
+}
+@media (hover:hover){ .subopts .fchip:not(.on):hover{background:var(--card);color:var(--ink)} }
+
+/* the speed slider is an instrument, not another row of pills */
+.speedbar{
+  display:flex;align-items:center;gap:var(--s-3);
+  margin:0 0 var(--s-4);padding:0;
+  font-size:var(--t-xs);color:var(--ink-soft);
+}
+.speedbar > span:first-child{flex:0 0 auto}
+.speedbar input[type=range]{flex:1;max-width:260px}
+
+/* games grouped under headings instead of twelve equal cards */
+.gsec{
+  grid-column:1 / -1;
+  margin:var(--s-5) 0 calc(var(--s-1) * -1);
+  font-family:var(--mono);font-size:var(--t-3xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;align-items:center;gap:var(--s-3);
+}
+.gsec::after{content:"";flex:1;height:1px;background:var(--line)}
+.gsec:first-child{margin-top:0}
+
+
+/* ---------- header ----------
+   Three stacked rows — title, books, lessons — all full width and all
+   the same weight. The book chooser belongs with the other global
+   switches, so it moves up beside the script toggle; on a wide screen
+   the book row joins the title row outright and the header loses a
+   band. On a phone the lesson strip keeps its own row because it
+   scrolls horizontally and must not share a flex line. */
+.hd-row{align-items:center}
+.hd-row .homebtn{align-self:center}
+.hd-books{padding-top:2px}
+/* 冊別列不併進標題列：三個子元素都靠 .wrap 的 max-width + margin:auto 置中，
+   把 header 改成 flex 容器會讓 auto margin 去吸收剩餘空間、位置跑掉；
+   而 header 必須維持整條滿版底色，也不能自己加 max-width。
+   沒有乾淨解法就不硬做——「選冊」上移已經讓這一列輕了一半。 */
+
+
+/* ==========================================================
+   Japanese-style pass.
+   The previous look — beige paper, seal red, kai everywhere, cards
+   with borders and shadows — is theming, and it competes with the
+   characters the child is supposed to be reading. This replaces the
+   whole visual system: near-monochrome, hairlines instead of boxes,
+   sans for the interface and kai reserved for the characters being
+   learned, density carried by leading and space rather than frames.
+   ========================================================== */
+:root{
+  --paper:#FAFAF8;
+  --paper-2:#F4F4F1;
+  --card:#FFFFFF;
+  --card-hi:#FFFFFF;
+  --ink:#1C1C1A;
+  --ink-soft:#6E6E68;      /* AA on paper, card and paper-2 alike */
+  --grid:#DCDCD6;
+  --seal:#B4463C;            /* used only for the single live state */
+  --indigo:#4A6B80;
+  --line:#E8E8E3;
+  --line-soft:#F0F0EC;
+  --line-strong:#D2D2CB;
+  --seal-wash:rgba(180,70,60,.07);
+  --indigo-wash:rgba(74,107,128,.08);
+  /* every surface sits flat; separation is space and a hairline */
+  --e-1:none; --e-2:none; --e-3:0 1px 24px rgba(0,0,0,.09);
+  --r-xs:2px; --r-sm:3px; --r-md:4px; --r-lg:6px;
+  --ui:"Hiragino Sans","Hiragino Kaku Gothic ProN",-apple-system,
+       "Noto Sans TC","Noto Sans SC","PingFang TC","Microsoft JhengHei",
+       system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#131313; --paper-2:#1A1A19; --card:#1E1E1D; --card-hi:#262625;
+    --ink:#E8E8E4; --ink-soft:#8E8E88; --grid:#3A3A37;
+    --seal:#E07A6E; --indigo:#8FB2C6;
+    --line:#2B2B29; --line-soft:#232322; --line-strong:#3E3E3A;
+    --seal-wash:rgba(224,122,110,.12);
+    --e-1:none; --e-2:none; --e-3:0 1px 24px rgba(0,0,0,.6);
+  }
+}
+
+/* ---------- flat: no card chrome anywhere ---------- */
+.gcard,.vrow,.sent,.mtile,.opt,.tonebtn,.memcard,.bookcard,
+.gpick button,.poemcard,.diagbox,.fcard .face,.lchip,.fchip,
+.btn,textarea,.speedbar{box-shadow:none}
+
+/* rows are separated by a hairline, not boxed */
+.vrow{
+  background:transparent;border:0;border-bottom:1px solid var(--line);
+  border-radius:0;padding:14px 2px;margin:0;
+}
+.vrow.known{background:transparent;border-bottom-color:var(--line-strong)}
+.vrow.known .vhz{color:var(--seal)}
+
+/* character tiles: a thin rule under the character, no box */
+.gcard{
+  background:transparent;border:0;border-bottom:1px solid var(--line);
+  border-radius:0;padding:14px 4px 12px;
+}
+.gcard.known{background:transparent;border-bottom:1px solid var(--seal)}
+.gcard.known::after{
+  content:"";width:4px;height:4px;border-radius:50%;
+  background:var(--seal);top:8px;right:8px;
+}
+
+/* sentences in the read-along: hairline rules, no cards */
+.sent{
+  background:transparent;border:0;border-bottom:1px solid var(--line);
+  border-radius:0;padding:14px 4px;
+}
+.sent.now{background:var(--seal-wash);border-bottom-color:var(--seal);box-shadow:none}
+
+/* options and tiles: outline only, square-ish */
+.opt,.tonebtn,.mtile,.memcard,.bookcard,.gpick button,.poemcard,.diagbox{
+  border:1px solid var(--line);background:var(--card);
+}
+.opt.right,.tonebtn.right{border-color:var(--seal);background:var(--seal-wash);color:var(--seal)}
+.bookcard.cur{border-color:var(--ink);background:var(--card)}
+
+/* ---------- chips become quiet text with a live underline ---------- */
+.lchip,.fchip{
+  background:transparent;border:1px solid transparent;border-radius:var(--r-sm);
+  color:var(--ink-soft);
+}
+.lchip.on,.fchip.on{
+  background:transparent;color:var(--ink);border-color:transparent;
+  box-shadow:inset 0 -2px 0 var(--ink);border-radius:0;
+}
+.lchip:disabled{opacity:.3}
+@media (hover:hover){
+  .lchip:not(.on):not(:disabled):hover,.fchip:not(.on):hover{
+    background:var(--paper-2);border-color:transparent;color:var(--ink);
+  }
+}
+.script-toggle{background:transparent;border:1px solid var(--line);border-radius:var(--r-sm);padding:0}
+.script-toggle button{border-radius:0;font-family:var(--ui)}
+.script-toggle button.on{background:var(--ink);color:var(--paper)}
+.homebtn{border:1px solid var(--line);border-radius:var(--r-sm);background:transparent}
+
+/* ---------- the interface is sans; kai is for the characters ---------- */
+.hd-title,.banner h1,.tab,.script-toggle button,.btn,
+.lchip,.fchip,.gpick .t,.bookcard .name{font-family:var(--ui)}
+.hd-title{font-weight:600;letter-spacing:.04em}
+.banner h1{font-weight:600;letter-spacing:.06em;font-size:var(--t-2xl)}
+.tab{font-weight:500;font-size:var(--t-md);letter-spacing:.06em;margin-right:30px}
+/* kai stays where it belongs: the characters themselves */
+.vhz,.gcard .hz,.cell .hz,.mtile.hz,.opt.hz,.fcard .hz,.big,.sent,
+.tian .big,.qbig,.d-big,.poemcard{font-family:var(--kai)}
+
+/* ---------- hairline separators carry the structure ---------- */
+header{border-bottom:1px solid var(--line);background:var(--paper)}
+header.stuck{box-shadow:none;border-bottom-color:var(--line-strong)}
+.tabs{border-bottom:1px solid var(--line)}
+.tab.on::after{height:2px;background:var(--ink)}
+.banner{padding-top:26px;padding-bottom:4px}
+.subopts{border-left:1px solid var(--line)}
+.subopts .fchip.on{box-shadow:inset 0 -2px 0 var(--ink);color:var(--ink)}
+.gsec::after{background:var(--line)}
+.btn{border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:var(--r-sm)}
+.btn.seal{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.ghost{border-color:var(--line)}
+
+/* ---------- more air, smaller type: density without noise ---------- */
+body{font-size:var(--t-md);line-height:1.85}
+main{padding-top:var(--s-6)}
+.grid{gap:0 var(--s-3)}
+.note,.hint{line-height:1.9}
+.count{letter-spacing:.08em}
+
+/* the stroke grid reads as a technical frame, not a decorative box */
+.tian{border:1px solid var(--line-strong);background:var(--card)}
+.fcard .face{border:1px solid var(--line);border-radius:var(--r-md)}
+.fcard .face.back{border-color:var(--ink)}
+.fcard.known .face{border-color:var(--seal)}
+
 </style>
 </head>
 <body>
@@ -609,12 +878,13 @@ main{max-width:min(760px,100%)}
     <span class="hd-title" id="appTitle" data-noloc>小一到小六 學習寶典</span>
     <span class="hd-sub">Grades 1&#8211;6</span>
     <span class="hd-spacer"></span>
+    <button class="homebtn" onclick="openStart()" title="重新選冊 Change book">選冊</button>
     <div class="script-toggle" role="group" aria-label="字體">
       <button data-script="t" onclick="setScript('t')" title="繁體 Traditional">繁<span class="en">Trad</span></button>
       <button data-script="s" class="on" onclick="setScript('s')" title="简体 Simplified">简<span class="en">Simp</span></button>
     </div>
   </div>
-  <div class="hd-books wrap"><button class="homebtn" onclick="openStart()" title="重新選冊 Change book">選冊</button><div class="script-toggle" role="group" aria-label="冊別" id="bookPick"></div></div>
+  <div class="hd-books wrap"><div class="script-toggle" role="group" aria-label="冊別" id="bookPick"></div></div>
   <div class="lessons wrap" id="lessons" data-noloc></div>
 </header>
 
@@ -637,29 +907,29 @@ main{max-width:min(760px,100%)}
     <div class="diagbox">
       <div class="row" style="justify-content:space-between">
         <strong style="font-size:13px">聲音檢查 <span style="font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-transform:uppercase">Sound Check</span></strong>
-        <button class="btn seal" style="padding:6px 14px;font-size:13px" onclick="testSound()">測試發音 · Test</button>
-        <button class="btn ghost" style="padding:6px 12px;font-size:12px" onclick="copyDiag()">複製診斷 Copy</button>
+        <button class="btn seal" style="padding:6px 14px;font-size:13px" onclick="testSound()">測試發音<span class="en">Test</span></button>
+        <button class="btn ghost" style="padding:6px 12px;font-size:12px" onclick="copyDiag()">複製診斷<span class="en">Copy</span></button>
       </div>
       <div id="diag" class="hint" style="margin-top:6px;font-size:12px"></div>
     </div>
     <p class="hint" id="readIntro"></p>
     <div class="row" style="margin-bottom:14px">
-      <button class="btn ghost" id="pyBtn" onclick="togglePinyin()">注音 Zhuyin</button>
+      <button class="btn ghost" id="pyBtn" onclick="togglePinyin()">注音<span class="en">Zhuyin</span></button>
       <button class="btn ghost" onclick="stepSize(-1)" aria-label="縮小字級">A&#8722;</button>
       <button class="btn ghost" onclick="stepSize(1)" aria-label="放大字級">A+</button>
-      <button class="btn ghost" onclick="stopSpeak()">停止 Stop</button>
+      <button class="btn ghost" onclick="stopSpeak()">停止<span class="en">Stop</span></button>
     </div>
 
     <textarea id="srcText" placeholder="把課文貼到這裡，一次一課。會依換行和標點斷句，拼音行與英文行自動略過。&#10;&#10;Paste one lesson&#39;s text here. It is split into cards by line breaks and punctuation; pinyin lines and English lines are skipped automatically."></textarea>
     <div class="count" id="textStat" style="margin-top:8px"></div>
     <div class="row" style="margin-top:6px">
-      <button class="btn" onclick="buildSentences()">產生跟讀卡 Build</button>
+      <button class="btn" onclick="buildSentences()">產生跟讀卡<span class="en">Build</span></button>
       <button class="btn ghost" id="demoBtn" onclick="loadDemo()">載入示範</button>
-      <button class="btn ghost" onclick="clearText()">清空 Clear</button>
+      <button class="btn ghost" onclick="clearText()">清空<span class="en">Clear</span></button>
     </div>
     <div class="row" style="margin-top:8px">
-      <button class="btn ghost" onclick="openBulk()">一次匯入全部課文 Bulk</button>
-      <button class="btn ghost" onclick="exportAll()">匯出成程式碼 Export</button>
+      <button class="btn ghost" onclick="openBulk()">一次匯入全部課文<span class="en">Bulk</span></button>
+      <button class="btn ghost" onclick="exportAll()">匯出成程式碼<span class="en">Export</span></button>
     </div>
 
     <div id="bulkBox" style="display:none;margin-top:14px">
@@ -670,8 +940,8 @@ main{max-width:min(760px,100%)}
       </div>
       <textarea id="bulkText" style="min-height:180px" placeholder="#1&#10;（第一課課文 lesson 1 text）&#10;&#10;#2&#10;（第二課課文 lesson 2 text）"></textarea>
       <div class="row" style="margin-top:10px">
-        <button class="btn" onclick="runBulk()">匯入 Import</button>
-        <button class="btn ghost" onclick="document.getElementById('bulkBox').style.display='none'">取消 Cancel</button>
+        <button class="btn" onclick="runBulk()">匯入<span class="en">Import</span></button>
+        <button class="btn ghost" onclick="document.getElementById('bulkBox').style.display='none'">取消<span class="en">Cancel</span></button>
       </div>
       <div id="bulkMsg" class="hint" style="margin-top:8px"></div>
     </div>
@@ -680,7 +950,7 @@ main{max-width:min(760px,100%)}
     <div id="readOut" data-noloc style="margin-top:18px"></div>
 
     <div class="speedbar">
-      <span>語速 Speed</span>
+      <span>語速<span class="en">Speed</span></span>
       <input type="range" id="rate" min="0.3" max="1.2" step="0.05" value="0.55" oninput="onRateInput(this.value)">
       <span id="rateLbl" style="font-family:var(--mono)">0.55×</span>
     </div>
@@ -688,13 +958,13 @@ main{max-width:min(760px,100%)}
     <div id="playBar" style="display:none">
       <div class="row" style="margin-bottom:8px">
         <button class="btn" id="playBtn" onclick="playIn(document.getElementById('readOut'), document.getElementById('playBtn'))">▶ 播放課文 Play text</button>
-        <button class="btn ghost" onclick="stopSpeak()">停止 Stop</button>
+        <button class="btn ghost" onclick="stopSpeak()">停止<span class="en">Stop</span></button>
       </div>
       <div class="row">
-        <span style="font-size:13px;color:var(--ink-soft)">自動播放單位 Play by</span>
+        <span style="font-size:13px;color:var(--ink-soft)">自動播放單位<span class="en">Play by</span></span>
         <div class="filters" style="margin:0">
-          <button class="fchip on" id="rmSent" onclick="setReadMode('sentence')">整句 Line</button>
-          <button class="fchip" id="rmChar" onclick="setReadMode('char')">逐字 Character</button>
+          <button class="fchip on" id="rmSent" onclick="setReadMode('sentence')">整句<span class="en">Line</span></button>
+          <button class="fchip" id="rmChar" onclick="setReadMode('char')">逐字<span class="en">Character</span></button>
         </div>
       </div>
     </div>
@@ -703,33 +973,32 @@ main{max-width:min(760px,100%)}
   <!-- ============ 生字 ============ -->
   <section id="tab-vocab" style="display:none">
     <div class="speedbar" style="margin-top:0">
-      <span>語速 Speed</span>
+      <span>語速<span class="en">Speed</span></span>
       <input type="range" id="rate2" min="0.3" max="1.2" step="0.05" value="0.55" oninput="onRateInput(this.value)">
       <span id="rateLbl2" style="font-family:var(--mono)">0.55×</span>
     </div>
-    <div class="filters" id="filters"></div>
-    <div class="row" style="margin:-4px 0 12px">
-      <span class="pill-label">檢視 View</span>
-      <div class="filters" style="margin:0">
-        <button class="fchip on" id="vwGrid" onclick="setVocabView('grid')">卡片 Cards</button>
-        <button class="fchip" id="vwList" onclick="setVocabView('list')">列表＋組詞 List</button>
-        <button class="fchip" id="vwFlip" onclick="setVocabView('flip')">翻卡 Flip</button>
+    <div class="ctl-bar">
+      <div class="filters" id="filters"></div>
+      <div class="ctl-right">
+        <button class="fchip on" id="vwGrid" onclick="setVocabView('grid')">卡片<span class="en">Cards</span></button>
+        <button class="fchip" id="vwList" onclick="setVocabView('list')">列表＋組詞<span class="en">List</span></button>
+        <button class="fchip" id="vwFlip" onclick="setVocabView('flip')">翻卡<span class="en">Flip</span></button>
       </div>
     </div>
-    <div class="row" id="flipOpts" style="display:none;margin:-4px 0 12px">
-      <span class="pill-label">排列 Layout</span>
+    <div class="subopts" id="flipOpts" style="display:none">
+      <span class="pill-label">排列<span class="en">Layout</span></span>
       <div class="filters" style="margin:0">
-        <button class="fchip" id="flGrid" onclick="setFlipLayout('grid')">格子 Grid</button>
-        <button class="fchip" id="flOne" onclick="setFlipLayout('single')">單張 Single</button>
+        <button class="fchip" id="flGrid" onclick="setFlipLayout('grid')">格子<span class="en">Grid</span></button>
+        <button class="fchip" id="flOne" onclick="setFlipLayout('single')">單張<span class="en">Single</span></button>
       </div>
-      <span class="pill-label" style="margin-left:12px">正面 Front</span>
+      <span class="pill-label" style="margin-left:12px">正面<span class="en">Front</span></span>
       <div class="filters" style="margin:0">
         <button class="fchip" id="flHz" onclick="setFlipFront('hz')">漢字</button>
         <button class="fchip" id="flPy" onclick="setFlipFront('py')">拼音</button>
       </div>
       <span style="flex:1"></span>
       <div class="filters" style="margin:0">
-        <button class="fchip" id="flReset" onclick="resetFlips()">全部蓋回 Reset</button>
+        <button class="fchip" id="flReset" onclick="resetFlips()">全部蓋回<span class="en">Reset</span></button>
       </div>
     </div>
     <div class="count" id="vCount"></div>
@@ -745,9 +1014,11 @@ main{max-width:min(760px,100%)}
       <p class="hint" style="margin-top:0">出題範圍 <span style="font-family:var(--mono);font-size:10px;text-transform:uppercase">Question pool</span></p>
       <div class="filters" id="scopePick"></div>
       <div class="gpick" id="gameList">
+        
+        <div class="gsec">認字與讀音</div>
         <button data-need="3" onclick="startGame('match')">
-          <div class="t" id="gMatchT">配對消消 · 字配拼音<span class="en">Match · character to pinyin</span></div>
-          <div class="d" data-d="最多六組，配對消除，計時計分">最多六組，配對消除，計時計分</div>
+          <div class="t" data-noloc id="gMatchT">配對消消<span class="en">Match</span></div>
+          <div class="d" data-d="最多六組，配對消除，計時計分">把生字和它的讀音配成一對</div>
         </button>
         <button data-need="4" data-needs="voice" onclick="startGame('listen')">
           <div class="t">聽音選字<span class="en">Listen and choose</span></div>
@@ -757,10 +1028,6 @@ main{max-width:min(760px,100%)}
           <div class="t" id="gQuizT">拼音快答<span class="en">Pinyin quickfire</span></div>
           <div class="d" data-d="看字選拼音，連對加分，答錯歸零">看字選拼音，連對加分，答錯歸零</div>
         </button>
-        <button data-need="4" onclick="startGame('meaning')">
-          <div class="t">看意思選字<span class="en">Meaning to character</span></div>
-          <div class="d" data-d="看英文意思，挑出對應的字或詞">看英文意思，挑出對應的字或詞</div>
-        </button>
         <button data-need="4" onclick="startGame('tone')">
           <div class="t">聲調快答<span class="en">Tone drill</span></div>
           <div class="d" data-d="聽發音、看拼音，判斷是第幾聲">聽發音、看拼音，判斷是第幾聲</div>
@@ -768,6 +1035,11 @@ main{max-width:min(760px,100%)}
         <button data-need="4" onclick="startGame('memory')">
           <div class="t">記憶翻牌<span class="en">Memory pairs</span></div>
           <div class="d" data-d="翻開兩張，把字和讀音配成一對">翻開兩張，把字和讀音配成一對</div>
+        </button>
+        <div class="gsec">字形與結構</div>
+        <button data-need="4" onclick="startGame('meaning')">
+          <div class="t">看意思選字<span class="en">Meaning to character</span></div>
+          <div class="d" data-d="看英文意思，挑出對應的字或詞">看英文意思，挑出對應的字或詞</div>
         </button>
         <button data-need="1" data-needs="radical" onclick="startGame('radical')">
           <div class="t">部首家族<span class="en">Radical family</span></div>
@@ -781,6 +1053,7 @@ main{max-width:min(760px,100%)}
           <div class="t">筆順練習<span class="en">Stroke practice</span></div>
           <div class="d" data-d="照著格子把字一筆一畫寫出來">照著格子把字一筆一畫寫出來</div>
         </button>
+        <div class="gsec">詞語與句子</div>
         <button data-need="3" data-needs="typo" onclick="startGame('typo')">
           <div class="t">錯別字改正<span class="en">Spot the wrong character</span></div>
           <div class="d" data-d="課文句子裡藏了一個錯字，把它找出來">課文句子裡藏了一個錯字，把它找出來</div>
@@ -828,9 +1101,9 @@ main{max-width:min(760px,100%)}
     <div class="d-alt" id="dAlt" data-noloc></div>
     <div class="d-actions">
       <button class="btn" onclick="speakCurrent()">🔊 發音 Say</button>
-      <button class="btn ghost" id="dStroke" onclick="playStroke()">筆順 Strokes</button>
+      <button class="btn ghost" id="dStroke" onclick="playStroke()">筆順<span class="en">Strokes</span></button>
       <button class="btn ghost" id="dKnow" onclick="toggleKnown()">標記已學會</button>
-      <button class="btn ghost" onclick="closeSheet()">關閉 Close</button>
+      <button class="btn ghost" onclick="closeSheet()">關閉<span class="en">Close</span></button>
     </div>
   </div>
 </div>
@@ -3111,8 +3384,7 @@ function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.fl
 function renderGameMenu(keepGame){
   const zy = notation === 'zhuyin';
   const gm = document.getElementById('gMatchT');
-  if(gm) gm.innerHTML = (zy ? '配對消消 · 字配注音' : '配對消消 · 字配拼音') +
-    '<span class="en">Match · character to ' + (zy ? 'zhuyin' : 'pinyin') + '</span>';
+  if(gm) gm.innerHTML = '配對消消<span class="en">Match</span>';
   const gq = document.getElementById('gQuizT');
   if(gq) gq.innerHTML = (zy ? '注音快答' : '拼音快答') +
     '<span class="en">' + (zy ? 'Zhuyin' : 'Pinyin') + ' quickfire</span>';
