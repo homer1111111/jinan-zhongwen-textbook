@@ -765,6 +765,20 @@ body.staged{overflow:hidden}
 .rr-heard{display:block;font-family:var(--kai);font-size:var(--t-md);color:var(--ink);margin-top:2px}
 .st-sent.read .cell.ok .hz{color:var(--go-ink)}
 .st-sent.read .cell.miss .hz{color:var(--bad-ink);box-shadow:inset 0 -3px 0 var(--bad)}
+
+/* ---------- top bar fits every width ---------- */
+#bookPick{display:none!important}
+.topbar > *{flex-shrink:0}
+.topbar .hd-spacer{flex:1 1 auto;min-width:0}
+.topbar .hd-title{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:899px){ .topbar .hd-title{display:none} }
+@media (max-width:360px){
+  .topbar{padding:8px 10px;gap:6px}
+  .topbar .script-toggle button{min-width:36px;padding:2px 8px}
+  .bookbtn{padding:4px 10px;gap:6px}
+  .bookbtn .bookdot{display:none}
+  .stat{padding:0 2px}
+}
 </style>
 </head>
 <body data-tab="path">
@@ -5619,6 +5633,9 @@ function whoFirst(){
     let pick = null;
     try{ const o = JSON.parse(sessionStorage.getItem('zw:pick') || 'null'); if(o && o.id && Date.now() - o.t < 20000) pick = o.id; }catch(e){}
     if(pick && whoList.some(p => p.id === pick)){ PROFILE = pick; res(); return; }
+    const last = await fetchVal('lastScript', null);
+    if(last === 's' || last === 't') script = last;
+    else if(/zh-(TW|HK|MO)|Hant/i.test((navigator.languages || [navigator.language]).join(','))) script = 't';   /* first open: follow the phone's language */
     WHO_RESOLVE = res;
     openWho();
   });
@@ -5667,6 +5684,7 @@ function renderWho(){
   const m = document.getElementById('whoManage');
   m.hidden = !whoList.length;
   m.innerHTML = whoManaging ? '完成<span class="en">Done</span>' : '管理<span class="en">Edit</span>';
+  locNow();
 }
 function whoToggleManage(){ whoManaging = !whoManaging; renderWho(); }
 function whoStartAdd(){
@@ -5682,6 +5700,7 @@ function whoStartAdd(){
     bb.appendChild(b);
   });
   document.getElementById('whoCancel').hidden = !whoList.length;
+  locNow();
   const n = document.getElementById('whoName');
   n.value = n.value || '';
   setTimeout(()=> n.focus(), 50);
@@ -6215,9 +6234,9 @@ function qMeaning(e, from){
 }
 function qTone(e){
   const t = toneOf(e[2]);
-  const opts = TONE_LABEL.map((x,i)=>({ html:'<b>' + x[1] + '</b>' + x[0], val:i + 1, cls:'tone' }));
+  const opts = TONE_LABEL.map((x,i)=>({ html:'<b>' + x[1] + '</b>' + toScript(x[0]), val:i + 1, cls:'tone' }));
   return choiceStep({ prompt:'這個字是第幾聲？<span class="en">Which tone?</span>', sayText:e[0], big:esc(fld(e)), bigCls:'hz',
-    sub:esc(stripTone(e[2])), opts, ans:t, ansText:esc(fld(e)) + ' ' + esc(e[2]) + '，' + TONE_LABEL[t - 1][0], cols:5 });
+    sub:esc(stripTone(e[2])), opts, ans:t, ansText:esc(fld(e)) + ' ' + esc(e[2]) + '，' + toScript(TONE_LABEL[t - 1][0]), cols:5 });
 }
 function qRadical(g, all){
   let others = [];
@@ -6612,6 +6631,7 @@ async function startPractice(backTo){
     backTo: backTo || 'path', again:()=> startPractice(backTo) });
 }
 function startGameSession(kind){
+  if((kind === 'stroke' || kind === 'count') && typeof HanziWriter === 'undefined'){ toastNo('筆順資料需要網路，連上網路再試。'); return; }
   const p = pool();
   const from = distractors(0).concat(p);
   const name = { match:'配對消消', listen:'聽音選字', pinyin:'拼音快答', tone:'聲調快答', memory:'記憶翻牌', meaning:'看意思選字',
@@ -7494,12 +7514,36 @@ function sayBack(body, box, text, ref){
   mine.onclick = ()=>{ if(!blobUrl) return; stopSpeak(); try{ new Audio(blobUrl).play(); }catch(e){} };
 }
 
+/* =====================  Script consistency  =====================
+   A few labels sit inside areas marked "do not convert" (the book
+   shelf, flip-card hint, a game title), so Simplified players saw
+   Traditional there. They are converted here. The who's-learning
+   screen comes before any profile is chosen, so it uses the script
+   this phone used last.                                            */
+function toScript(s){ return script === 's' ? tx(s) : s; }
+function fixNoLoc(sel){
+  document.querySelectorAll(sel).forEach(el=>{
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for(let n; (n = w.nextNode()); ){ if(n.__orig == null) n.__orig = n.nodeValue; n.nodeValue = toScript(n.__orig); }
+  });
+}
+function fixAllNoLoc(){ fixNoLoc('#bookGrid .num, #bookGrid .meta, #vFlip .fhint, #vFlip .pill-label, #gMatchT'); }
+function locNow(){ try{ localize(); }catch(e){} }
+[['renderStart', 0], ['renderVocab', 0], ['renderGameMenu', 0]].forEach(([name])=>{
+  const base = window[name] || eval(name);
+  const wrapped = function(){ const r = base.apply(this, arguments); Promise.resolve(r).then(fixAllNoLoc); return r; };
+  eval(name + ' = wrapped');
+});
+const setScriptBase = setScript;
+setScript = function(v){ const r = setScriptBase.apply(this, arguments); Promise.resolve(r).then(()=>{ fixAllNoLoc(); store('lastScript', script); }); return r; };
+
 checkSound();
 whoFirst().then(boot).then(()=>{
   setTab('path');
   loadStats();
   loadBuddy();
   checkSound(); setTimeout(checkSound, 1500);
+  store('lastScript', script); fixAllNoLoc();
   if(needStart) openStart();
   const nL = document.getElementById('lessons').children.length;
   const nB = document.getElementById('bookPick').children.length;
