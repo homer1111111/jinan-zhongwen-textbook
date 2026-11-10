@@ -7544,6 +7544,27 @@ function locNow(){ try{ localize(); }catch(e){} }
 const setScriptBase = setScript;
 setScript = function(v){ const r = setScriptBase.apply(this, arguments); Promise.resolve(r).then(()=>{ fixAllNoLoc(); store('lastScript', script); }); return r; };
 
+/* Simplified uses pinyin only: no zhuyin. Its toggle runs pinyin <-> none;
+   Traditional keeps the original zhuyin -> pinyin -> none cycle untouched. */
+const applyNotationBase = applyNotation;
+applyNotation = function(){
+  if(script === 's' && notation === 'zhuyin'){
+    notation = 'pinyin';
+    notationBy.s = 'pinyin';
+    store('notationBy', notationBy);
+  }
+  return applyNotationBase.apply(this, arguments);
+};
+const togglePinyinBase = togglePinyin;
+togglePinyin = async function(){
+  if(script !== 's') return togglePinyinBase.apply(this, arguments);
+  notation = notation === 'pinyin' ? 'off' : 'pinyin';
+  notationBy.s = notation;
+  applyNotation();
+  await store('notationBy', notationBy);
+  runSteps([renderRead, renderVocab, renderGameMenu, localize]);
+};
+
 checkSound();
 whoFirst().then(boot).then(()=>{
   setTab('path');
