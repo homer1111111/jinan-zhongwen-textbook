@@ -786,6 +786,120 @@ body.staged{overflow:hidden}
 .pairs .mtile.py{font-size:var(--t-xl);line-height:1.1}
 .pairs .mtile.ph{font-size:var(--t-lg);line-height:1.15}
 .pairs .mtile .cell .py{font-size:.5em}
+
+/* ---------- court of twelve ---------- */
+.glue{display:inline-block;white-space:nowrap}
+/* read-along: listen, slow, say it, my voice in one row */
+.st-sayrow.four{gap:10px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.st-sayrow.four .st-say{position:relative;width:64px;height:64px;border-radius:18px;margin-bottom:22px}
+.st-sayrow.four .st-say .ic{width:30px;height:30px}
+.st-sayrow.four .st-say::after{content:attr(data-label);position:absolute;top:calc(100% + 4px);left:50%;translate:-50% 0;white-space:nowrap;font-weight:800;font-size:var(--t-3xs);color:var(--ink-soft)}
+/* speed slider: a bigger target for small fingers */
+.speedbar input[type=range]{height:40px}
+/* vocab list never pushes the page sideways */
+.vrow{min-width:0;max-width:100%}
+.vrow .vmid{min-width:0;max-width:38%}
+.vrow .vwords{min-width:0;overflow-wrap:anywhere}
+#vList{max-width:100%;overflow-x:hidden}
+/* dark mode: the lock stays visible */
+.node.locked .node-btn svg circle{fill:var(--line)}
+@media (prefers-color-scheme:dark){ .node.locked .node-btn{color:var(--ink-soft)} }
+/* the book button gives way before the script switch is pushed off screen */
+.topbar .bookbtn{flex-shrink:1;min-width:0;overflow:hidden}
+.topbar .bookbtn #curBook{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topbar .stat{flex-shrink:1;min-width:0}
+/* small phones: a calmer unit card */
+@media (max-width:360px){
+  .unit{padding:12px 12px 14px;gap:8px}
+  .unit-t{font-size:var(--t-xl)}
+  .unit-s{font-size:var(--t-xs)}
+  .unit-btn{min-height:40px;padding:4px 10px}
+  .unit-btn .en{display:none}
+}
+/* toasts sit above the lesson's bottom bar */
+body.staged .toast{bottom:calc(150px + env(safe-area-inset-bottom))}
+/* the no-sound help inside a lesson: a card above the bottom bar, not over the question */
+body.staged #soundBar{top:auto;bottom:calc(150px + env(safe-area-inset-bottom));left:10px;right:10px;padding:12px;border:2px solid var(--gold);border-radius:var(--r-lg)}
+body.staged #soundBar .sb-t .en-note{display:none}
+/* mistakes review on the finish screen */
+.fin-review{max-width:420px;margin:18px auto 0;padding:12px 14px;border-radius:var(--r-md);background:var(--bad-wash);text-align:left}
+.fin-review b{display:block;font-weight:900;font-size:var(--t-md);color:var(--bad-ink);margin-bottom:4px}
+.fin-review b .en{margin-left:6px;font-size:var(--t-xs);color:inherit;opacity:.8}
+.fr-item{font-family:var(--kai);font-size:var(--t-lg);color:var(--ink);padding:3px 0;border-top:1px solid var(--line)}
+.fr-item:first-of-type{border-top:none}
+.fr-item i{font-family:var(--mono);font-style:normal;font-weight:800;font-size:var(--t-sm);margin-left:6px;color:var(--indigo)}
+/* parent tools on the who's-learning screen */
+.who-prog{display:block;font-weight:800;font-size:var(--t-xs);color:var(--ink-soft);margin-top:2px}
+.who-ren{position:absolute;top:-8px;left:-8px;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:var(--pick);color:#fff;box-shadow:inset 0 -3px 0 var(--pick-edge)}
+/* landscape phones: give the lesson the room */
+@media (orientation:landscape) and (max-height:500px){
+  .topbar{padding:4px 16px}
+  .unit{padding:8px 14px;margin-bottom:12px}
+  .unit-t{font-size:var(--t-lg)} .unit-s{font-size:var(--t-xs)}
+  .unit-btn{min-height:36px;padding:2px 10px}
+  .bottomnav button{min-height:44px;flex-direction:row;gap:6px}
+  .bottomnav button .en{display:none}
+  .bottomnav .ic-wrap{height:28px;width:40px}
+  :root{--nav-h:52px}
+  .path{gap:16px}
+  .st-top{padding:4px 16px}
+  .st-body{padding:4px 18px 10px}
+  .st-prompt{margin:2px 0 8px;font-size:var(--t-lg)}
+  .pbuddy{width:42px;height:42px}
+  .ptext{padding:6px 10px}
+  .st-prompt .en{display:none}
+  .st-big.hz{font-size:var(--t-4xl)}
+  .st-sayrow{margin:2px 0 8px}
+  .st-say{width:64px;height:64px} .st-say .ic{width:30px;height:30px}
+  .st-say.slow{width:48px;height:48px}
+  .st-opts{gap:8px;margin-top:6px}
+  .st-opts.c2{grid-template-columns:repeat(4,1fr)}
+  .st-opts .opt{min-height:52px}
+  .st-opts .opt.hz{font-size:var(--t-2xl)}
+  .st-foot{padding:8px 18px calc(8px + env(safe-area-inset-bottom))}
+  .st-actions .btn{min-height:44px}
+  .st-msg:not(:empty){margin-bottom:6px}
+  .st-msg .st-buddy{width:40px;height:40px}
+  .tian.teach{width:120px;height:120px} .tian.teach .big{font-size:76px}
+  .fin{padding-top:2vh} .fin-buddy{width:110px;height:110px}
+}
+
+/* ---------- parent decisions, round two ---------- */
+.lockbox{z-index:101}
+.no-en .en,.no-en .en-note,.no-en .ask span{display:none!important}
+.no-en .st-say.slow::after{content:"慢速"}
+.enpick{margin-bottom:6px}
+.enpick button{min-width:64px;font-family:var(--ui);font-size:var(--t-md)}
+.pin-forgot{display:block;margin:2px auto 0;min-height:36px;padding:2px 10px;font-weight:800;font-size:var(--t-sm);color:var(--pick-ink)}
+.pin-forgot .en{margin-left:6px;font-size:var(--t-xs)}
+.pq{display:block;width:100%;max-width:340px;margin:8px auto 0;min-height:48px;padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--paper-2);color:var(--ink);font:inherit;font-size:var(--t-md)}
+.pq:focus{outline:none;border-color:var(--pick)}
+.pq-q{font-weight:900;font-size:var(--t-lg)!important}
+.picdots{display:flex;justify-content:center;gap:12px;margin:6px 0 12px}
+.picdots i{width:16px;height:16px;border-radius:50%;background:var(--line)}
+.picdots i.on{background:var(--pick)}
+.picdots.bad{animation:shake .4s}
+.picdots.bad i{background:var(--bad)}
+.picpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:320px;margin:0 auto}
+.picbtn{aspect-ratio:1;border-radius:var(--r-lg);border:2px solid var(--line);border-bottom-width:4px;background:var(--card);padding:6px}
+.picbtn svg{width:100%;height:100%}
+.picbtn:active{transform:translateY(2px);border-bottom-width:2px}
+.who-lk{position:absolute;bottom:-8px;right:-8px;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:var(--paper-2);color:var(--ink-soft);border:2px solid var(--line)}
+.who-lk.on{background:var(--gold);color:#6B4A00;border-color:var(--gold-edge)}
+
+/* ---------- full play-through, round two ---------- */
+/* landscape: the start bubble keeps clear of the lesson above */
+@media (orientation:landscape) and (max-height:500px){ .node.cur{margin-top:44px} .node.cur:first-child{margin-top:44px} }
+/* very short screens: the play bar sits in the page instead of floating over the controls */
+@media (max-height:620px){ #playBar{position:static;box-shadow:none} }
+/* questions whose answers are whole sentences: smaller speaker, more room for the choices */
+.st-body:has(.opt.sentopt) .st-sayrow{margin:0 0 8px}
+.st-body:has(.opt.sentopt) .st-say{width:64px;height:64px;border-radius:18px}
+.st-body:has(.opt.sentopt) .st-say .ic{width:30px;height:30px}
+.st-body:has(.opt.sentopt) .st-say.slow{width:52px;height:52px}
+.st-body:has(.opt.sentopt) .st-say.slow .ic{width:26px;height:26px}
+.st-opts .opt.sentopt{min-height:56px;padding:10px 12px;font-size:var(--t-lg);line-height:1.45}
+.st-say.mic:disabled{background:var(--line);box-shadow:inset 0 -6px 0 var(--line-edge);color:var(--ink-soft)}
 </style>
 </head>
 <body data-tab="path">
@@ -1047,6 +1161,11 @@ body.staged{overflow:hidden}
     </div>
     <p class="ask">選一個夥伴<span>Pick your buddy</span></p>
     <div class="buddygrid" id="buddyGrid"></div>
+    <p class="ask">英文說明<span>English hints</span></p>
+    <div class="script-toggle enpick" id="enPick" role="group" aria-label="English hints">
+      <button data-en="show" class="on" onclick="setHideEn(false)">顯示</button>
+      <button data-en="hide" onclick="setHideEn(true)">隱藏</button>
+    </div>
     <p class="ask">選一冊開始闖關<span>Pick a book to start</span></p>
     <div class="bookgrid" id="bookGrid" data-noloc></div>
   </div>
@@ -5628,7 +5747,7 @@ var WHO_RESOLVE = null;
 let whoList = [];
 let whoManaging = false;
 let whoNewBuddy = 'dino';
-const USER_KEY = /^(book|script|notationBy|best|xp|streak|buddy)$|^known:|^unlock:|^lines:/;
+const USER_KEY = /^(book|script|notationBy|best|xp|streak|buddy)$|^known:|^unlock:|^lines:|^hideEn$/;
 function nsKey(k){ return (PROFILE && USER_KEY.test(k)) ? 'u:' + PROFILE + ':' + k : k; }
 
 function lsGet(k){ try{ const s = localStorage.getItem('zw:' + k); return s == null ? null : JSON.parse(s); }catch(e){ return null; } }
@@ -5675,9 +5794,18 @@ function renderWho(){
       '<span class="who-name"></span>' +
       '<span class="who-stats"><span class="f">' + flame + n + '</span><span class="x">' + bolt + xp + '</span></span>');
     b.querySelector('.who-name').textContent = p.name;
+    const pr = el('span', 'who-prog'); pr.textContent = whoProgress(p.id); b.appendChild(pr);
     b.onclick = ()=> whoPick(p.id);
     c.appendChild(b);
     if(whoManaging){
+      const rn = el('button', 'who-ren', '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>');
+      rn.setAttribute('aria-label', '改名 Rename ' + p.name);
+      rn.onclick = ()=> whoRename(p.id);
+      c.appendChild(rn);
+      const lk = el('button', 'who-lk' + (p.lock ? ' on' : ''), '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.6"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/></svg>');
+      lk.setAttribute('aria-label', '圖案鎖 Picture lock ' + p.name);
+      lk.onclick = ()=> setPicLock(p.id);
+      c.appendChild(lk);
       const d = el('button', 'who-del', '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>');
       d.setAttribute('aria-label', '刪除 Delete ' + p.name);
       d.onclick = ()=> whoDelete(p.id);
@@ -5895,7 +6023,7 @@ function syncTools(){
    time. Every game, the mixed practice, the line-by-line read
    and the character-by-character learn flow run through here.
    Questions are built from the same helpers the old games used. */
-const HEARTS = 5;
+const HEARTS = 10;
 let ST = null;
 let xpTotal = 0;
 let streak = { n:0, last:'' };
@@ -5964,7 +6092,8 @@ function slowSay(text){
     let moved = false;
     const go = ()=>{ if(moved) return; moved = true; clearTimeout(guard); if(my === slowToken) setTimeout(next, p.pause ? 600 : 280); };
     const guard = setTimeout(go, 1200 + [...p.w].length * 700);   /* some phones never report "finished" */
-    speak(p.w, rateFor(p.w), go);
+    rawSpeak = true;
+    try{ speak(p.w, rateFor(p.w), go); } finally { rawSpeak = false; }
   };
   next();
 }
@@ -6105,6 +6234,7 @@ function judge(res){
       [{ html:'繼續<span class="en">Continue</span>', cls:'go', on:nextStep }]);
   }else{
     ST.wrong++;
+    (ST.misses = ST.misses || []).push(res.ans || '');
     if(ST.hearts != null){ ST.hearts = Math.max(0, ST.hearts - 1); paintHearts(); }
     if(!step.retried){ step.retried = true; ST.steps.push(step); }
     else ST.done++;
@@ -6149,6 +6279,7 @@ function finishScreen(){
         (asked ? '<div class="fs acc"><span>正確率<em>Accuracy</em></span><b>' + acc + '%</b></div>' : '') +
         '<div class="fs time"><span>時間<em>Time</em></span><b>' + mm + '</b></div>' +
       '</div>' +
+      reviewHTML() +
       '<p class="fin-streak' + (bumped ? ' new' : '') + '">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c1.2 3.4 5.5 5.6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.4 1-4 2.3-5.3.2 1.9 1.1 3 2.2 3.4C10.6 8.5 11.2 5.2 12 2.5z"/></svg>' +
         '連續學習 ' + liveStreak() + ' 天<span class="en">' + liveStreak() + '-day streak</span></p>' +
@@ -6165,7 +6296,7 @@ function failScreen(){
     '<div class="fin">' +
       '<div class="fin-buddy sad">' + buddySVG('sad') + '</div>' +
       '<h2 class="fin-t">愛心用完了</h2>' +
-      '<p class="fin-s">沒關係，再試一次就會更熟。<span class="en-note">Out of hearts. Try again, it gets easier.</span></p>' +
+      '<p class="fin-s">沒關係，再試一次就會更熟。<span class="en-note">Out of hearts. Try again, it gets easier.</span></p>' + reviewHTML() +
     '</div>';
   const again = ST.again;
   setFoot('', '', [
@@ -6185,13 +6316,13 @@ function choiceStep(o){
         const sb = el('div', 'st-sayrow');
         const big = el('button', 'st-say', icon('say'));
         big.setAttribute('aria-label', '再聽一次 Play again');
-        big.onclick = ()=> say(o.sayText);
+        big.onclick = ()=> say(o.sayText, false, o.raw);
         const slow = el('button', 'st-say slow', SV.slow);
         slow.setAttribute('aria-label', '慢速 Slow');
-        slow.onclick = ()=> say(o.sayText, true);
+        slow.onclick = ()=> say(o.sayText, true, o.raw);
         sb.appendChild(big); sb.appendChild(slow);
         body.appendChild(sb);
-        if(o.autoSay !== false) say(o.sayText);
+        if(o.autoSay !== false) say(o.sayText, false, o.raw);
       }
       if(o.big) body.appendChild(el('div', 'st-big ' + (o.bigCls || ''), o.big));
       if(o.sub) body.appendChild(el('div', 'st-sub', o.sub));
@@ -6242,7 +6373,7 @@ function qMeaning(e, from){
 function qTone(e){
   const t = toneOf(e[2]);
   const opts = TONE_LABEL.map((x,i)=>({ html:'<b>' + x[1] + '</b>' + toScript(x[0]), val:i + 1, cls:'tone' }));
-  return choiceStep({ prompt:'這個字是第幾聲？<span class="en">Which tone?</span>', sayText:e[0], big:esc(fld(e)), bigCls:'hz',
+  return choiceStep({ prompt:'這個字是第幾聲？<span class="en">Which tone?</span>', sayText:e[0], raw:true, big:esc(fld(e)), bigCls:'hz',
     sub:esc(stripTone(e[2])), opts, ans:t, ansText:esc(fld(e)) + ' ' + esc(e[2]) + '，' + toScript(TONE_LABEL[t - 1][0]), cols:5 });
 }
 function qRadical(g, all){
@@ -6259,6 +6390,7 @@ function qRadical(g, all){
 }
 function qCount(e){
   return {
+    ent:e,
     render(body){
       body.appendChild(el('h2', 'st-prompt', '這個字一共有幾畫？<span class="en">How many strokes?</span>'));
       body.appendChild(el('div', 'st-big hz', esc(fld(e))));
@@ -6301,6 +6433,7 @@ function qTypo(sents){
       body.appendChild(el('h2', 'st-prompt', '句子裡有一個錯字，點出來<span class="en">Tap the wrong character</span>'));
       const box = el('div', 'st-sent', rubyHTML(chars.join('')));
       box.dataset.noloc = '1';
+      glueRuby(box);
       body.appendChild(box);
       const cells = Array.from(box.querySelectorAll('.cell'));
       cells.forEach((c,i)=>{
@@ -6481,6 +6614,7 @@ function qMemory(es){
 }
 function qStroke(e){
   return {
+    ent:e,
     render(body){
       body.appendChild(el('h2', 'st-prompt', '照著筆順寫寫看<span class="en">Write it stroke by stroke</span>'));
       body.appendChild(el('div', 'st-sub', esc(fld(e)) + '　' + esc(annotFor(e)) + '　' + esc(e[3] || '')));
@@ -6557,6 +6691,7 @@ function tLine(text, n, of, ref){
       body.appendChild(el('p', 'st-kicker', '第 ' + n + ' 句　Line ' + n + ' of ' + of));
       body.appendChild(el('h2', 'st-prompt', '先聽，再跟著念一遍<span class="en">Listen, then say it out loud</span>'));
       const box = el('div', 'st-sent read', rubyHTML(text)); box.dataset.noloc = '1';
+      glueRuby(box);
       box.querySelectorAll('.cell:not(.punc)').forEach(c=>{
         c.classList.add('tap');
         c.onclick = ()=>{
@@ -6572,8 +6707,9 @@ function tLine(text, n, of, ref){
       const row = el('div', 'st-sayrow');
       const a = el('button', 'st-say', icon('say')); a.setAttribute('aria-label', '再聽一次 Play again'); a.onclick = ()=> say(text);
       const b = el('button', 'st-say slow', SV.slow); b.setAttribute('aria-label', '慢速 Slow'); b.onclick = ()=> say(text, true);
+      row.classList.add('four'); a.dataset.label = lab(toScript('聽'), 'Listen'); b.dataset.label = lab('慢速', 'Slow');
       row.appendChild(a); row.appendChild(b); body.appendChild(row);
-      sayBack(body, box, text, ref);
+      sayBack(body, box, text, ref, row);
       say(text);
       setFoot('', '<span class="st-hint">點一個字可以單獨聽 Tap a character to hear it</span>',
         [{ html:'我念完了<span class="en">I said it</span>', on: learnDone }]);
@@ -6637,8 +6773,7 @@ async function startPractice(backTo){
   startSession({ kind:'practice', title:'第' + (cur + 1) + '課 ' + fld([L().s, L().t]), steps, xpBase:10,
     backTo: backTo || 'path', again:()=> startPractice(backTo) });
 }
-function startGameSession(kind){
-  if((kind === 'stroke' || kind === 'count') && typeof HanziWriter === 'undefined'){ toastNo('筆順資料需要網路，連上網路再試。'); return; }
+function buildGameSteps(kind){
   const p = pool();
   const from = distractors(0).concat(p);
   const name = { match:'配對消消', listen:'聽音選字', pinyin:'拼音快答', tone:'聲調快答', memory:'記憶翻牌', meaning:'看意思選字',
@@ -6673,7 +6808,14 @@ function startGameSession(kind){
   }else if(kind === 'order'){
     steps = shuffle(orderSentences()).slice(0, 4).map(qOrder);
   }
-  startSession({ kind, title:name, steps, xpBase:5, backTo:'game', again:()=> startGameSession(kind) });
+  return { steps, name };
+}
+function startGameSession(kind){
+  if((kind === 'stroke' || kind === 'count') && typeof HanziWriter === 'undefined'){ toastNo('筆順資料需要網路，連上網路再試。'); return; }
+  const g = buildGameSteps(kind);
+  /* slow networks: fetch every character's stroke data up front, not question by question */
+  if(kind === 'stroke' || kind === 'count') g.steps.forEach(st=>{ if(st && st.ent) strokeFor(st.ent).catch(()=>{}); });
+  startSession({ kind, title:g.name, steps:g.steps, xpBase:5, backTo:'game', again:()=> startGameSession(kind) });
 }
 function startRead(){
   const poems = (L().poems && L().poems.length) ? L().poems : null;
@@ -7191,8 +7333,9 @@ document.addEventListener('keydown', ev=>{ if(ev.key === 'Escape' && lockCtx !==
    splits them. Simplified and Traditional split identically, so
    a sentence's position is its stable key. A sentence counts as
    read well once the child answers a question about it right.  */
-function linesOf(li){
-  const raw = (LESSON_TEXTS[book] || {})[li + 1];
+function linesOf(li, bk){
+  bk = bk || book;
+  const raw = (LESSON_TEXTS[bk] || {})[li + 1];
   let pairs = [];
   if(raw){
     const s = typeof raw === 'string' ? raw : String(raw.s || raw.t || '');
@@ -7200,7 +7343,7 @@ function linesOf(li){
     const a = splitText(s), b = splitText(t);
     pairs = a.map((x,i)=> [x, b[i] || x]);
   }else{
-    const les = (BOOKS[book] || [])[li];
+    const les = (BOOKS[bk] || [])[li];
     if(les && les.poems) les.poems.forEach(pm=> pm.lines.forEach(ln=> pairs.push([ln[0], ln[1]])));
   }
   return pairs.map((p,i)=>({ k:String(i), s:p[0], t:p[1], han:[...p[0]].filter(c=>/[\u4e00-\u9fff]/.test(c)).length }))
@@ -7244,6 +7387,7 @@ function qCloze(x, li, chars, from){
     box = el('div', 'st-sent cloze', rubyHTML(text)); box.dataset.noloc = '1';
     const c = box.querySelectorAll('.cell')[pos];
     if(c){ c.classList.add('blank'); c.querySelector('.hz').textContent = '\u3000'; }
+    glueRuby(box);
     body.insertBefore(box, body.querySelector('.st-opts'));
   };
   return tagLine(step, x, li);
@@ -7358,7 +7502,7 @@ function silentHelp(){
       setTimeout(()=>{
         if(SND.req !== at) return;                       /* a newer request took over */
         if(SND.start >= at || ss.speaking) return;
-        if(++SND.misses >= 1) silentHelp();
+        if(++SND.misses >= 2) silentHelp();   /* one miss can be a phone warming up its voice */
       }, 3200);
       return real(u);
     };
@@ -7405,6 +7549,11 @@ function matchRead(target, heard){
   return { hit, total:n, score: n ? hit.size / n : 0 };
 }
 
+async function micUsable(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) return false;
+  try{ const st = await navigator.mediaDevices.getUserMedia({ audio:true }); st.getTracks().forEach(t=> t.stop()); return true; }
+  catch(e){ return false; }
+}
 async function startRecorder(){
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) return null;
   const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
@@ -7414,37 +7563,47 @@ async function startRecorder(){
   mr.start();
   return { stop:()=>{ try{ if(mr.state !== 'inactive') mr.stop(); }catch(e){} }, done };
 }
+/* Some in-app browsers expose a recogniser that never reports anything: no start, no end, no error.
+   So nothing here waits on the browser alone. It must start within a few seconds, it ends at most
+   15 seconds later, and a stop that is not acknowledged is forced. */
+let srNoStart = 0;
 function recognise(lang, onInterim, onAudio){
   const r = new SR();
   r.lang = lang; r.interimResults = true; r.maxAlternatives = 5; r.continuous = false;
-  let alts = [], err = null;
-  const done = new Promise(res=>{
-    r.onresult = ev=>{
-      const last = ev.results[ev.results.length - 1];
-      alts = Array.from(last).map(x => x.transcript);
-      if(onInterim) onInterim(alts[0] || '');
-    };
-    r.onaudiostart = ()=>{ if(onAudio) onAudio(); };
-    r.onerror = e=>{ err = (e && e.error) || 'error'; };
-    r.onend = ()=> res({ alts, err });
-  });
-  try{ r.start(); }catch(e){ return { stop(){}, done:Promise.resolve({ alts:[], err:'start-failed' }) }; }
-  return { stop:()=>{ try{ r.stop(); }catch(e){} }, done };
+  let alts = [], err = null, alive = false, settled = false, finish = null;
+  const WAIT = window.__srWait || 8000;                 /* long enough to answer the microphone prompt */
+  const done = new Promise(res=>{ finish = ()=>{ if(settled) return; settled = true; clearTimeout(t1); clearTimeout(t2); res({ alts, err }); }; });
+  const live = ()=>{ if(alive) return; alive = true; clearTimeout(t1); if(onAudio) onAudio(); };
+  const kill = ()=>{ try{ r.abort ? r.abort() : r.stop(); }catch(e){} };
+  const t1 = setTimeout(()=>{ if(alive || settled) return; err = 'no-start'; kill(); finish(); }, WAIT);
+  const t2 = setTimeout(()=>{ if(settled) return; try{ r.stop(); }catch(e){} setTimeout(()=>{ kill(); finish(); }, 1200); }, WAIT + 15000);
+  r.onstart = live; r.onaudiostart = live; r.onspeechstart = live;
+  r.onresult = ev=>{
+    live();
+    const last = ev.results[ev.results.length - 1];
+    alts = Array.from(last).map(x => x.transcript);
+    if(onInterim) onInterim(alts[0] || '');
+  };
+  r.onerror = e=>{ err = (e && e.error) || 'error'; };
+  r.onend = ()=> finish();
+  try{ r.start(); }catch(e){ err = 'start-failed'; finish(); }
+  return { stop:()=>{ try{ r.stop(); }catch(e){} setTimeout(()=>{ if(!settled){ if(!alive) err = 'no-start'; kill(); finish(); } }, 1200); }, done };
 }
 
 /* the say-it-back controls, added under a read-along line */
-function sayBack(body, box, text, ref){
-  const row = el('div', 'st-sayrow sayback');
+function sayBack(body, box, text, ref, into){
+  const row = into || el('div', 'st-sayrow sayback');
   const mic = el('button', 'st-say mic', '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>');
   mic.setAttribute('aria-label', '念念看 Say it');
   const mine = el('button', 'st-say mine', '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.4-6.5a1 1 0 0 0 0-1.8L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>');
   mine.setAttribute('aria-label', '我的聲音 My voice'); mine.disabled = true;
-  mic.dataset.label = tz('念念看', '念念看') + ' Say it';
-  mine.dataset.label = tz('我的聲音', '我的声音') + ' Mine';
+  mic.dataset.label = lab(tz('念念看', '念念看'), 'Say it');
+  mine.dataset.label = lab(tz('我的聲音', '我的声音'), 'Mine');
   row.appendChild(mic); row.appendChild(mine);
   const res = el('div', 'read-res', SR ? tz('按橘色按鈕，對著手機念這一句', '按橘色按钮，对着手机念这一句') + '<span class="en">Tap the orange button and read the line</span>'
                                       : tz('這個瀏覽器不能自動檢查，但可以錄音聽自己念', '这个浏览器不能自动检查，但可以录音听自己念') + '<span class="en">No automatic check here, but you can record and listen</span>');
-  body.appendChild(row); body.appendChild(res);
+  if(!into) body.appendChild(row);
+  body.appendChild(res);
   let live = null, blobUrl = null, passed = false;
   const cells = ()=> Array.from(box.querySelectorAll('.cell'));
   const setLive = on=>{ mic.classList.toggle('live', on); mic.setAttribute('aria-label', on ? '停止 Stop' : '念念看 Say it'); };
@@ -7453,7 +7612,26 @@ function sayBack(body, box, text, ref){
     const blob = rec ? await rec.done : null;
     if(blob){ if(blobUrl) URL.revokeObjectURL(blobUrl); blobUrl = URL.createObjectURL(blob); mine.disabled = false; }
     setLive(false); live = null;
-    if(!out) return;   /* recording only */
+    if(!out){ res.innerHTML = blob ? tz('錄好了，按「我的聲音」聽聽看', '录好了，按「我的声音」听听看') + '<span class="en">Recorded. Tap “Mine” to listen.</span>' : tz('沒有錄到聲音。', '没有录到声音。') + '<span class="en">Nothing was recorded.</span>'; return; }   /* recording only */
+    if(out.err === 'no-start' || out.err === 'start-failed'){
+      srNoStart++;
+      if(srNoStart < 2){
+        res.innerHTML = tz('沒有開始收音。如果剛剛跳出麥克風權限，請按「允許」後再按一次。', '没有开始收音。如果刚刚跳出麦克风权限，请按「允许」后再按一次。') + '<span class="en">The microphone did not start. If you were asked for permission, allow it and tap again.</span>';
+        return;
+      }
+      const where = inAppName();
+      if(await micUsable()){
+        res.innerHTML = tz('這裡不能自動檢查，但可以錄音。再按一次開始錄，錄完按「我的聲音」聽。', '这里不能自动检查，但可以录音。再按一次开始录，录完按「我的声音」听。') + '<span class="en">No automatic check here, but you can record. Tap again to record, then tap “Mine”.</span>';
+      }else{
+        mic.disabled = true;
+        res.innerHTML = '<b>' + tz('這裡不能使用麥克風', '这里不能使用麦克风') + '</b> ' +
+          tz((where ? '你是在 ' + where + ' 裡面打開的。' : '預覽畫面或 App 內建的瀏覽器不能錄音。') + '請用 Safari 或 Chrome 打開網站，才能錄音和自動檢查。',
+             (where ? '你是在 ' + where + ' 里面打开的。' : '预览画面或 App 内建的浏览器不能录音。') + '请用 Safari 或 Chrome 打开网站，才能录音和自动检查。') +
+          '<span class="en">The microphone is not available here. Open the site in Safari or Chrome to record and check your reading.</span>';
+      }
+      return;
+    }
+    srNoStart = 0;
     if(out.err === 'not-allowed' || out.err === 'service-not-allowed'){ res.innerHTML = tz('需要允許使用麥克風才能檢查。', '需要允许使用麦克风才能检查。') + '<span class="en">Allow the microphone to check your reading.</span>'; return; }
     if(out.err === 'network'){ res.innerHTML = tz('自動檢查需要網路，請連上網路再試。', '自动检查需要网络，请连上网络再试。') + '<span class="en">The check needs an internet connection.</span>'; return; }
     if(!out.alts.length){ res.innerHTML = tz('沒有聽到聲音，靠近手機再念一次。', '没有听到声音，靠近手机再念一次。') + '<span class="en">I did not hear anything. Try again, a little closer.</span>'; return; }
@@ -7497,9 +7675,10 @@ function sayBack(body, box, text, ref){
       if(ended){ if(x) x.stop(); return; }     /* recognition already finished: never leave the mic open */
       rec = x;
     };
-    if(!SR){
+    if(!SR || srNoStart >= 2){
       await startRec();
-      if(!rec){ setLive(false); res.innerHTML = tz('這個瀏覽器不能錄音。', '这个浏览器不能录音。') + '<span class="en">Recording is not supported here.</span>'; return; }
+      if(!rec){ setLive(false); res.innerHTML = tz('這個瀏覽器不能錄音，請改用 Safari 或 Chrome 開啟這個網頁。', '这个浏览器不能录音，请改用 Safari 或 Chrome 开启这个网页。') + '<span class="en">Recording is not supported here. Open the page in Safari or Chrome.</span>'; return; }
+      res.innerHTML = tz('錄音中…再按一次停止', '录音中…再按一次停止') + '<span class="en">Recording… tap again to stop</span>';
       const t = setTimeout(()=> live && live.stop(), 15000);
       live = { stop:()=>{ clearTimeout(t); ended = true; finish(null, rec); } };
       return;
@@ -7565,13 +7744,364 @@ togglePinyin = async function(){
   runSteps([renderRead, renderVocab, renderGameMenu, localize]);
 };
 
+/* =====================  Court of twelve: fixes  ===================== */
+/* Readings when the pinyin library cannot load: every textbook character carries its pinyin. */
+const PY_FROM_BOOKS = (()=>{
+  const m = {};
+  const words = [];
+  Object.values(BOOKS).forEach(ls=> (ls || []).forEach(l=> (l.chars || []).concat(l.words || [], l.names || []).forEach(e=>{
+    if(!e || !e[2]) return;
+    [e[0], e[1]].forEach(c=>{ if(!c) return; if([...c].length === 1){ if(!m[c]) m[c] = e[2]; } else words.push([c, String(e[2]).replace(/\s+/g, '')]); });
+  })));
+  /* split each word's pinyin into one syllable per character (爸爸 bàba -> bà / ba, 谜语 míyǔ -> mí / yǔ) */
+  const SYL = /^(?:zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?(?:iang|iong|uang|ueng|ang|eng|ing|ong|ian|iao|uai|uan|van|ai|ei|ao|ou|an|en|in|un|vn|ia|ie|iu|ua|uo|ui|ve|er|a|o|e|i|u|v)$/;
+  const split = (raw, n)=>{
+    raw = raw.replace(/['’\-\s]/g, '');
+    const plain = stripTone(raw).toLowerCase().replace(/ü/g, 'v');
+    if(plain.length !== raw.length) return null;
+    const memo = {};
+    const go = (pos, k)=>{
+      if(pos === plain.length) return k === 0 ? [] : null;
+      if(k === 0) return null;
+      const key = pos + ',' + k;
+      if(key in memo) return memo[key];
+      let res = null;
+      for(let len = Math.min(6, plain.length - pos); len >= 1 && !res; len--){
+        if(SYL.test(plain.slice(pos, pos + len))){ const rest = go(pos + len, k - 1); if(rest) res = [raw.slice(pos, pos + len)].concat(rest); }
+      }
+      return (memo[key] = res);
+    };
+    return go(0, n);
+  };
+  words.forEach(([w, py])=>{
+    const cs = [...w];
+    if(cs.every(c => m[c])) return;
+    const parts = split(py, cs.length);
+    if(parts) cs.forEach((c,i)=>{ if(!m[c]) m[c] = parts[i]; });
+  });
+  return m;
+})();
+/* every character the app can show, with its usual reading, for when the pinyin library cannot load */
+const PY_OFFLINE = {"一":"yī","丁":"dīng","七":"qī","万":"wàn","三":"sān","上":"shàng","下":"xià","不":"bù","与":"yǔ","专":"zhuān","且":"qiě","世":"shì","业":"yè","东":"dōng","丝":"sī","丟":"diū","丢":"diū","两":"liǎng","严":"yán","並":"bìng","丧":"sàng","个":"gè","中":"zhōng","丰":"fēng","串":"chuàn","临":"lín","丹":"dān","为":"wèi","主":"zhǔ","丽":"lì","举":"jǔ","久":"jiǔ","么":"me","义":"yì","之":"zhī","乌":"wū","乎":"hū","乐":"lè","九":"jiǔ","也":"yě","习":"xí","乡":"xiāng","书":"shū","买":"mǎi","乾":"qián","了":"le","争":"zhēng","事":"shì","二":"èr","于":"yú","云":"yún","互":"hù","五":"wǔ","井":"jǐng","些":"xiē","亡":"wáng","交":"jiāo","产":"chǎn","京":"jīng","亮":"liàng","亲":"qīn","人":"rén","什":"shén","仅":"jǐn","今":"jīn","介":"jiè","仍":"réng","从":"cóng","仑":"lún","仔":"zǎi","他":"tā","仗":"zhàng","付":"fù","代":"dài","令":"lìng","以":"yǐ","们":"men","仰":"yǎng","件":"jiàn","价":"jià","任":"rèn","份":"fèn","伐":"fá","休":"xiū","会":"huì","伞":"sǎn","伟":"wěi","传":"chuán","伤":"shāng","伦":"lún","伫":"zhù","伯":"bǎi","估":"gū","伴":"bàn","伸":"shēn","似":"sì","伽":"jiā","但":"dàn","佇":"zhù","佈":"bù","位":"wèi","低":"dī","住":"zhù","体":"tǐ","何":"hé","余":"yú","作":"zuò","你":"nǐ","佳":"jiā","併":"bìng","使":"shǐ","來":"lái","例":"lì","供":"gòng","依":"yī","侧":"cè","侨":"qiáo","侵":"qīn","便":"biàn","係":"xì","促":"cù","保":"bǎo","信":"xìn","俩":"liǎ","修":"xiū","倆":"liǎng","個":"gè","倍":"bèi","們":"mén","倒":"dǎo","候":"hòu","借":"jiè","倫":"lún","值":"zhí","假":"jiǎ","偉":"wěi","做":"zuò","停":"tíng","健":"jiàn","側":"cè","偶":"ǒu","傑":"jié","傘":"sǎn","備":"bèi","储":"chǔ","傳":"chuán","傷":"shāng","僅":"jǐn","像":"xiàng","僑":"qiáo","僧":"sēng","價":"jià","儘":"jǐn","優":"yōu","儲":"chǔ","儿":"ér","允":"yǔn","元":"yuán","充":"chōng","先":"xiān","光":"guāng","克":"kè","免":"miǎn","兒":"ér","兔":"tù","入":"rù","內":"nèi","全":"quán","兩":"liǎng","八":"bā","公":"gōng","六":"liù","兰":"lán","共":"gòng","关":"guān","兴":"xīng","兵":"bīng","其":"qí","具":"jù","典":"diǎn","养":"yǎng","内":"nèi","冊":"cè","册":"cè","再":"zài","冒":"mào","写":"xiě","军":"jūn","农":"nóng","冬":"dōng","冰":"bīng","冲":"chōng","决":"jué","冷":"lěng","净":"jìng","准":"zhǔn","凉":"liáng","减":"jiǎn","几":"jǐ","凡":"fán","凸":"tū","凹":"āo","出":"chū","击":"jī","函":"hán","刀":"dāo","分":"fēn","切":"qiè","划":"huà","列":"liè","刘":"liú","则":"zé","刚":"gāng","创":"chuàng","初":"chū","判":"pàn","別":"bié","利":"lì","刪":"shān","别":"bié","到":"dào","制":"zhì","刻":"kè","則":"zé","前":"qián","剑":"jiàn","剛":"gāng","剩":"shèng","剪":"jiǎn","創":"chuàng","劃":"huá","劉":"liú","劍":"jiàn","力":"lì","劝":"quàn","办":"bàn","功":"gōng","加":"jiā","务":"wù","动":"dòng","助":"zhù","努":"nǔ","励":"lì","劲":"jìn","劳":"láo","势":"shì","勁":"jìn","勇":"yǒng","動":"dòng","務":"wù","勝":"shèng","勞":"láo","勢":"shì","勤":"qín","勵":"lì","勸":"quàn","勺":"sháo","包":"bāo","化":"huà","北":"běi","匯":"huì","区":"qū","医":"yī","區":"qū","十":"shí","千":"qiān","升":"shēng","午":"wǔ","半":"bàn","华":"huá","協":"xié","单":"dān","卖":"mài","南":"nán","博":"bó","卡":"kǎ","卢":"lú","卫":"wèi","即":"jí","却":"què","卻":"què","厅":"tīng","历":"lì","厉":"lì","原":"yuán","厲":"lì","去":"qù","县":"xiàn","参":"cān","參":"cān","又":"yòu","及":"jí","友":"yǒu","双":"shuāng","反":"fǎn","发":"fā","取":"qǔ","受":"shòu","变":"biàn","口":"kǒu","古":"gǔ","句":"jù","另":"lìng","只":"zhī","叫":"jiào","叭":"bā","可":"kě","台":"tái","史":"shǐ","右":"yòu","叶":"yè","号":"hào","司":"sī","吃":"chī","各":"gè","合":"hé","同":"tóng","名":"míng","后":"hòu","吐":"tǔ","向":"xiàng","吓":"xià","吗":"ma","吞":"tūn","吟":"yín","否":"fǒu","吧":"ba","含":"hán","听":"tīng","启":"qǐ","吸":"xī","呆":"dāi","呈":"chéng","告":"gào","员":"yuán","呢":"ne","周":"zhōu","呱":"guā","味":"wèi","呼":"hū","命":"mìng","和":"hé","咸":"xián","品":"pǐn","哈":"hā","响":"xiǎng","員":"yuán","哥":"gē","哦":"ò","哪":"nǎ","哭":"kū","哺":"bǔ","哼":"hēng","唐":"táng","唬":"hǔ","唯":"wéi","唱":"chàng","唸":"niàn","商":"shāng","啊":"a","問":"wèn","啟":"qǐ","啦":"lā","啼":"tí","喂":"wèi","喇":"lā","喊":"hǎn","喜":"xǐ","喝":"hē","喪":"sāng","單":"dān","嗎":"má","嗡":"wēng","嘗":"cháng","嘴":"zuǐ","器":"qì","嚇":"hè","嚴":"yán","四":"sì","回":"huí","因":"yīn","团":"tuán","园":"yuán","困":"kùn","围":"wéi","固":"gù","国":"guó","图":"tú","圆":"yuán","國":"guó","圍":"wéi","園":"yuán","圓":"yuán","圖":"tú","團":"tuán","土":"tǔ","在":"zài","地":"dì","场":"chǎng","址":"zhǐ","坏":"huài","坐":"zuò","块":"kuài","坚":"jiān","垂":"chuí","型":"xíng","埋":"mái","城":"chéng","域":"yù","培":"péi","基":"jī","堂":"táng","堅":"jiān","報":"bào","場":"chǎng","塊":"kuài","塔":"tǎ","塘":"táng","填":"tián","境":"jìng","墙":"qiáng","增":"zēng","壁":"bì","壞":"huài","士":"shì","壮":"zhuàng","壯":"zhuàng","声":"shēng","壶":"hú","壺":"hú","壽":"shòu","处":"chù","备":"bèi","复":"fù","夏":"xià","外":"wài","多":"duō","夜":"yè","够":"gòu","夠":"gòu","夢":"mèng","夥":"huǒ","大":"dà","天":"tiān","太":"tài","夫":"fū","失":"shī","头":"tóu","夸":"kuā","奇":"qí","奋":"fèn","奔":"bēn","奖":"jiǎng","套":"tào","奥":"ào","奧":"ào","奮":"fèn","女":"nǚ","奶":"nǎi","她":"tā","好":"hǎo","如":"rú","妈":"mā","妙":"miào","妹":"mèi","妻":"qī","始":"shǐ","姐":"jiě","姑":"gū","委":"wěi","媒":"méi","媽":"mā","子":"zǐ","孔":"kǒng","字":"zì","存":"cún","孙":"sūn","孟":"mèng","季":"jì","学":"xué","孩":"hái","孫":"sūn","學":"xué","宁":"níng","它":"tā","宇":"yǔ","守":"shǒu","安":"ān","完":"wán","官":"guān","定":"dìng","宝":"bǎo","实":"shí","客":"kè","室":"shì","宫":"gōng","宮":"gōng","害":"hài","家":"jiā","容":"róng","宽":"kuān","宾":"bīn","寄":"jì","密":"mì","富":"fù","察":"chá","實":"shí","寧":"níng","寫":"xiě","寬":"kuān","寶":"bǎo","寸":"cùn","对":"duì","寺":"sì","寻":"xún","导":"dǎo","寿":"shòu","封":"fēng","射":"shè","專":"zhuān","尊":"zūn","尋":"xún","對":"duì","導":"dǎo","小":"xiǎo","少":"shǎo","尔":"ěr","尖":"jiān","尚":"shàng","尝":"cháng","就":"jiù","尺":"chǐ","尼":"ní","尽":"jìn","尾":"wěi","局":"jú","层":"céng","居":"jū","屆":"jiè","屈":"qū","届":"jiè","屋":"wū","屑":"xiè","展":"zhǎn","属":"shǔ","層":"céng","屬":"shǔ","山":"shān","岁":"suì","岛":"dǎo","岸":"àn","島":"dǎo","崙":"lún","川":"chuān","州":"zhōu","工":"gōng","左":"zuǒ","巧":"qiǎo","巨":"jù","差":"chà","己":"jǐ","已":"yǐ","巴":"bā","币":"bì","市":"shì","布":"bù","师":"shī","希":"xī","帐":"zhàng","帘":"lián","帝":"dì","带":"dài","師":"shī","帮":"bāng","帳":"zhàng","帶":"dài","常":"cháng","帽":"mào","幅":"fú","幣":"bì","幫":"bāng","干":"gān","平":"píng","年":"nián","并":"bìng","幹":"gàn","幾":"jī","广":"guǎng","庄":"zhuāng","庆":"qìng","床":"chuáng","序":"xù","庐":"lú","应":"yìng","底":"dǐ","店":"diàn","度":"dù","座":"zuò","庫":"kù","庭":"tíng","康":"kāng","廊":"láng","廣":"guǎng","廬":"lú","廳":"tīng","延":"yán","建":"jiàn","开":"kāi","弃":"qì","弄":"nòng","式":"shì","引":"yǐn","弟":"dì","张":"zhāng","弯":"wān","張":"zhāng","強":"qiáng","强":"qiáng","彎":"wān","归":"guī","当":"dāng","录":"lù","彙":"huì","形":"xíng","彩":"cǎi","影":"yǐng","往":"wǎng","径":"jìng","待":"dài","很":"hěn","後":"hòu","徑":"jìng","徒":"tú","得":"dé","從":"cóng","復":"fù","微":"wēi","德":"dé","心":"xīn","必":"bì","忆":"yì","志":"zhì","忘":"wàng","忙":"máng","快":"kuài","念":"niàn","忽":"hū","怀":"huái","态":"tài","怎":"zěn","怕":"pà","思":"sī","急":"jí","性":"xìng","怪":"guài","总":"zǒng","恐":"kǒng","恭":"gōng","息":"xī","悄":"qiāo","您":"nín","悯":"mǐn","悲":"bēi","情":"qíng","惊":"jīng","想":"xiǎng","意":"yì","愛":"ài","感":"gǎn","愤":"fèn","愿":"yuàn","慈":"cí","態":"tài","慌":"huāng","慢":"màn","慶":"qìng","憤":"fèn","憫":"mǐn","憶":"yì","懂":"dǒng","應":"yīng","懷":"huái","戏":"xì","成":"chéng","我":"wǒ","或":"huò","战":"zhàn","截":"jié","戰":"zhàn","戲":"xì","戴":"dài","房":"fáng","所":"suǒ","手":"shǒu","才":"cái","扑":"pū","打":"dǎ","扩":"kuò","扫":"sǎo","扬":"yáng","批":"pī","找":"zhǎo","把":"bǎ","抓":"zhuā","投":"tóu","抗":"kàng","折":"zhé","护":"hù","报":"bào","抬":"tái","抽":"chōu","担":"dān","拆":"chāi","拉":"lā","拍":"pāi","拒":"jù","拔":"bá","拖":"tuō","拙":"zhuō","括":"kuò","拼":"pīn","拾":"shí","拿":"ná","持":"chí","挂":"guà","指":"zhǐ","按":"àn","挑":"tiāo","挖":"wā","挡":"dǎng","挫":"cuò","捉":"zhuō","捏":"niē","捞":"lāo","捡":"jiǎn","换":"huàn","据":"jù","捲":"juǎn","掃":"sǎo","掉":"diào","排":"pái","掛":"guà","採":"cǎi","接":"jiē","推":"tuī","提":"tí","揚":"yáng","換":"huàn","握":"wò","援":"yuán","搖":"yáo","搜":"sōu","搬":"bān","搭":"dā","摇":"yáo","摘":"zhāi","撈":"lāo","撒":"sā","撞":"zhuàng","播":"bō","撲":"pū","撿":"jiǎn","擊":"jī","擋":"dǎng","操":"cāo","擎":"qíng","擔":"dān","擡":"tái","擴":"kuò","擾":"rǎo","攤":"tān","支":"zhī","收":"shōu","改":"gǎi","放":"fàng","政":"zhèng","故":"gù","效":"xiào","救":"jiù","敗":"bài","教":"jiào","敢":"gǎn","散":"sàn","敦":"dūn","敬":"jìng","数":"shù","整":"zhěng","數":"shù","文":"wén","斑":"bān","斗":"dòu","料":"liào","斧":"fǔ","断":"duàn","斯":"sī","新":"xīn","斷":"duàn","方":"fāng","於":"wū","旁":"páng","旅":"lǚ","族":"zú","旗":"qí","无":"wú","既":"jì","日":"rì","旧":"jiù","早":"zǎo","时":"shí","昆":"kūn","明":"míng","易":"yì","星":"xīng","映":"yìng","春":"chūn","昨":"zuó","是":"shì","显":"xiǎn","時":"shí","晒":"shài","晓":"xiǎo","晖":"huī","晚":"wǎn","晨":"chén","景":"jǐng","晴":"qíng","暂":"zàn","暉":"huī","暖":"nuǎn","暗":"àn","暢":"chàng","暨":"jì","暫":"zàn","曆":"lì","曉":"xiǎo","曬":"shài","曲":"qū","更":"gèng","書":"shū","曹":"cáo","替":"tì","最":"zuì","會":"huì","月":"yuè","有":"yǒu","朋":"péng","服":"fú","朗":"lǎng","望":"wàng","朝":"cháo","期":"qī","木":"mù","未":"wèi","末":"mò","本":"běn","术":"shù","朵":"duǒ","机":"jī","杀":"shā","权":"quán","杆":"gān","李":"lǐ","材":"cái","村":"cūn","束":"shù","条":"tiáo","来":"lái","杨":"yáng","杰":"jié","東":"dōng","松":"sōng","板":"bǎn","极":"jí","林":"lín","果":"guǒ","架":"jià","查":"chá","柱":"zhù","标":"biāo","树":"shù","校":"xiào","栩":"xǔ","样":"yàng","根":"gēn","格":"gé","框":"kuàng","案":"àn","桌":"zhuō","档":"dàng","桥":"qiáo","桿":"gǎn","條":"tiáo","梦":"mèng","检":"jiǎn","棄":"qì","棒":"bàng","棕":"zōng","棵":"kē","椅":"yǐ","楊":"yáng","楚":"chǔ","業":"yè","極":"jí","楼":"lóu","榮":"róng","樂":"lè","樓":"lóu","標":"biāo","模":"mó","樣":"yàng","樹":"shù","橋":"qiáo","橘":"jú","機":"jī","檔":"dàng","檢":"jiǎn","欄":"lán","權":"quán","次":"cì","欢":"huān","欣":"xīn","欧":"ōu","欲":"yù","欺":"qī","歇":"xiē","歌":"gē","歐":"ōu","歡":"huān","止":"zhǐ","正":"zhèng","此":"cǐ","步":"bù","武":"wǔ","歲":"suì","歷":"lì","歸":"guī","死":"sǐ","段":"duàn","殺":"shā","母":"mǔ","每":"měi","毒":"dú","比":"bǐ","毕":"bì","毛":"máo","民":"mín","气":"qì","氣":"qì","水":"shuǐ","永":"yǒng","求":"qiú","汇":"huì","汉":"hàn","汗":"hàn","江":"jiāng","池":"chí","汤":"tāng","決":"jué","汽":"qì","沉":"chén","沒":"méi","沖":"chōng","沙":"shā","没":"méi","沥":"lì","河":"hé","油":"yóu","治":"zhì","沿":"yán","況":"kuàng","泉":"quán","法":"fǎ","泛":"fàn","泡":"pào","波":"bō","泥":"ní","注":"zhù","泳":"yǒng","洋":"yáng","洗":"xǐ","洞":"dòng","洲":"zhōu","活":"huó","派":"pài","流":"liú","浅":"qiǎn","浆":"jiāng","测":"cè","浏":"liú","浩":"hào","浪":"làng","浮":"fú","海":"hǎi","消":"xiāo","涣":"huàn","液":"yè","涼":"liáng","淅":"xī","淘":"táo","淨":"jìng","深":"shēn","淹":"yān","淺":"qiǎn","清":"qīng","渙":"huàn","減":"jiǎn","温":"wēn","測":"cè","港":"gǎng","渴":"kě","游":"yóu","湊":"còu","湖":"hú","湯":"tāng","湾":"wān","溅":"jiàn","源":"yuán","準":"zhǔn","溫":"wēn","滅":"miè","滑":"huá","满":"mǎn","滩":"tān","滴":"dī","滿":"mǎn","漂":"piāo","漏":"lòu","演":"yǎn","漢":"hàn","漫":"màn","漿":"jiāng","潭":"tán","澡":"zǎo","濺":"jiàn","瀏":"liú","瀑":"pù","瀝":"lì","灘":"tān","灣":"wān","火":"huǒ","灭":"miè","灯":"dēng","灰":"huī","灵":"líng","炉":"lú","炯":"jiǒng","点":"diǎn","為":"wéi","烏":"wū","烟":"yān","烤":"kǎo","烧":"shāo","热":"rè","無":"wú","然":"rán","煙":"yān","照":"zhào","熊":"xióng","熟":"shú","熱":"rè","燈":"dēng","燒":"shāo","營":"yíng","爐":"lú","爪":"zhuǎ","爬":"pá","爭":"zhēng","爱":"ài","父":"fù","爷":"yé","爸":"bà","爺":"yé","爾":"ěr","牆":"qiáng","片":"piàn","版":"bǎn","牌":"pái","牙":"yá","牛":"niú","牢":"láo","物":"wù","特":"tè","犯":"fàn","状":"zhuàng","狀":"zhuàng","狐":"hú","狗":"gǒu","独":"dú","狮":"shī","狸":"lí","狼":"láng","猜":"cāi","猫":"māo","献":"xiàn","猴":"hóu","猿":"yuán","獅":"shī","獎":"jiǎng","獨":"dú","獻":"xiàn","率":"lǜ","王":"wáng","玩":"wán","环":"huán","现":"xiàn","玻":"bō","珍":"zhēn","珠":"zhū","班":"bān","現":"xiàn","球":"qiú","理":"lǐ","琨":"kūn","琴":"qín","璃":"lí","環":"huán","瓜":"guā","瓦":"wǎ","甜":"tián","生":"shēng","產":"chǎn","用":"yòng","田":"tián","由":"yóu","电":"diàn","男":"nán","画":"huà","畅":"chàng","界":"jiè","留":"liú","畢":"bì","略":"lüè","畫":"huà","異":"yì","當":"dāng","疑":"yí","疼":"téng","病":"bìng","痛":"tòng","登":"dēng","發":"fā","白":"bái","百":"bǎi","的":"de","皆":"jiē","皮":"pí","盐":"yán","盖":"gài","盘":"pán","盛":"shèng","盡":"jìn","盤":"pán","盧":"lú","目":"mù","直":"zhí","相":"xiāng","盼":"pàn","省":"shěng","看":"kàn","真":"zhēn","眠":"mián","眼":"yǎn","着":"zhe","睛":"jīng","睡":"shuì","瞧":"qiáo","瞭":"liào","知":"zhī","短":"duǎn","石":"shí","码":"mǎ","研":"yán","破":"pò","砸":"zá","确":"què","碰":"pèng","確":"què","碼":"mǎ","示":"shì","礼":"lǐ","社":"shè","祖":"zǔ","祝":"zhù","神":"shén","票":"piào","禁":"jìn","禮":"lǐ","离":"lí","禾":"hé","私":"sī","秋":"qiū","种":"zhǒng","科":"kē","秒":"miǎo","秘":"mì","秤":"chèng","秧":"yāng","积":"jī","称":"chēng","程":"chéng","種":"zhǒng","稱":"chēng","稼":"jià","積":"jī","究":"jiū","穷":"qióng","空":"kōng","穿":"chuān","突":"tū","窗":"chuāng","窮":"qióng","立":"lì","站":"zhàn","章":"zhāng","童":"tóng","端":"duān","竹":"zhú","笑":"xiào","笔":"bǐ","符":"fú","笨":"bèn","第":"dì","笼":"lóng","筆":"bǐ","等":"děng","筑":"zhù","答":"dá","简":"jiǎn","算":"suàn","管":"guǎn","箭":"jiàn","箱":"xiāng","節":"jié","範":"fàn","篇":"piān","築":"zhù","篩":"shāi","篷":"péng","簡":"jiǎn","簾":"lián","簿":"bó","籍":"jí","籠":"lóng","籤":"qiān","米":"mǐ","类":"lèi","粉":"fěn","粒":"lì","粮":"liáng","粽":"zòng","精":"jīng","糕":"gāo","糖":"táng","糧":"liáng","系":"xì","紀":"jì","約":"yuē","紅":"hóng","納":"nà","純":"chún","紙":"zhǐ","級":"jí","素":"sù","索":"suǒ","紧":"jǐn","紫":"zǐ","累":"lèi","細":"xì","紳":"shēn","終":"zhōng","組":"zǔ","結":"jié","絕":"jué","給":"gěi","統":"tǒng","絲":"sī","經":"jīng","綠":"lǜ","維":"wéi","綱":"gāng","網":"wǎng","緊":"jǐn","線":"xiàn","編":"biān","練":"liàn","縣":"xiàn","縫":"féng","總":"zǒng","繁":"fán","繇":"yáo","繕":"shàn","繪":"huì","繼":"jì","續":"xù","红":"hóng","约":"yuē","级":"jí","纪":"jì","纲":"gāng","纳":"nà","纸":"zhǐ","线":"xiàn","练":"liàn","组":"zǔ","绅":"shēn","细":"xì","终":"zhōng","经":"jīng","结":"jié","绘":"huì","给":"gěi","络":"luò","绝":"jué","统":"tǒng","继":"jì","续":"xù","维":"wéi","绿":"lǜ","编":"biān","缝":"fèng","缸":"gāng","缺":"quē","网":"wǎng","罗":"luó","置":"zhì","羅":"luó","羊":"yáng","美":"měi","群":"qún","義":"yì","習":"xí","翻":"fān","老":"lǎo","考":"kǎo","者":"zhě","而":"ér","耍":"shuǎ","耳":"ěr","聂":"niè","聊":"liáo","联":"lián","聞":"wén","聪":"cōng","聯":"lián","聰":"cōng","聲":"shēng","聶":"niè","聽":"tīng","聿":"yù","肚":"dù","肯":"kěn","育":"yù","背":"bèi","胜":"shèng","胞":"bāo","能":"néng","脏":"zāng","脑":"nǎo","腊":"là","腦":"nǎo","腳":"jiǎo","腾":"téng","腿":"tuǐ","膏":"gāo","臘":"là","臣":"chén","臨":"lín","自":"zì","至":"zhì","致":"zhì","與":"yǔ","興":"xīng","舉":"jǔ","舊":"jiù","舞":"wǔ","舟":"zhōu","航":"háng","船":"chuán","艘":"sōu","色":"sè","艳":"yàn","艷":"yàn","艺":"yì","节":"jié","花":"huā","芽":"yá","苏":"sū","苗":"miáo","若":"ruò","苦":"kǔ","英":"yīng","苹":"píng","范":"fàn","茵":"yīn","草":"cǎo","荣":"róng","药":"yào","荷":"hé","莊":"zhuāng","莱":"lái","莺":"yīng","菜":"cài","華":"huá","萄":"táo","萊":"lái","营":"yíng","萬":"wàn","落":"luò","葉":"yè","著":"zhù","葡":"pú","蒸":"zhēng","蓋":"gài","蓝":"lán","蔡":"cài","藍":"lán","藝":"yì","藥":"yào","蘇":"sū","蘋":"pín","蘭":"lán","處":"chǔ","號":"hào","虫":"chóng","虽":"suī","蚁":"yǐ","蚂":"mǎ","蚪":"dǒu","蛋":"dàn","蛙":"wā","蜓":"tíng","蜜":"mì","蜻":"qīng","蝌":"kē","蝴":"hú","蝶":"dié","融":"róng","螞":"mǎ","蟲":"chóng","蟻":"yǐ","行":"xíng","術":"shù","街":"jiē","衛":"wèi","衝":"chōng","衡":"héng","衣":"yī","补":"bǔ","表":"biǎo","衰":"shuāi","被":"bèi","装":"zhuāng","裔":"yì","裙":"qún","補":"bǔ","裝":"zhuāng","裡":"lǐ","製":"zhì","複":"fù","西":"xī","要":"yào","覆":"fù","見":"jiàn","規":"guī","視":"shì","親":"qīn","覺":"jué","覽":"lǎn","觀":"guān","见":"jiàn","观":"guān","视":"shì","览":"lǎn","觉":"jué","角":"jiǎo","解":"jiě","觸":"chù","言":"yán","計":"jì","訊":"xùn","討":"tǎo","記":"jì","設":"shè","許":"xū","訴":"sù","診":"zhěn","評":"píng","詞":"cí","試":"shì","詩":"shī","話":"huà","該":"gāi","詳":"xiáng","誉":"yù","認":"rèn","語":"yǔ","誤":"wù","說":"shuō","誰":"shuí","課":"kè","誼":"yì","調":"diào","談":"tán","請":"qǐng","論":"lùn","謊":"huǎng","謎":"mí","講":"jiǎng","謝":"xiè","識":"shí","譯":"yì","護":"hù","譽":"yù","讀":"dú","變":"biàn","讓":"ràng","讚":"zàn","讠":"yán","计":"jì","认":"rèn","讨":"tǎo","让":"ràng","讯":"xùn","记":"jì","讲":"jiǎng","许":"xǔ","论":"lùn","设":"shè","评":"píng","识":"shí","诉":"sù","诊":"zhěn","词":"cí","译":"yì","试":"shì","诗":"shī","话":"huà","该":"gāi","语":"yǔ","误":"wù","说":"shuō","请":"qǐng","读":"dú","课":"kè","谁":"shuí","调":"tiáo","谈":"tán","谊":"yì","谎":"huǎng","谜":"mí","谢":"xiè","豆":"dòu","豐":"fēng","豚":"tún","象":"xiàng","貌":"mào","貓":"māo","貝":"bèi","貢":"gòng","貴":"guì","買":"mǎi","費":"fèi","貼":"tiē","賀":"hè","資":"zī","賓":"bīn","賞":"shǎng","賣":"mài","購":"gòu","賽":"sài","贏":"yíng","贝":"bèi","贡":"gòng","败":"bài","购":"gòu","贴":"tiē","贵":"guì","费":"fèi","贺":"hè","资":"zī","赏":"shǎng","赛":"sài","赞":"zàn","赢":"yíng","走":"zǒu","赶":"gǎn","起":"qǐ","超":"chāo","越":"yuè","趕":"gǎn","趣":"qù","足":"zú","跑":"pǎo","跟":"gēn","跨":"kuà","路":"lù","跳":"tiào","踢":"tī","踪":"zōng","蹈":"dǎo","蹤":"zōng","身":"shēn","躺":"tǎng","車":"chē","軍":"jūn","較":"jiào","載":"zài","輔":"fǔ","輕":"qīng","輛":"liàng","輪":"lún","輸":"shū","轉":"zhuǎn","车":"chē","转":"zhuǎn","轻":"qīng","载":"zǎi","辅":"fǔ","辆":"liàng","输":"shū","辛":"xīn","辞":"cí","辦":"bàn","辭":"cí","農":"nóng","边":"biān","达":"dá","过":"guò","迎":"yíng","运":"yùn","近":"jìn","还":"hái","这":"zhè","进":"jìn","远":"yuǎn","连":"lián","迟":"chí","迪":"dí","迴":"huí","迷":"mí","追":"zhuī","退":"tuì","送":"sòng","适":"shì","选":"xuǎn","透":"tòu","逐":"zhú","途":"tú","逖":"tì","逗":"dòu","這":"zhè","通":"tōng","速":"sù","造":"zào","連":"lián","週":"zhōu","進":"jìn","逾":"yú","遊":"yóu","運":"yùn","遍":"biàn","過":"guò","道":"dào","達":"dá","遙":"yáo","遞":"dì","遠":"yuǎn","遥":"yáo","遨":"áo","適":"shì","遲":"chí","選":"xuǎn","避":"bì","邀":"yāo","還":"huán","邊":"biān","那":"nà","邮":"yóu","邻":"lín","郊":"jiāo","部":"bù","郵":"yóu","都":"dōu","鄉":"xiāng","鄰":"lín","配":"pèi","酒":"jiǔ","酸":"suān","醫":"yī","采":"cǎi","里":"lǐ","重":"zhòng","量":"liáng","金":"jīn","針":"zhēn","釣":"diào","鈕":"niǔ","銀":"yín","銘":"míng","鋤":"chú","鋪":"pū","錄":"lù","錢":"qián","錯":"cuò","錶":"biǎo","鍵":"jiàn","鎖":"suǒ","鏡":"jìng","鐘":"zhōng","鑽":"zuān","针":"zhēn","钓":"diào","钟":"zhōng","钮":"niǔ","钱":"qián","钻":"zuàn","铭":"míng","银":"yín","铺":"pù","锁":"suǒ","锄":"chú","错":"cuò","键":"jiàn","镜":"jìng","長":"cháng","长":"cháng","門":"mén","閃":"shǎn","閉":"bì","開":"kāi","閒":"xián","間":"jiàn","闊":"kuò","關":"guān","门":"mén","闪":"shǎn","闭":"bì","问":"wèn","闲":"xián","间":"jiān","闹":"nào","闻":"wén","阔":"kuò","阳":"yáng","阿":"ā","附":"fù","陌":"mò","限":"xiàn","院":"yuàn","陣":"zhèn","除":"chú","险":"xiǎn","陰":"yīn","陵":"líng","陸":"lù","陽":"yáng","随":"suí","隔":"gé","際":"jì","隨":"suí","險":"xiǎn","隻":"zhī","难":"nán","雀":"què","雄":"xióng","集":"jí","雕":"diāo","雖":"suī","雙":"shuāng","雞":"jī","離":"lí","難":"nán","雨":"yǔ","雪":"xuě","雲":"yún","零":"líng","雷":"léi","電":"diàn","雾":"wù","需":"xū","霎":"shà","霜":"shuāng","霞":"xiá","霧":"wù","露":"lù","靈":"líng","青":"qīng","静":"jìng","靜":"jìng","非":"fēi","靠":"kào","面":"miàn","鞋":"xié","音":"yīn","響":"xiǎng","頁":"yè","頂":"dǐng","項":"xiàng","順":"shùn","須":"xū","頌":"sòng","預":"yù","頓":"dùn","領":"lǐng","頤":"yí","頭":"tóu","顆":"kē","題":"tí","顏":"yán","願":"yuàn","類":"lèi","顯":"xiǎn","页":"yè","项":"xiàng","顺":"shùn","须":"xū","顿":"dùn","颂":"sòng","预":"yù","领":"lǐng","颐":"yí","颗":"kē","题":"tí","颜":"yán","風":"fēng","飄":"piāo","风":"fēng","飘":"piāo","飛":"fēi","飞":"fēi","食":"shí","飯":"fàn","飽":"bǎo","餃":"jiǎo","餅":"bǐng","養":"yǎng","餐":"cān","餓":"è","餘":"yú","館":"guǎn","餵":"wèi","饭":"fàn","饱":"bǎo","饺":"jiǎo","饼":"bǐng","饿":"è","馆":"guǎn","首":"shǒu","香":"xiāng","馬":"mǎ","駕":"jià","騎":"qí","騙":"piàn","騰":"téng","驗":"yàn","驚":"jīng","马":"mǎ","驾":"jià","验":"yàn","骑":"qí","骗":"piàn","髒":"zāng","體":"tǐ","高":"gāo","髮":"fà","鬓":"bìn","鬢":"bìn","鬥":"dòu","鬧":"nào","魚":"yú","鮮":"xiān","鯉":"lǐ","鯊":"shā","鯨":"jīng","鱼":"yú","鲜":"xiān","鲤":"lǐ","鲨":"shā","鲸":"jīng","鳥":"niǎo","鳴":"míng","鶯":"yīng","鸛":"guàn","鸟":"niǎo","鸡":"jī","鸣":"míng","鹳":"guàn","鹹":"xián","鹽":"yán","麗":"lí","麥":"mài","麦":"mài","麵":"miàn","麼":"mó","黃":"huáng","黄":"huáng","黎":"lí","黑":"hēi","點":"diǎn","鼓":"gǔ","鼠":"shǔ","鼻":"bí","齊":"qí","齐":"qí","齒":"chǐ","齿":"chǐ","龍":"lóng","龙":"lóng","龜":"guī","龟":"guī"};
+const pyForBase = pyFor;
+pyFor = function(text){
+  const r = pyForBase.apply(this, arguments);
+  if(!Array.isArray(r)) return r;
+  const s = String(text);
+  return r.map((p,i)=> (p && String(p).trim()) ? p : (PY_FROM_BOOKS[s[i]] || PY_OFFLINE[s[i]] || p));
+};
+
+/* Punctuation stays on the same line as the character before it. */
+function glueRuby(box){
+  Array.from(box.querySelectorAll('.cell')).forEach(c=>{
+    const hz = c.querySelector('.hz');
+    if(!hz || /[\u4e00-\u9fff]/.test(hz.textContent)) return;
+    const prev = c.previousElementSibling;
+    if(!prev) return;
+    if(prev.classList.contains('glue')){ prev.appendChild(c); return; }
+    if(!prev.classList.contains('cell')) return;
+    const g = document.createElement('span');
+    g.className = 'glue';
+    prev.parentNode.insertBefore(g, prev);
+    g.appendChild(prev); g.appendChild(c);
+  });
+}
+
+/* Number keys pick an answer on a computer: 1, 2, 3 … */
+document.addEventListener('keydown', ev=>{
+  if(!ST || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+  if(document.activeElement && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const n = parseInt(ev.key, 10);
+  if(!(n >= 1 && n <= 9)) return;
+  const opts = Array.from(document.querySelectorAll('#stBody .opt:not(:disabled)'));
+  if(opts[n - 1]){ ev.preventDefault(); opts[n - 1].click(); }
+});
+
+/* Games without enough content for this lesson are greyed out instead of failing when tapped. */
+function markUnavailableGames(){
+  const list = document.getElementById('gameList');
+  if(!list) return;
+  list.querySelectorAll('button[onclick*="startGame"]').forEach(b=>{
+    if(b.disabled) return;
+    const m = (b.getAttribute('onclick') || '').match(/startGame\('(\w+)'\)/);
+    if(!m || m[1] === 'stroke' || m[1] === 'count') return;
+    let n = 0;
+    try{ n = buildGameSteps(m[1]).steps.filter(Boolean).length; }catch(e){ n = 0; }
+    if(!n){
+      b.disabled = true;
+      const d = b.querySelector('.d');
+      if(d) d.textContent = toScript('這一課的內容不夠出這個遊戲');
+    }
+  });
+}
+const renderGameMenuCourt = renderGameMenu;
+renderGameMenu = function(){ const r = renderGameMenuCourt.apply(this, arguments); Promise.resolve(r).then(markUnavailableGames); return r; };
+
+/* What the child got wrong, shown again at the end. */
+function reviewHTML(){
+  const seen = new Set(), items = [];
+  (ST && ST.misses || []).forEach(a=>{ const k = String(a).replace(/<[^>]+>/g, ''); if(k && !seen.has(k)){ seen.add(k); items.push(a); } });
+  if(!items.length) return '';
+  return '<div class="fin-review"><b>' + toScript('再看一次答錯的') + '<span class="en">Review your mistakes</span></b>' +
+    items.slice(0, 6).map(a=> '<div class="fr-item">' + a + '</div>').join('') + '</div>';
+}
+
+/* A child's progress, shown on their card on the who's-learning screen. */
+function whoProgress(id){
+  const bk = lsGet('u:' + id + ':book');
+  if(!bk || !BOOKS[bk]) return toScript('還沒選冊');
+  let done = 0;
+  BOOKS[bk].forEach((l,li)=>{
+    const kn = lsGet('u:' + id + ':known:' + bk + ':' + li) || {};
+    const ln = lsGet('u:' + id + ':lines:' + bk + ':' + li) || {};
+    const chars = l.chars || [];
+    if(chars.length && chars.every(e=> kn[keyOf(e)]) && linesOf(li, bk).every(x=> ln[x.k])) done++;
+  });
+  return toScript('第' + BOOK_CN[bk] + '冊 · 完成 ' + done + '/' + BOOKS[bk].length + ' 課');
+}
+async function whoRename(id){
+  const p = whoList.find(x => x.id === id);
+  if(!p) return;
+  const v = prompt(toScript('新的名字') + ' New name', p.name);
+  if(v && v.trim()){ p.name = v.trim().slice(0, 12); await store('profiles', whoList); renderWho(); }
+}
+
+/* Stroke data is kept once fetched, so pre-loading a lesson's characters really does save the wait. */
+const strokeForUncached = strokeFor;
+const strokeCache = new Map();
+strokeFor = function(e){
+  const k = typeof e === 'string' ? e : e[0] + '|' + fld(e);
+  if(!strokeCache.has(k)){
+    const p = strokeForUncached(e);
+    strokeCache.set(k, p);
+    p.catch(()=> strokeCache.delete(k));     /* a failed fetch may be tried again */
+  }
+  return strokeCache.get(k);
+};
+
+/* =====================  Parent decisions, round two  =====================
+   1. Ten hearts per lesson (the jump test keeps three).
+   2. A single character is said the way a teacher does: "妈，妈妈的妈".
+      The tone question keeps the bare character, since a word can change it.
+   3. Each child can hide the English hints.
+   4. Each child can set a picture lock: three pictures tapped in order.
+   5. The parent PIN can be reset by answering a question only a grown-up knows.
+      Opening "Edit" on the who's-learning screen asks for the parent PIN.        */
+
+/* ---------- 2. teacher-style single characters ---------- */
+let rawSpeak = false;
+let CHAR_WORDS = null;
+function charWordIndex(){
+  if(CHAR_WORDS) return CHAR_WORDS;
+  CHAR_WORDS = {};
+  const add = (e, here)=>{
+    if(!e || !e[0] || [...e[0]].length < 2 || [...e[0]].length > 3) return;
+    [0, 1].forEach(k=>{ [...(e[k] || '')].forEach(c=>{ (CHAR_WORDS[c] = CHAR_WORDS[c] || []).push({ e, here }); }); });
+  };
+  Object.keys(BOOKS).forEach(bk=> (BOOKS[bk] || []).forEach(l=> (l.words || []).forEach(e=> add(e, false))));
+  return CHAR_WORDS;
+}
+function charPhrase(c){
+  const list = charWordIndex()[c];
+  if(!list || !list.length) return c;
+  const mine = new Set((L().words || []).map(e => e[0]));
+  const best = list.slice().sort((a,b)=>
+    (mine.has(b.e[0]) - mine.has(a.e[0])) || ([...a.e[0]].length - [...b.e[0]].length))[0];
+  const w = fld(best.e);
+  return w.indexOf(c) < 0 ? c : c + '，' + w + '的' + c;
+}
+const speakBeforePhrase = speak;
+speak = function(text, rate, cb){
+  const t = String(text);
+  if(!rawSpeak && [...t].length === 1 && /[\u4e00-\u9fff]/.test(t)){
+    const ph = charPhrase(t);
+    if(ph !== t) return speakBeforePhrase.call(this, ph, rateFor(ph), cb);
+  }
+  return speakBeforePhrase.apply(this, arguments);
+};
+say = function(text, slow, raw){
+  const one = [...String(text)].length === 1;
+  if(slow){
+    if(!one) return slowSay(text);
+    const ph = raw ? text : charPhrase(text);
+    return slowSay(ph === text ? text + '，' + text : ph);   /* no word to lean on: say it twice */
+  }
+  stopSpeak();
+  rawSpeak = !!raw;
+  try{ speak(text, rateFor(text)); } finally { rawSpeak = false; }
+};
+
+/* ---------- 3. hide English hints ---------- */
+let hideEn = false;
+function lab(zh, en){ return hideEn ? zh : zh + ' ' + en; }
+async function loadHideEn(){
+  hideEn = !!(await fetchVal('hideEn', false));
+  document.body.classList.toggle('no-en', hideEn);
+  paintEnPick();
+}
+async function setHideEn(v){
+  hideEn = !!v;
+  await store('hideEn', hideEn);
+  document.body.classList.toggle('no-en', hideEn);
+  paintEnPick();
+}
+function paintEnPick(){
+  document.querySelectorAll('#enPick button').forEach(b=> b.classList.toggle('on', (b.dataset.en === 'hide') === hideEn));
+}
+
+/* ---------- 5. parent PIN with a recovery question ---------- */
+async function pinGate(onOk, title){
+  const pin = await fetchVal('parentPin', null);
+  if(!pin) return pinSetup(onOk);
+  showLock('<div class="lock-ic parent">' + LOCK_SVG + '</div><h2>' + (title || tz('家長密碼', '家长密码')) + '</h2>' +
+    '<p>' + tz('請輸入 4 位數家長密碼。', '请输入 4 位数家长密码。') + '<span class="en-note">Enter the 4-digit parent PIN.</span></p>' +
+    '<input id="pinIn" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="PIN">' +
+    '<p class="pin-msg" id="pinMsg"></p><button class="pin-forgot" id="pinForgot">' + tz('忘記密碼？', '忘记密码？') + '<span class="en">Forgot?</span></button>',
+    [{ html:tz('取消', '取消') + '<span class="en">Cancel</span>', ghost:true, on:closeLock },
+     { html:tz('確定', '确定') + '<span class="en">OK</span>', on: async ()=>{
+        const inp = document.getElementById('pinIn'), msg = document.getElementById('pinMsg');
+        if((inp.value || '').trim() !== pin){ msg.textContent = tz('密碼不對', '密码不对'); inp.value = ''; inp.classList.add('bad'); setTimeout(()=> inp.classList.remove('bad'), 400); return; }
+        closeLock();
+        if(!(await fetchVal('parentQ', null))) return pinAddQuestion(onOk);
+        onOk();
+     } }]);
+  document.getElementById('pinForgot').onclick = ()=> pinRecover(onOk);
+  setTimeout(()=>{ const p = document.getElementById('pinIn'); if(p) p.focus(); }, 60);
+}
+function qFields(){
+  return '<input id="pqIn" class="pq" maxlength="40" autocomplete="off" placeholder="' + tz('問題，例如：爸爸的小學叫什麼？', '问题，例如：爸爸的小学叫什么？') + '">' +
+         '<input id="paIn" class="pq" maxlength="40" autocomplete="off" placeholder="' + tz('答案', '答案') + '">';
+}
+function pinSetup(onOk){
+  showLock('<div class="lock-ic parent">' + LOCK_SVG + '</div><h2>' + tz('設定家長密碼', '设定家长密码') + '</h2>' +
+    '<p>' + tz('設定 4 位數密碼，再設一個只有大人知道答案的問題，忘記密碼時可以用它重設。', '设定 4 位数密码，再设一个只有大人知道答案的问题，忘记密码时可以用它重设。') +
+    '<span class="en-note">Set a 4-digit PIN and a question only a grown-up can answer, to reset the PIN later.</span></p>' +
+    '<input id="pinIn" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="PIN">' + qFields() +
+    '<p class="pin-msg" id="pinMsg"></p>',
+    [{ html:tz('取消', '取消') + '<span class="en">Cancel</span>', ghost:true, on:closeLock },
+     { html:tz('設定', '设定') + '<span class="en">Save</span>', on: async ()=>{
+        const v = (document.getElementById('pinIn').value || '').trim(), q = document.getElementById('pqIn').value.trim(), a = document.getElementById('paIn').value.trim();
+        const msg = document.getElementById('pinMsg');
+        if(!/^\d{4}$/.test(v)){ msg.textContent = tz('請輸入 4 位數字', '请输入 4 位数字'); return; }
+        if(!q || !a){ msg.textContent = tz('請填寫問題和答案', '请填写问题和答案'); return; }
+        await store('parentPin', v); await store('parentQ', { q, a:a.toLowerCase() });
+        closeLock(); onOk();
+     } }]);
+}
+function pinAddQuestion(onOk){
+  showLock('<div class="lock-ic parent">' + LOCK_SVG + '</div><h2>' + tz('設定找回密碼的問題', '设定找回密码的问题') + '</h2>' +
+    '<p>' + tz('以後忘記家長密碼，回答這個問題就能重設。', '以后忘记家长密码，回答这个问题就能重设。') + '<span class="en-note">Answer it later to reset a forgotten PIN.</span></p>' + qFields() + '<p class="pin-msg" id="pinMsg"></p>',
+    [{ html:tz('以後再說', '以后再说') + '<span class="en">Later</span>', ghost:true, on:()=>{ closeLock(); onOk(); } },
+     { html:tz('儲存', '储存') + '<span class="en">Save</span>', on: async ()=>{
+        const q = document.getElementById('pqIn').value.trim(), a = document.getElementById('paIn').value.trim();
+        if(!q || !a){ document.getElementById('pinMsg').textContent = tz('請填寫問題和答案', '请填写问题和答案'); return; }
+        await store('parentQ', { q, a:a.toLowerCase() }); closeLock(); onOk();
+     } }]);
+}
+async function pinRecover(onOk){
+  const pq = await fetchVal('parentQ', null);
+  if(!pq){
+    showLock('<h2>' + tz('沒辦法重設', '没办法重设') + '</h2><p>' + tz('當初沒有設定找回密碼的問題，所以無法重設。只能清除瀏覽器資料，但所有進度也會一起清掉。', '当初没有设定找回密码的问题，所以无法重设。只能清除浏览器数据，但所有进度也会一起清掉。') + '</p>',
+      [{ html:tz('知道了', '知道了') + '<span class="en">OK</span>', on:closeLock }]);
+    return;
+  }
+  const qn = document.createElement('span'); qn.textContent = pq.q;
+  showLock('<div class="lock-ic parent">' + LOCK_SVG + '</div><h2>' + tz('回答問題，重設密碼', '回答问题，重设密码') + '</h2>' +
+    '<p class="pq-q"></p><input id="paIn" class="pq" maxlength="40" autocomplete="off" placeholder="' + tz('答案', '答案') + '">' +
+    '<input id="pinIn" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="New PIN" placeholder="••••">' +
+    '<p class="pin-msg" id="pinMsg"></p>',
+    [{ html:tz('取消', '取消') + '<span class="en">Cancel</span>', ghost:true, on:closeLock },
+     { html:tz('重設', '重设') + '<span class="en">Reset</span>', on: async ()=>{
+        const a = document.getElementById('paIn').value.trim().toLowerCase(), v = (document.getElementById('pinIn').value || '').trim();
+        const msg = document.getElementById('pinMsg');
+        if(a !== pq.a){ msg.textContent = tz('答案不對', '答案不对'); return; }
+        if(!/^\d{4}$/.test(v)){ msg.textContent = tz('新密碼請輸入 4 位數字', '新密码请输入 4 位数字'); return; }
+        await store('parentPin', v); closeLock(); onOk();
+     } }]);
+  document.querySelector('#lockIn .pq-q').appendChild(qn);
+}
+/* lesson unlocking goes through the same gate */
+parentGate = function(i){
+  pinGate(async ()=>{
+    const was = +(await fetchVal('unlock:' + book, 0)) || 0;
+    if(i > was) await store('unlock:' + book, i);
+    renderPath();
+  }, tz('家長解鎖：打開到第' + (i + 1) + '課', '家长解锁：打开到第' + (i + 1) + '课'));
+};
+/* "Edit" on the who's-learning screen needs the parent PIN */
+const whoToggleManageBase = whoToggleManage;
+whoToggleManage = function(){
+  if(whoManaging) return whoToggleManageBase.apply(this, arguments);
+  pinGate(()=> whoToggleManageBase(), tz('家長管理', '家长管理'));
+};
+
+/* ---------- 4. picture lock per child ---------- */
+const PIC_IDS = ['dino', 'robot', 'panda', 'fox', 'star', 'heart'];
+function picSVG(id){
+  if(id === 'star') return '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 14l13.5 29 31.5 3.6-23.5 21.5 6.6 31L60 83.5 31.9 99.1l6.6-31L15 46.6l31.5-3.6z" fill="#FFC83D" stroke="#DB9A00" stroke-width="5" stroke-linejoin="round"/></svg>';
+  if(id === 'heart') return '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 102S18 76 14 46c-2.6-19 12-31 26-31 9.5 0 16 5 20 12 4-7 10.5-12 20-12 14 0 28.6 12 26 31-4 30-46 56-46 56z" fill="#F04B4B" stroke="#C93434" stroke-width="5" stroke-linejoin="round"/></svg>';
+  return buddySVG('idle', id);
+}
+function picPad(onSeq, need){
+  need = need || 3;
+  let seq = [];
+  const pad = el('div', 'picpad');
+  const dots = el('div', 'picdots', new Array(need).fill('<i></i>').join(''));
+  PIC_IDS.forEach(id=>{
+    const b = el('button', 'picbtn', picSVG(id));
+    b.setAttribute('aria-label', id);
+    b.onclick = ()=>{
+      if(seq.length >= need) return;
+      seq.push(id);
+      dots.querySelectorAll('i').forEach((d,k)=> d.classList.toggle('on', k < seq.length));
+      if(seq.length === need) setTimeout(()=>{ const s = seq.join(','); seq = []; dots.querySelectorAll('i').forEach(d=> d.classList.remove('on')); onSeq(s, dots); }, 180);
+    };
+    pad.appendChild(b);
+  });
+  return [dots, pad];
+}
+function askPicLock(p, onOk){
+  showLock('<h2>' + esc(p.name) + '</h2><p>' + tz('依順序點你的 3 個圖案', '依顺序点你的 3 个图案') + '<span class="en-note">Tap your 3 pictures in order</span></p>', [
+    { html:tz('忘記了？請家長開', '忘记了？请家长开') + '<span class="en">Ask a parent</span>', ghost:true, on:()=> pinGate(onOk, tz('家長幫忙開啟', '家长帮忙开启')) },
+    { html:tz('取消', '取消') + '<span class="en">Cancel</span>', ghost:true, cls:'quiet', on:closeLock }]);
+  const inn = document.getElementById('lockIn'), acts = inn.querySelector('.lock-actions');
+  const [dots, pad] = picPad((s, d)=>{
+    if(s === p.lock){ closeLock(); onOk(); }
+    else { d.classList.add('bad'); setTimeout(()=> d.classList.remove('bad'), 450); }
+  });
+  inn.insertBefore(dots, acts); inn.insertBefore(pad, acts);
+}
+function setPicLock(id){
+  const p = whoList.find(x => x.id === id);
+  if(!p) return;
+  const done = async v=>{ p.lock = v; await store('profiles', whoList); closeLock(); renderWho(); };
+  showLock('<h2>' + esc(p.name) + '：' + tz('圖案鎖', '图案锁') + '</h2><p>' + tz('依順序點 3 個圖案當作密碼，請記住順序。', '依顺序点 3 个图案当作密码，请记住顺序。') + '<span class="en-note">Tap 3 pictures in order. Remember the order.</span></p>',
+    (p.lock ? [{ html:tz('拿掉圖案鎖', '拿掉图案锁') + '<span class="en">Remove lock</span>', ghost:true, on:()=> done(null) }] : [])
+      .concat([{ html:tz('取消', '取消') + '<span class="en">Cancel</span>', ghost:true, cls:'quiet', on:closeLock }]));
+  const inn = document.getElementById('lockIn'), acts = inn.querySelector('.lock-actions');
+  let first = null;
+  const msg = el('p', 'pin-msg');
+  const [dots, pad] = picPad((s)=>{
+    if(!first){ first = s; msg.textContent = tz('再點一次確認', '再点一次确认'); return; }
+    if(s === first) done(s);
+    else { first = null; msg.textContent = tz('兩次不一樣，請重新點', '两次不一样，请重新点'); }
+  });
+  inn.insertBefore(dots, acts); inn.insertBefore(pad, acts); inn.insertBefore(msg, acts);
+}
+const whoPickBase = whoPick;
+whoPick = function(id){
+  const p = whoList.find(x => x.id === id);
+  if(p && p.lock && id !== PROFILE) return askPicLock(p, ()=> whoPickBase(id));
+  return whoPickBase(id);
+};
+
 checkSound();
 whoFirst().then(boot).then(()=>{
   setTab('path');
   loadStats();
   loadBuddy();
   checkSound(); setTimeout(checkSound, 1500);
-  store('lastScript', script); fixAllNoLoc();
+  store('lastScript', script); fixAllNoLoc(); loadHideEn();
   if(needStart) openStart();
   const nL = document.getElementById('lessons').children.length;
   const nB = document.getElementById('bookPick').children.length;
